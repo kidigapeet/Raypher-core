@@ -1,0 +1,28 @@
+[Unit]
+Description=Raypher AI Safety Agent
+Documentation=https://github.com/kidigapeet/Raypher-core
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+ExecStart=/usr/local/bin/raypher monitor
+Restart=always
+RestartSec=5
+User=root
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=raypher
+
+# Prevent restart loops from burning CPU
+# Max 5 restarts per 60 seconds
+StartLimitIntervalSec=60
+StartLimitBurst=5
+
+# Security hardening
+NoNewPrivileges=false
+ProtectSystem=strict
+ReadWritePaths=/var/lib/raypher /home
+
+[Install]
+WantedBy=multi-user.target

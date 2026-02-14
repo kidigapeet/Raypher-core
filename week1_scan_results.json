@@ -1,0 +1,5144 @@
+[2m2026-02-11T19:18:02.960913Z[0m [32m INFO[0m [2mraypher_core[0m[2m:[0m RAYPHER CORE v0.1.0 — The Hunter
+[2m2026-02-11T19:18:02.961112Z[0m [32m INFO[0m [2mraypher_core[0m[2m:[0m Scanning processes...
+[2m2026-02-11T19:18:02.993718Z[0m [33m WARN[0m [2mraypher_core::scanner[0m[2m:[0m Command-line unavailable — Low Confidence scan [3mpid[0m[2m=[0m5160 [3mname[0m[2m=[0msvchost.exe
+[2m2026-02-11T19:18:02.993850Z[0m [33m WARN[0m [2mraypher_core::scanner[0m[2m:[0m Command-line unavailable — Low Confidence scan [3mpid[0m[2m=[0m6992 [3mname[0m[2m=[0msvchost.exe
+[2m2026-02-11T19:18:02.994078Z[0m [33m WARN[0m [2mraypher_core::scanner[0m[2m:[0m Command-line unavailable — Low Confidence scan [3mpid[0m[2m=[0m16712 [3mname[0m[2m=[0msvchost.exe
+[2m2026-02-11T19:18:02.994105Z[0m [33m WARN[0m [2mraypher_core::scanner[0m[2m:[0m Command-line unavailable — Low Confidence scan [3mpid[0m[2m=[0m7868 [3mname[0m[2m=[0maswEngSrv.exe
+[2m2026-02-11T19:18:02.994120Z[0m [33m WARN[0m [2mraypher_core::scanner[0m[2m:[0m Command-line unavailable — Low Confidence scan [3mpid[0m[2m=[0m8696 [3mname[0m[2m=[0mpostgres.exe
+[2m2026-02-11T19:18:02.994138Z[0m [33m WARN[0m [2mraypher_core::scanner[0m[2m:[0m Command-line unavailable — Low Confidence scan [3mpid[0m[2m=[0m1784 [3mname[0m[2m=[0msvchost.exe
+[2m2026-02-11T19:18:02.994152Z[0m [33m WARN[0m [2mraypher_core::scanner[0m[2m:[0m Command-line unavailable — Low Confidence scan [3mpid[0m[2m=[0m8548 [3mname[0m[2m=[0mpostgres.exe
+[2m2026-02-11T19:18:02.994186Z[0m [33m WARN[0m [2mraypher_core::scanner[0m[2m:[0m Command-line unavailable — Low Confidence scan [3mpid[0m[2m=[0m12468 [3mname[0m[2m=[0mctfmon.exe
+[2m2026-02-11T19:18:02.994203Z[0m [33m WARN[0m [2mraypher_core::scanner[0m[2m:[0m Command-line unavailable — Low Confidence scan [3mpid[0m[2m=[0m6028 [3mname[0m[2m=[0msvchost.exe
+[2m2026-02-11T19:18:02.994255Z[0m [33m WARN[0m [2mraypher_core::scanner[0m[2m:[0m Command-line unavailable — Low Confidence scan [3mpid[0m[2m=[0m7336 [3mname[0m[2m=[0mconhost.exe
+[2m2026-02-11T19:18:02.994269Z[0m [33m WARN[0m [2mraypher_core::scanner[0m[2m:[0m Command-line unavailable — Low Confidence scan [3mpid[0m[2m=[0m1792 [3mname[0m[2m=[0msvchost.exe
+[2m2026-02-11T19:18:02.994283Z[0m [33m WARN[0m [2mraypher_core::scanner[0m[2m:[0m Command-line unavailable — Low Confidence scan [3mpid[0m[2m=[0m9316 [3mname[0m[2m=[0msvchost.exe
+[2m2026-02-11T19:18:02.994297Z[0m [33m WARN[0m [2mraypher_core::scanner[0m[2m:[0m Command-line unavailable — Low Confidence scan [3mpid[0m[2m=[0m2584 [3mname[0m[2m=[0mNVDisplay.Container.exe
+[2m2026-02-11T19:18:02.994321Z[0m [33m WARN[0m [2mraypher_core::scanner[0m[2m:[0m Command-line unavailable — Low Confidence scan [3mpid[0m[2m=[0m12408 [3mname[0m[2m=[0mRGBFusion.exe
+[2m2026-02-11T19:18:02.994347Z[0m [33m WARN[0m [2mraypher_core::scanner[0m[2m:[0m Command-line unavailable — Low Confidence scan [3mpid[0m[2m=[0m3468 [3mname[0m[2m=[0msvchost.exe
+[2m2026-02-11T19:18:02.994373Z[0m [33m WARN[0m [2mraypher_core::scanner[0m[2m:[0m Command-line unavailable — Low Confidence scan [3mpid[0m[2m=[0m4256 [3mname[0m[2m=[0msvchost.exe
+[2m2026-02-11T19:18:02.994388Z[0m [33m WARN[0m [2mraypher_core::scanner[0m[2m:[0m Command-line unavailable — Low Confidence scan [3mpid[0m[2m=[0m2284 [3mname[0m[2m=[0msvchost.exe
+[2m2026-02-11T19:18:02.994402Z[0m [33m WARN[0m [2mraypher_core::scanner[0m[2m:[0m Command-line unavailable — Low Confidence scan [3mpid[0m[2m=[0m2524 [3mname[0m[2m=[0msvchost.exe
+[2m2026-02-11T19:18:02.994416Z[0m [33m WARN[0m [2mraypher_core::scanner[0m[2m:[0m Command-line unavailable — Low Confidence scan [3mpid[0m[2m=[0m5632 [3mname[0m[2m=[0mpg_ctl.exe
+[2m2026-02-11T19:18:02.994430Z[0m [33m WARN[0m [2mraypher_core::scanner[0m[2m:[0m Command-line unavailable — Low Confidence scan [3mpid[0m[2m=[0m5288 [3mname[0m[2m=[0msvchost.exe
+[2m2026-02-11T19:18:02.994493Z[0m [33m WARN[0m [2mraypher_core::scanner[0m[2m:[0m Command-line unavailable — Low Confidence scan [3mpid[0m[2m=[0m140 [3mname[0m[2m=[0mSecure System
+[2m2026-02-11T19:18:02.994513Z[0m [33m WARN[0m [2mraypher_core::scanner[0m[2m:[0m Command-line unavailable — Low Confidence scan [3mpid[0m[2m=[0m2784 [3mname[0m[2m=[0msvchost.exe
+[2m2026-02-11T19:18:02.994528Z[0m [33m WARN[0m [2mraypher_core::scanner[0m[2m:[0m Command-line unavailable — Low Confidence scan [3mpid[0m[2m=[0m16460 [3mname[0m[2m=[0mSearchProtocolHost.exe
+[2m2026-02-11T19:18:02.994540Z[0m [33m WARN[0m [2mraypher_core::scanner[0m[2m:[0m Command-line unavailable — Low Confidence scan [3mpid[0m[2m=[0m3544 [3mname[0m[2m=[0msvchost.exe
+[2m2026-02-11T19:18:02.994554Z[0m [33m WARN[0m [2mraypher_core::scanner[0m[2m:[0m Command-line unavailable — Low Confidence scan [3mpid[0m[2m=[0m3056 [3mname[0m[2m=[0msvchost.exe
+[2m2026-02-11T19:18:02.994567Z[0m [33m WARN[0m [2mraypher_core::scanner[0m[2m:[0m Command-line unavailable — Low Confidence scan [3mpid[0m[2m=[0m2184 [3mname[0m[2m=[0msvchost.exe
+[2m2026-02-11T19:18:02.994580Z[0m [33m WARN[0m [2mraypher_core::scanner[0m[2m:[0m Command-line unavailable — Low Confidence scan [3mpid[0m[2m=[0m11124 [3mname[0m[2m=[0msvchost.exe
+[2m2026-02-11T19:18:02.994597Z[0m [33m WARN[0m [2mraypher_core::scanner[0m[2m:[0m Command-line unavailable — Low Confidence scan [3mpid[0m[2m=[0m17320 [3mname[0m[2m=[0msvchost.exe
+[2m2026-02-11T19:18:02.994610Z[0m [33m WARN[0m [2mraypher_core::scanner[0m[2m:[0m Command-line unavailable — Low Confidence scan [3mpid[0m[2m=[0m5840 [3mname[0m[2m=[0mvmnetdhcp.exe
+[2m2026-02-11T19:18:02.994623Z[0m [33m WARN[0m [2mraypher_core::scanner[0m[2m:[0m Command-line unavailable — Low Confidence scan [3mpid[0m[2m=[0m8536 [3mname[0m[2m=[0mpostgres.exe
+[2m2026-02-11T19:18:02.994637Z[0m [33m WARN[0m [2mraypher_core::scanner[0m[2m:[0m Command-line unavailable — Low Confidence scan [3mpid[0m[2m=[0m11068 [3mname[0m[2m=[0mnvcontainer.exe
+[2m2026-02-11T19:18:02.994651Z[0m [33m WARN[0m [2mraypher_core::scanner[0m[2m:[0m Command-line unavailable — Low Confidence scan [3mpid[0m[2m=[0m2368 [3mname[0m[2m=[0msvchost.exe
+[2m2026-02-11T19:18:02.994666Z[0m [33m WARN[0m [2mraypher_core::scanner[0m[2m:[0m Command-line unavailable — Low Confidence scan [3mpid[0m[2m=[0m9536 [3mname[0m[2m=[0maswidsagent.exe
+[2m2026-02-11T19:18:02.994680Z[0m [33m WARN[0m [2mraypher_core::scanner[0m[2m:[0m Command-line unavailable — Low Confidence scan [3mpid[0m[2m=[0m3120 [3mname[0m[2m=[0mMemory Compression
+[2m2026-02-11T19:18:02.994693Z[0m [33m WARN[0m [2mraypher_core::scanner[0m[2m:[0m Command-line unavailable — Low Confidence scan [3mpid[0m[2m=[0m5384 [3mname[0m[2m=[0mpostgres.exe
+[2m2026-02-11T19:18:02.994707Z[0m [33m WARN[0m [2mraypher_core::scanner[0m[2m:[0m Command-line unavailable — Low Confidence scan [3mpid[0m[2m=[0m8704 [3mname[0m[2m=[0mpostgres.exe
+[2m2026-02-11T19:18:02.994721Z[0m [33m WARN[0m [2mraypher_core::scanner[0m[2m:[0m Command-line unavailable — Low Confidence scan [3mpid[0m[2m=[0m5372 [3mname[0m[2m=[0mpostgres.exe
+[2m2026-02-11T19:18:02.994735Z[0m [33m WARN[0m [2mraypher_core::scanner[0m[2m:[0m Command-line unavailable — Low Confidence scan [3mpid[0m[2m=[0m0 [3mname[0m[2m=[0mIdle
+[2m2026-02-11T19:18:02.994749Z[0m [33m WARN[0m [2mraypher_core::scanner[0m[2m:[0m Command-line unavailable — Low Confidence scan [3mpid[0m[2m=[0m3816 [3mname[0m[2m=[0msvchost.exe
+[2m2026-02-11T19:18:02.994793Z[0m [33m WARN[0m [2mraypher_core::scanner[0m[2m:[0m Command-line unavailable — Low Confidence scan [3mpid[0m[2m=[0m3000 [3mname[0m[2m=[0msvchost.exe
+[2m2026-02-11T19:18:02.994808Z[0m [33m WARN[0m [2mraypher_core::scanner[0m[2m:[0m Command-line unavailable — Low Confidence scan [3mpid[0m[2m=[0m8096 [3mname[0m[2m=[0mpostgres.exe
+[2m2026-02-11T19:18:02.994853Z[0m [33m WARN[0m [2mraypher_core::scanner[0m[2m:[0m Command-line unavailable — Low Confidence scan [3mpid[0m[2m=[0m5620 [3mname[0m[2m=[0msvchost.exe
+[2m2026-02-11T19:18:02.994872Z[0m [33m WARN[0m [2mraypher_core::scanner[0m[2m:[0m Command-line unavailable — Low Confidence scan [3mpid[0m[2m=[0m8776 [3mname[0m[2m=[0msvchost.exe
+[2m2026-02-11T19:18:02.994893Z[0m [33m WARN[0m [2mraypher_core::scanner[0m[2m:[0m Command-line unavailable — Low Confidence scan [3mpid[0m[2m=[0m3476 [3mname[0m[2m=[0msvchost.exe
+[2m2026-02-11T19:18:02.994913Z[0m [33m WARN[0m [2mraypher_core::scanner[0m[2m:[0m Command-line unavailable — Low Confidence scan [3mpid[0m[2m=[0m11024 [3mname[0m[2m=[0msvchost.exe
+[2m2026-02-11T19:18:02.994945Z[0m [33m WARN[0m [2mraypher_core::scanner[0m[2m:[0m Command-line unavailable — Low Confidence scan [3mpid[0m[2m=[0m8020 [3mname[0m[2m=[0mpostgres.exe
+[2m2026-02-11T19:18:02.994961Z[0m [33m WARN[0m [2mraypher_core::scanner[0m[2m:[0m Command-line unavailable — Low Confidence scan [3mpid[0m[2m=[0m9272 [3mname[0m[2m=[0mwlanext.exe
+[2m2026-02-11T19:18:02.994979Z[0m [33m WARN[0m [2mraypher_core::scanner[0m[2m:[0m Command-line unavailable — Low Confidence scan [3mpid[0m[2m=[0m4848 [3mname[0m[2m=[0msvchost.exe
+[2m2026-02-11T19:18:02.994993Z[0m [33m WARN[0m [2mraypher_core::scanner[0m[2m:[0m Command-line unavailable — Low Confidence scan [3mpid[0m[2m=[0m8112 [3mname[0m[2m=[0mpostgres.exe
+[2m2026-02-11T19:18:02.995006Z[0m [33m WARN[0m [2mraypher_core::scanner[0m[2m:[0m Command-line unavailable — Low Confidence scan [3mpid[0m[2m=[0m5932 [3mname[0m[2m=[0mvmnat.exe
+[2m2026-02-11T19:18:02.995026Z[0m [33m WARN[0m [2mraypher_core::scanner[0m[2m:[0m Command-line unavailable — Low Confidence scan [3mpid[0m[2m=[0m4472 [3mname[0m[2m=[0mTrustedInstaller.exe
+[2m2026-02-11T19:18:02.995050Z[0m [33m WARN[0m [2mraypher_core::scanner[0m[2m:[0m Command-line unavailable — Low Confidence scan [3mpid[0m[2m=[0m1700 [3mname[0m[2m=[0msvchost.exe
+[2m2026-02-11T19:18:02.995067Z[0m [33m WARN[0m [2mraypher_core::scanner[0m[2m:[0m Command-line unavailable — Low Confidence scan [3mpid[0m[2m=[0m18796 [3mname[0m[2m=[0mWmiPrvSE.exe
+[2m2026-02-11T19:18:02.995082Z[0m [33m WARN[0m [2mraypher_core::scanner[0m[2m:[0m Command-line unavailable — Low Confidence scan [3mpid[0m[2m=[0m4616 [3mname[0m[2m=[0msvchost.exe
+[2m2026-02-11T19:18:02.995114Z[0m [33m WARN[0m [2mraypher_core::scanner[0m[2m:[0m Command-line unavailable — Low Confidence scan [3mpid[0m[2m=[0m2004 [3mname[0m[2m=[0msvchost.exe
+[2m2026-02-11T19:18:02.995129Z[0m [33m WARN[0m [2mraypher_core::scanner[0m[2m:[0m Command-line unavailable — Low Confidence scan [3mpid[0m[2m=[0m3584 [3mname[0m[2m=[0msvchost.exe
+[2m2026-02-11T19:18:02.995143Z[0m [33m WARN[0m [2mraypher_core::scanner[0m[2m:[0m Command-line unavailable — Low Confidence scan [3mpid[0m[2m=[0m14052 [3mname[0m[2m=[0msvchost.exe
+[2m2026-02-11T19:18:02.995160Z[0m [33m WARN[0m [2mraypher_core::scanner[0m[2m:[0m Command-line unavailable — Low Confidence scan [3mpid[0m[2m=[0m4720 [3mname[0m[2m=[0mwuaucltcore.exe
+[2m2026-02-11T19:18:02.995189Z[0m [33m WARN[0m [2mraypher_core::scanner[0m[2m:[0m Command-line unavailable — Low Confidence scan [3mpid[0m[2m=[0m1092 [3mname[0m[2m=[0mservices.exe
+[2m2026-02-11T19:18:02.995216Z[0m [33m WARN[0m [2mraypher_core::scanner[0m[2m:[0m Command-line unavailable — Low Confidence scan [3mpid[0m[2m=[0m1720 [3mname[0m[2m=[0msvchost.exe
+[2m2026-02-11T19:18:02.995231Z[0m [33m WARN[0m [2mraypher_core::scanner[0m[2m:[0m Command-line unavailable — Low Confidence scan [3mpid[0m[2m=[0m2100 [3mname[0m[2m=[0msvchost.exe
+[2m2026-02-11T19:18:02.995250Z[0m [33m WARN[0m [2mraypher_core::scanner[0m[2m:[0m Command-line unavailable — Low Confidence scan [3mpid[0m[2m=[0m2124 [3mname[0m[2m=[0msvchost.exe
+[2m2026-02-11T19:18:02.995294Z[0m [33m WARN[0m [2mraypher_core::scanner[0m[2m:[0m Command-line unavailable — Low Confidence scan [3mpid[0m[2m=[0m1460 [3mname[0m[2m=[0msvchost.exe
+[2m2026-02-11T19:18:02.995311Z[0m [33m WARN[0m [2mraypher_core::scanner[0m[2m:[0m Command-line unavailable — Low Confidence scan [3mpid[0m[2m=[0m3980 [3mname[0m[2m=[0mNVDisplay.Container.exe
+[2m2026-02-11T19:18:02.995325Z[0m [33m WARN[0m [2mraypher_core::scanner[0m[2m:[0m Command-line unavailable — Low Confidence scan [3mpid[0m[2m=[0m5732 [3mname[0m[2m=[0msvchost.exe
+[2m2026-02-11T19:18:02.995344Z[0m [33m WARN[0m [2mraypher_core::scanner[0m[2m:[0m Command-line unavailable — Low Confidence scan [3mpid[0m[2m=[0m5860 [3mname[0m[2m=[0mvmware-usbarbitrator64.exe
+[2m2026-02-11T19:18:02.995358Z[0m [33m WARN[0m [2mraypher_core::scanner[0m[2m:[0m Command-line unavailable — Low Confidence scan [3mpid[0m[2m=[0m3920 [3mname[0m[2m=[0mAvastSvc.exe
+[2m2026-02-11T19:18:02.995371Z[0m [33m WARN[0m [2mraypher_core::scanner[0m[2m:[0m Command-line unavailable — Low Confidence scan [3mpid[0m[2m=[0m6136 [3mname[0m[2m=[0mwslservice.exe
+[2m2026-02-11T19:18:02.995410Z[0m [33m WARN[0m [2mraypher_core::scanner[0m[2m:[0m Command-line unavailable — Low Confidence scan [3mpid[0m[2m=[0m19240 [3mname[0m[2m=[0mtaskhostw.exe
+[2m2026-02-11T19:18:02.995428Z[0m [33m WARN[0m [2mraypher_core::scanner[0m[2m:[0m Command-line unavailable — Low Confidence scan [3mpid[0m[2m=[0m3168 [3mname[0m[2m=[0msvchost.exe
+[2m2026-02-11T19:18:02.995443Z[0m [33m WARN[0m [2mraypher_core::scanner[0m[2m:[0m Command-line unavailable — Low Confidence scan [3mpid[0m[2m=[0m7548 [3mname[0m[2m=[0mrundll32.exe
+[2m2026-02-11T19:18:02.995457Z[0m [33m WARN[0m [2mraypher_core::scanner[0m[2m:[0m Command-line unavailable — Low Confidence scan [3mpid[0m[2m=[0m3264 [3mname[0m[2m=[0msvchost.exe
+[2m2026-02-11T19:18:02.995480Z[0m [33m WARN[0m [2mraypher_core::scanner[0m[2m:[0m Command-line unavailable — Low Confidence scan [3mpid[0m[2m=[0m5308 [3mname[0m[2m=[0msvchost.exe
+[2m2026-02-11T19:18:02.995493Z[0m [33m WARN[0m [2mraypher_core::scanner[0m[2m:[0m Command-line unavailable — Low Confidence scan [3mpid[0m[2m=[0m6048 [3mname[0m[2m=[0msvchost.exe
+[2m2026-02-11T19:18:02.995506Z[0m [33m WARN[0m [2mraypher_core::scanner[0m[2m:[0m Command-line unavailable — Low Confidence scan [3mpid[0m[2m=[0m7312 [3mname[0m[2m=[0mpostgres.exe
+[2m2026-02-11T19:18:02.995520Z[0m [33m WARN[0m [2mraypher_core::scanner[0m[2m:[0m Command-line unavailable — Low Confidence scan [3mpid[0m[2m=[0m816 [3mname[0m[2m=[0mwininit.exe
+[2m2026-02-11T19:18:02.995535Z[0m [33m WARN[0m [2mraypher_core::scanner[0m[2m:[0m Command-line unavailable — Low Confidence scan [3mpid[0m[2m=[0m8088 [3mname[0m[2m=[0mpostgres.exe
+[2m2026-02-11T19:18:02.995549Z[0m [33m WARN[0m [2mraypher_core::scanner[0m[2m:[0m Command-line unavailable — Low Confidence scan [3mpid[0m[2m=[0m5064 [3mname[0m[2m=[0msvchost.exe
+[2m2026-02-11T19:18:02.995565Z[0m [33m WARN[0m [2mraypher_core::scanner[0m[2m:[0m Command-line unavailable — Low Confidence scan [3mpid[0m[2m=[0m1012 [3mname[0m[2m=[0mcsrss.exe
+[2m2026-02-11T19:18:02.995579Z[0m [33m WARN[0m [2mraypher_core::scanner[0m[2m:[0m Command-line unavailable — Low Confidence scan [3mpid[0m[2m=[0m6348 [3mname[0m[2m=[0msvchost.exe
+[2m2026-02-11T19:18:02.995630Z[0m [33m WARN[0m [2mraypher_core::scanner[0m[2m:[0m Command-line unavailable — Low Confidence scan [3mpid[0m[2m=[0m11416 [3mname[0m[2m=[0msvchost.exe
+[2m2026-02-11T19:18:02.995648Z[0m [33m WARN[0m [2mraypher_core::scanner[0m[2m:[0m Command-line unavailable — Low Confidence scan [3mpid[0m[2m=[0m4 [3mname[0m[2m=[0mSystem
+[2m2026-02-11T19:18:02.995704Z[0m [33m WARN[0m [2mraypher_core::scanner[0m[2m:[0m Command-line unavailable — Low Confidence scan [3mpid[0m[2m=[0m6164 [3mname[0m[2m=[0msvchost.exe
+[2m2026-02-11T19:18:02.995721Z[0m [33m WARN[0m [2mraypher_core::scanner[0m[2m:[0m Command-line unavailable — Low Confidence scan [3mpid[0m[2m=[0m4800 [3mname[0m[2m=[0mspoolsv.exe
+[2m2026-02-11T19:18:02.995734Z[0m [33m WARN[0m [2mraypher_core::scanner[0m[2m:[0m Command-line unavailable — Low Confidence scan [3mpid[0m[2m=[0m10300 [3mname[0m[2m=[0msvchost.exe
+[2m2026-02-11T19:18:02.995747Z[0m [33m WARN[0m [2mraypher_core::scanner[0m[2m:[0m Command-line unavailable — Low Confidence scan [3mpid[0m[2m=[0m2416 [3mname[0m[2m=[0msvchost.exe
+[2m2026-02-11T19:18:02.995763Z[0m [33m WARN[0m [2mraypher_core::scanner[0m[2m:[0m Command-line unavailable — Low Confidence scan [3mpid[0m[2m=[0m3224 [3mname[0m[2m=[0msvchost.exe
+[2m2026-02-11T19:18:02.995777Z[0m [33m WARN[0m [2mraypher_core::scanner[0m[2m:[0m Command-line unavailable — Low Confidence scan [3mpid[0m[2m=[0m8880 [3mname[0m[2m=[0mgamingservices.exe
+[2m2026-02-11T19:18:02.995790Z[0m [33m WARN[0m [2mraypher_core::scanner[0m[2m:[0m Command-line unavailable — Low Confidence scan [3mpid[0m[2m=[0m2992 [3mname[0m[2m=[0mwsc_proxy.exe
+[2m2026-02-11T19:18:02.995829Z[0m [33m WARN[0m [2mraypher_core::scanner[0m[2m:[0m Command-line unavailable — Low Confidence scan [3mpid[0m[2m=[0m520 [3mname[0m[2m=[0mcsrss.exe
+[2m2026-02-11T19:18:02.995845Z[0m [33m WARN[0m [2mraypher_core::scanner[0m[2m:[0m Command-line unavailable — Low Confidence scan [3mpid[0m[2m=[0m1324 [3mname[0m[2m=[0msvchost.exe
+[2m2026-02-11T19:18:02.995890Z[0m [33m WARN[0m [2mraypher_core::scanner[0m[2m:[0m Command-line unavailable — Low Confidence scan [3mpid[0m[2m=[0m1120 [3mname[0m[2m=[0mlsass.exe
+[2m2026-02-11T19:18:02.995906Z[0m [33m WARN[0m [2mraypher_core::scanner[0m[2m:[0m Command-line unavailable — Low Confidence scan [3mpid[0m[2m=[0m4412 [3mname[0m[2m=[0msvchost.exe
+[2m2026-02-11T19:18:02.995920Z[0m [33m WARN[0m [2mraypher_core::scanner[0m[2m:[0m Command-line unavailable — Low Confidence scan [3mpid[0m[2m=[0m4052 [3mname[0m[2m=[0msvchost.exe
+[2m2026-02-11T19:18:02.995934Z[0m [33m WARN[0m [2mraypher_core::scanner[0m[2m:[0m Command-line unavailable — Low Confidence scan [3mpid[0m[2m=[0m5236 [3mname[0m[2m=[0msvchost.exe
+[2m2026-02-11T19:18:02.995957Z[0m [33m WARN[0m [2mraypher_core::scanner[0m[2m:[0m Command-line unavailable — Low Confidence scan [3mpid[0m[2m=[0m1816 [3mname[0m[2m=[0msvchost.exe
+[2m2026-02-11T19:18:02.995972Z[0m [33m WARN[0m [2mraypher_core::scanner[0m[2m:[0m Command-line unavailable — Low Confidence scan [3mpid[0m[2m=[0m3628 [3mname[0m[2m=[0msvchost.exe
+[2m2026-02-11T19:18:02.995986Z[0m [33m WARN[0m [2mraypher_core::scanner[0m[2m:[0m Command-line unavailable — Low Confidence scan [3mpid[0m[2m=[0m10292 [3mname[0m[2m=[0msvchost.exe
+[2m2026-02-11T19:18:02.996001Z[0m [33m WARN[0m [2mraypher_core::scanner[0m[2m:[0m Command-line unavailable — Low Confidence scan [3mpid[0m[2m=[0m5276 [3mname[0m[2m=[0mAnyDesk.exe
+[2m2026-02-11T19:18:02.996015Z[0m [33m WARN[0m [2mraypher_core::scanner[0m[2m:[0m Command-line unavailable — Low Confidence scan [3mpid[0m[2m=[0m4724 [3mname[0m[2m=[0mmsiexec.exe
+[2m2026-02-11T19:18:02.996033Z[0m [33m WARN[0m [2mraypher_core::scanner[0m[2m:[0m Command-line unavailable — Low Confidence scan [3mpid[0m[2m=[0m5476 [3mname[0m[2m=[0mjhi_service.exe
+[2m2026-02-11T19:18:02.996049Z[0m [33m WARN[0m [2mraypher_core::scanner[0m[2m:[0m Command-line unavailable — Low Confidence scan [3mpid[0m[2m=[0m5880 [3mname[0m[2m=[0mvmware-authd.exe
+[2m2026-02-11T19:18:02.996089Z[0m [33m WARN[0m [2mraypher_core::scanner[0m[2m:[0m Command-line unavailable — Low Confidence scan [3mpid[0m[2m=[0m4012 [3mname[0m[2m=[0msvchost.exe
+[2m2026-02-11T19:18:02.996109Z[0m [33m WARN[0m [2mraypher_core::scanner[0m[2m:[0m Command-line unavailable — Low Confidence scan [3mpid[0m[2m=[0m15604 [3mname[0m[2m=[0mWmiPrvSE.exe
+[2m2026-02-11T19:18:02.996129Z[0m [33m WARN[0m [2mraypher_core::scanner[0m[2m:[0m Command-line unavailable — Low Confidence scan [3mpid[0m[2m=[0m7356 [3mname[0m[2m=[0mpostgres.exe
+[2m2026-02-11T19:18:02.996142Z[0m [33m WARN[0m [2mraypher_core::scanner[0m[2m:[0m Command-line unavailable — Low Confidence scan [3mpid[0m[2m=[0m1556 [3mname[0m[2m=[0mdwm.exe
+[2m2026-02-11T19:18:02.996155Z[0m [33m WARN[0m [2mraypher_core::scanner[0m[2m:[0m Command-line unavailable — Low Confidence scan [3mpid[0m[2m=[0m11292 [3mname[0m[2m=[0mSearchIndexer.exe
+[2m2026-02-11T19:18:02.996168Z[0m [33m WARN[0m [2mraypher_core::scanner[0m[2m:[0m Command-line unavailable — Low Confidence scan [3mpid[0m[2m=[0m5232 [3mname[0m[2m=[0mGigabyteUpdateService.exe
+[2m2026-02-11T19:18:02.996186Z[0m [33m WARN[0m [2mraypher_core::scanner[0m[2m:[0m Command-line unavailable — Low Confidence scan [3mpid[0m[2m=[0m9692 [3mname[0m[2m=[0mAggregatorHost.exe
+[2m2026-02-11T19:18:02.996202Z[0m [33m WARN[0m [2mraypher_core::scanner[0m[2m:[0m Command-line unavailable — Low Confidence scan [3mpid[0m[2m=[0m17136 [3mname[0m[2m=[0msvchost.exe
+[2m2026-02-11T19:18:02.996217Z[0m [33m WARN[0m [2mraypher_core::scanner[0m[2m:[0m Command-line unavailable — Low Confidence scan [3mpid[0m[2m=[0m2984 [3mname[0m[2m=[0msvchost.exe
+[2m2026-02-11T19:18:02.996232Z[0m [33m WARN[0m [2mraypher_core::scanner[0m[2m:[0m Command-line unavailable — Low Confidence scan [3mpid[0m[2m=[0m2712 [3mname[0m[2m=[0msvchost.exe
+[2m2026-02-11T19:18:02.996256Z[0m [33m WARN[0m [2mraypher_core::scanner[0m[2m:[0m Command-line unavailable — Low Confidence scan [3mpid[0m[2m=[0m5668 [3mname[0m[2m=[0msvchost.exe
+[2m2026-02-11T19:18:02.996270Z[0m [33m WARN[0m [2mraypher_core::scanner[0m[2m:[0m Command-line unavailable — Low Confidence scan [3mpid[0m[2m=[0m5296 [3mname[0m[2m=[0msvchost.exe
+[2m2026-02-11T19:18:02.996286Z[0m [33m WARN[0m [2mraypher_core::scanner[0m[2m:[0m Command-line unavailable — Low Confidence scan [3mpid[0m[2m=[0m14260 [3mname[0m[2m=[0msvchost.exe
+[2m2026-02-11T19:18:02.996301Z[0m [33m WARN[0m [2mraypher_core::scanner[0m[2m:[0m Command-line unavailable — Low Confidence scan [3mpid[0m[2m=[0m5796 [3mname[0m[2m=[0msvchost.exe
+[2m2026-02-11T19:18:02.996316Z[0m [33m WARN[0m [2mraypher_core::scanner[0m[2m:[0m Command-line unavailable — Low Confidence scan [3mpid[0m[2m=[0m8120 [3mname[0m[2m=[0mpostgres.exe
+[2m2026-02-11T19:18:02.996331Z[0m [33m WARN[0m [2mraypher_core::scanner[0m[2m:[0m Command-line unavailable — Low Confidence scan [3mpid[0m[2m=[0m1156 [3mname[0m[2m=[0mwinlogon.exe
+[2m2026-02-11T19:18:02.996346Z[0m [33m WARN[0m [2mraypher_core::scanner[0m[2m:[0m Command-line unavailable — Low Confidence scan [3mpid[0m[2m=[0m15936 [3mname[0m[2m=[0msetup.exe
+[2m2026-02-11T19:18:02.996377Z[0m [33m WARN[0m [2mraypher_core::scanner[0m[2m:[0m Command-line unavailable — Low Confidence scan [3mpid[0m[2m=[0m6856 [3mname[0m[2m=[0mpostgres.exe
+[2m2026-02-11T19:18:02.996409Z[0m [33m WARN[0m [2mraypher_core::scanner[0m[2m:[0m Command-line unavailable — Low Confidence scan [3mpid[0m[2m=[0m5260 [3mname[0m[2m=[0mNgcIso.exe
+[2m2026-02-11T19:18:02.996424Z[0m [33m WARN[0m [2mraypher_core::scanner[0m[2m:[0m Command-line unavailable — Low Confidence scan [3mpid[0m[2m=[0m4652 [3mname[0m[2m=[0maswToolsSvc.exe
+[2m2026-02-11T19:18:02.996444Z[0m [33m WARN[0m [2mraypher_core::scanner[0m[2m:[0m Command-line unavailable — Low Confidence scan [3mpid[0m[2m=[0m1100 [3mname[0m[2m=[0mLsaIso.exe
+[2m2026-02-11T19:18:02.996461Z[0m [33m WARN[0m [2mraypher_core::scanner[0m[2m:[0m Command-line unavailable — Low Confidence scan [3mpid[0m[2m=[0m8688 [3mname[0m[2m=[0mpostgres.exe
+[2m2026-02-11T19:18:02.996476Z[0m [33m WARN[0m [2mraypher_core::scanner[0m[2m:[0m Command-line unavailable — Low Confidence scan [3mpid[0m[2m=[0m11188 [3mname[0m[2m=[0msvchost.exe
+[2m2026-02-11T19:18:02.996489Z[0m [33m WARN[0m [2mraypher_core::scanner[0m[2m:[0m Command-line unavailable — Low Confidence scan [3mpid[0m[2m=[0m5424 [3mname[0m[2m=[0msvchost.exe
+[2m2026-02-11T19:18:02.996506Z[0m [33m WARN[0m [2mraypher_core::scanner[0m[2m:[0m Command-line unavailable — Low Confidence scan [3mpid[0m[2m=[0m1476 [3mname[0m[2m=[0msvchost.exe
+[2m2026-02-11T19:18:02.996519Z[0m [33m WARN[0m [2mraypher_core::scanner[0m[2m:[0m Command-line unavailable — Low Confidence scan [3mpid[0m[2m=[0m8896 [3mname[0m[2m=[0msvchost.exe
+[2m2026-02-11T19:18:02.996543Z[0m [33m WARN[0m [2mraypher_core::scanner[0m[2m:[0m Command-line unavailable — Low Confidence scan [3mpid[0m[2m=[0m7388 [3mname[0m[2m=[0mconhost.exe
+[2m2026-02-11T19:18:02.996558Z[0m [33m WARN[0m [2mraypher_core::scanner[0m[2m:[0m Command-line unavailable — Low Confidence scan [3mpid[0m[2m=[0m5988 [3mname[0m[2m=[0mWMIRegistrationService.exe
+[2m2026-02-11T19:18:02.996577Z[0m [33m WARN[0m [2mraypher_core::scanner[0m[2m:[0m Command-line unavailable — Low Confidence scan [3mpid[0m[2m=[0m1360 [3mname[0m[2m=[0mfontdrvhost.exe
+[2m2026-02-11T19:18:02.996591Z[0m [33m WARN[0m [2mraypher_core::scanner[0m[2m:[0m Command-line unavailable — Low Confidence scan [3mpid[0m[2m=[0m2936 [3mname[0m[2m=[0msvchost.exe
+[2m2026-02-11T19:18:02.996616Z[0m [33m WARN[0m [2mraypher_core::scanner[0m[2m:[0m Command-line unavailable — Low Confidence scan [3mpid[0m[2m=[0m1964 [3mname[0m[2m=[0msvchost.exe
+[2m2026-02-11T19:18:02.996630Z[0m [33m WARN[0m [2mraypher_core::scanner[0m[2m:[0m Command-line unavailable — Low Confidence scan [3mpid[0m[2m=[0m4372 [3mname[0m[2m=[0msvchost.exe
+[2m2026-02-11T19:18:02.996646Z[0m [33m WARN[0m [2mraypher_core::scanner[0m[2m:[0m Command-line unavailable — Low Confidence scan [3mpid[0m[2m=[0m3156 [3mname[0m[2m=[0msvchost.exe
+[2m2026-02-11T19:18:02.996661Z[0m [33m WARN[0m [2mraypher_core::scanner[0m[2m:[0m Command-line unavailable — Low Confidence scan [3mpid[0m[2m=[0m5644 [3mname[0m[2m=[0msvchost.exe
+[2m2026-02-11T19:18:02.996675Z[0m [33m WARN[0m [2mraypher_core::scanner[0m[2m:[0m Command-line unavailable — Low Confidence scan [3mpid[0m[2m=[0m2836 [3mname[0m[2m=[0msvchost.exe
+[2m2026-02-11T19:18:02.996708Z[0m [33m WARN[0m [2mraypher_core::scanner[0m[2m:[0m Command-line unavailable — Low Confidence scan [3mpid[0m[2m=[0m16204 [3mname[0m[2m=[0mSecurityHealthService.exe
+[2m2026-02-11T19:18:02.996740Z[0m [33m WARN[0m [2mraypher_core::scanner[0m[2m:[0m Command-line unavailable — Low Confidence scan [3mpid[0m[2m=[0m15088 [3mname[0m[2m=[0msvchost.exe
+[2m2026-02-11T19:18:02.996758Z[0m [33m WARN[0m [2mraypher_core::scanner[0m[2m:[0m Command-line unavailable — Low Confidence scan [3mpid[0m[2m=[0m5504 [3mname[0m[2m=[0munsecapp.exe
+[2m2026-02-11T19:18:02.996778Z[0m [33m WARN[0m [2mraypher_core::scanner[0m[2m:[0m Command-line unavailable — Low Confidence scan [3mpid[0m[2m=[0m668 [3mname[0m[2m=[0msmss.exe
+[2m2026-02-11T19:18:02.996792Z[0m [33m WARN[0m [2mraypher_core::scanner[0m[2m:[0m Command-line unavailable — Low Confidence scan [3mpid[0m[2m=[0m5348 [3mname[0m[2m=[0mOfficeClickToRun.exe
+[2m2026-02-11T19:18:02.996811Z[0m [33m WARN[0m [2mraypher_core::scanner[0m[2m:[0m Command-line unavailable — Low Confidence scan [3mpid[0m[2m=[0m2012 [3mname[0m[2m=[0msvchost.exe
+[2m2026-02-11T19:18:02.996823Z[0m [33m WARN[0m [2mraypher_core::scanner[0m[2m:[0m Command-line unavailable — Low Confidence scan [3mpid[0m[2m=[0m3872 [3mname[0m[2m=[0msvchost.exe
+[2m2026-02-11T19:18:02.996848Z[0m [33m WARN[0m [2mraypher_core::scanner[0m[2m:[0m Command-line unavailable — Low Confidence scan [3mpid[0m[2m=[0m5740 [3mname[0m[2m=[0msvchost.exe
+[2m2026-02-11T19:18:02.996863Z[0m [33m WARN[0m [2mraypher_core::scanner[0m[2m:[0m Command-line unavailable — Low Confidence scan [3mpid[0m[2m=[0m8328 [3mname[0m[2m=[0mTiWorker.exe
+[2m2026-02-11T19:18:02.996879Z[0m [33m WARN[0m [2mraypher_core::scanner[0m[2m:[0m Command-line unavailable — Low Confidence scan [3mpid[0m[2m=[0m5484 [3mname[0m[2m=[0msvchost.exe
+[2m2026-02-11T19:18:02.996893Z[0m [33m WARN[0m [2mraypher_core::scanner[0m[2m:[0m Command-line unavailable — Low Confidence scan [3mpid[0m[2m=[0m14904 [3mname[0m[2m=[0mMidiSrv.exe
+[2m2026-02-11T19:18:02.996919Z[0m [33m WARN[0m [2mraypher_core::scanner[0m[2m:[0m Command-line unavailable — Low Confidence scan [3mpid[0m[2m=[0m5564 [3mname[0m[2m=[0mnvcontainer.exe
+[2m2026-02-11T19:18:02.996933Z[0m [33m WARN[0m [2mraypher_core::scanner[0m[2m:[0m Command-line unavailable — Low Confidence scan [3mpid[0m[2m=[0m3012 [3mname[0m[2m=[0msvchost.exe
+[2m2026-02-11T19:18:02.996949Z[0m [33m WARN[0m [2mraypher_core::scanner[0m[2m:[0m Command-line unavailable — Low Confidence scan [3mpid[0m[2m=[0m8888 [3mname[0m[2m=[0mgamingservicesnet.exe
+[2m2026-02-11T19:18:02.996964Z[0m [33m WARN[0m [2mraypher_core::scanner[0m[2m:[0m Command-line unavailable — Low Confidence scan [3mpid[0m[2m=[0m5596 [3mname[0m[2m=[0mpg_ctl.exe
+[2m2026-02-11T19:18:02.996977Z[0m [33m WARN[0m [2mraypher_core::scanner[0m[2m:[0m Command-line unavailable — Low Confidence scan [3mpid[0m[2m=[0m1808 [3mname[0m[2m=[0msvchost.exe
+[2m2026-02-11T19:18:02.996991Z[0m [33m WARN[0m [2mraypher_core::scanner[0m[2m:[0m Command-line unavailable — Low Confidence scan [3mpid[0m[2m=[0m184 [3mname[0m[2m=[0mRegistry
+[2m2026-02-11T19:18:02.997003Z[0m [33m WARN[0m [2mraypher_core::scanner[0m[2m:[0m Command-line unavailable — Low Confidence scan [3mpid[0m[2m=[0m1796 [3mname[0m[2m=[0msvchost.exe
+[2m2026-02-11T19:18:02.997053Z[0m [33m WARN[0m [2mraypher_core::scanner[0m[2m:[0m Command-line unavailable — Low Confidence scan [3mpid[0m[2m=[0m7024 [3mname[0m[2m=[0mWmiPrvSE.exe
+[2m2026-02-11T19:18:02.997067Z[0m [33m WARN[0m [2mraypher_core::scanner[0m[2m:[0m Command-line unavailable — Low Confidence scan [3mpid[0m[2m=[0m8520 [3mname[0m[2m=[0mpostgres.exe
+[2m2026-02-11T19:18:02.997080Z[0m [33m WARN[0m [2mraypher_core::scanner[0m[2m:[0m Command-line unavailable — Low Confidence scan [3mpid[0m[2m=[0m3824 [3mname[0m[2m=[0msvchost.exe
+[2m2026-02-11T19:18:02.997093Z[0m [33m WARN[0m [2mraypher_core::scanner[0m[2m:[0m Command-line unavailable — Low Confidence scan [3mpid[0m[2m=[0m8056 [3mname[0m[2m=[0msvchost.exe
+[2m2026-02-11T19:18:02.997147Z[0m [33m WARN[0m [2mraypher_core::scanner[0m[2m:[0m Command-line unavailable — Low Confidence scan [3mpid[0m[2m=[0m10696 [3mname[0m[2m=[0msvchost.exe
+[2m2026-02-11T19:18:02.997169Z[0m [33m WARN[0m [2mraypher_core::scanner[0m[2m:[0m Command-line unavailable — Low Confidence scan [3mpid[0m[2m=[0m1504 [3mname[0m[2m=[0msvchost.exe
+[2m2026-02-11T19:18:02.997186Z[0m [33m WARN[0m [2mraypher_core::scanner[0m[2m:[0m Command-line unavailable — Low Confidence scan [3mpid[0m[2m=[0m4128 [3mname[0m[2m=[0maudiodg.exe
+[2m2026-02-11T19:18:02.997200Z[0m [33m WARN[0m [2mraypher_core::scanner[0m[2m:[0m Command-line unavailable — Low Confidence scan [3mpid[0m[2m=[0m7372 [3mname[0m[2m=[0msvchost.exe
+[2m2026-02-11T19:18:02.997213Z[0m [33m WARN[0m [2mraypher_core::scanner[0m[2m:[0m Command-line unavailable — Low Confidence scan [3mpid[0m[2m=[0m1356 [3mname[0m[2m=[0mfontdrvhost.exe
+[2m2026-02-11T19:18:02.997227Z[0m [33m WARN[0m [2mraypher_core::scanner[0m[2m:[0m Command-line unavailable — Low Confidence scan [3mpid[0m[2m=[0m10016 [3mname[0m[2m=[0msvchost.exe
+[2m2026-02-11T19:18:02.997286Z[0m [33m WARN[0m [2mraypher_core::scanner[0m[2m:[0m Command-line unavailable — Low Confidence scan [3mpid[0m[2m=[0m8104 [3mname[0m[2m=[0mpostgres.exe
+[2m2026-02-11T19:18:02.997301Z[0m [33m WARN[0m [2mraypher_core::scanner[0m[2m:[0m Command-line unavailable — Low Confidence scan [3mpid[0m[2m=[0m10228 [3mname[0m[2m=[0msvchost.exe
+[2m2026-02-11T19:18:02.997334Z[0m [32m INFO[0m [2mraypher_core::scanner[0m[2m:[0m Process scan complete [3mtotal_processes[0m[2m=[0m271
+[2m2026-02-11T19:18:03.017034Z[0m [32m INFO[0m [2mraypher_core::heuristics[0m[2m:[0m Heuristic analysis complete [3mtotal[0m[2m=[0m271 [3mcritical[0m[2m=[0m0 [3mhigh[0m[2m=[0m0 [3mmedium[0m[2m=[0m2
+[
+  {
+    "pid": 5160,
+    "name": "svchost.exe",
+    "cmd": [
+      "svchost.exe"
+    ],
+    "memory": 1282048,
+    "cpu_usage": 0.0,
+    "parent_pid": 1092,
+    "exe_path": null,
+    "confidence": "Low",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 6992,
+    "name": "svchost.exe",
+    "cmd": [
+      "svchost.exe"
+    ],
+    "memory": 1728512,
+    "cpu_usage": 0.0,
+    "parent_pid": 1092,
+    "exe_path": null,
+    "confidence": "Low",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 16712,
+    "name": "svchost.exe",
+    "cmd": [
+      "svchost.exe"
+    ],
+    "memory": 1089536,
+    "cpu_usage": 0.0,
+    "parent_pid": 1092,
+    "exe_path": null,
+    "confidence": "Low",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 7868,
+    "name": "aswEngSrv.exe",
+    "cmd": [
+      "aswEngSrv.exe"
+    ],
+    "memory": 60133376,
+    "cpu_usage": 0.0,
+    "parent_pid": 3920,
+    "exe_path": null,
+    "confidence": "Partial",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 8696,
+    "name": "postgres.exe",
+    "cmd": [
+      "postgres.exe"
+    ],
+    "memory": 950272,
+    "cpu_usage": 0.0,
+    "parent_pid": 7356,
+    "exe_path": null,
+    "confidence": "Partial",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 1784,
+    "name": "svchost.exe",
+    "cmd": [
+      "svchost.exe"
+    ],
+    "memory": 32768,
+    "cpu_usage": 0.0,
+    "parent_pid": 1092,
+    "exe_path": null,
+    "confidence": "Low",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 8548,
+    "name": "postgres.exe",
+    "cmd": [
+      "postgres.exe"
+    ],
+    "memory": 827392,
+    "cpu_usage": 0.0,
+    "parent_pid": 7312,
+    "exe_path": null,
+    "confidence": "Partial",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 14692,
+    "name": "WhatsApp.Root.exe",
+    "cmd": [
+      "C:\\Program Files\\WindowsApps\\5319275A.WhatsAppDesktop_2.2587.10.0_x64__cv1g1gvanyjgm\\WhatsApp.Root.exe"
+    ],
+    "memory": 16994304,
+    "cpu_usage": 0.35821417,
+    "parent_pid": 4932,
+    "exe_path": "C:\\Program Files\\WindowsApps\\5319275A.WhatsAppDesktop_2.2587.10.0_x64__cv1g1gvanyjgm\\WhatsApp.Root.exe",
+    "confidence": "Full",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 12844,
+    "name": "powershell.exe",
+    "cmd": [
+      "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+      "-noexit",
+      "-command",
+      "try { . \"c:\\Users\\rayki\\AppData\\Local\\Programs\\Antigravity\\resources\\app\\out\\vs\\workbench\\contrib\\terminal\\common\\scripts\\shellIntegration.ps1\" } catch {}"
+    ],
+    "memory": 28250112,
+    "cpu_usage": 0.19677989,
+    "parent_pid": 13352,
+    "exe_path": "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+    "confidence": "Full",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 15432,
+    "name": "svchost.exe",
+    "cmd": [
+      "C:\\WINDOWS\\system32\\svchost.exe",
+      "-k",
+      "UnistackSvcGroup"
+    ],
+    "memory": 970752,
+    "cpu_usage": 0.044182163,
+    "parent_pid": 1092,
+    "exe_path": "C:\\Windows\\System32\\svchost.exe",
+    "confidence": "Low",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 12468,
+    "name": "ctfmon.exe",
+    "cmd": [
+      "ctfmon.exe"
+    ],
+    "memory": 9150464,
+    "cpu_usage": 0.14512148,
+    "parent_pid": 3628,
+    "exe_path": "C:\\Windows\\System32\\ctfmon.exe",
+    "confidence": "Partial",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 17164,
+    "name": "powershell.exe",
+    "cmd": [
+      "powershell.exe",
+      "-NoProfile",
+      "-Command",
+      "& {if($PSVersionTable.PSVersion.Major -ge 3){Import-Module 'C:\\Program Files (x86)\\Microsoft Visual Studio\\2022\\BuildTools\\Common7\\Tools\\\\Microsoft.VisualStudio.DevShell.dll'; Send-VsDevShellTelemetry -NewInstanceType Cmd; }}"
+    ],
+    "memory": 81510400,
+    "cpu_usage": 0.02073156,
+    "parent_pid": 15720,
+    "exe_path": "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+    "confidence": "Full",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 6028,
+    "name": "svchost.exe",
+    "cmd": [
+      "svchost.exe"
+    ],
+    "memory": 5607424,
+    "cpu_usage": 0.0,
+    "parent_pid": 1092,
+    "exe_path": null,
+    "confidence": "Low",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 4928,
+    "name": "svchost.exe",
+    "cmd": [
+      "C:\\WINDOWS\\system32\\svchost.exe",
+      "-k",
+      "BthAppGroup",
+      "-p",
+      "-s",
+      "BluetoothUserService"
+    ],
+    "memory": 516096,
+    "cpu_usage": 0.0010195884,
+    "parent_pid": 1092,
+    "exe_path": "C:\\Windows\\System32\\svchost.exe",
+    "confidence": "Low",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 15748,
+    "name": "Antigravity.exe",
+    "cmd": [
+      "C:\\Users\\rayki\\AppData\\Local\\Programs\\Antigravity\\Antigravity.exe",
+      "--type=utility",
+      "--utility-sub-type=node.mojom.NodeService",
+      "--lang=en-US",
+      "--service-sandbox-type=none",
+      "--video-capture-use-gpu-memory-buffer",
+      "--user-data-dir=C:\\Users\\rayki\\AppData\\Roaming\\Antigravity",
+      "--standard-schemes=vscode-webview,vscode-file",
+      "--enable-sandbox",
+      "--secure-schemes=vscode-webview,vscode-file",
+      "--cors-schemes=vscode-webview,vscode-file",
+      "--fetch-schemes=vscode-webview,vscode-file",
+      "--service-worker-schemes=vscode-webview",
+      "--code-cache-schemes=vscode-webview,vscode-file",
+      "--field-trial-handle=1844,i,5049527470075640650,15285414162923931184,262144",
+      "--enable-features=DocumentPolicyIncludeJSCallStacksInCrashReports,EarlyEstablishGpuChannel,EnableTransparentHwndEnlargement,EstablishGpuChannelAsync,PdfUseShowSaveFilePicker",
+      "--disable-features=CalculateNativeWinOcclusion,LocalNetworkAccessChecks,ScreenAIOCREnabled,SpareRendererForSitePerProcess,TraceSiteInstanceGetProcessCreation",
+      "--variations-seed-version",
+      "--trace-process-track-uuid=3190708992871164437",
+      "--mojo-platform-channel-handle=4412",
+      "/prefetch:14"
+    ],
+    "memory": 24948736,
+    "cpu_usage": 0.11079528,
+    "parent_pid": 16100,
+    "exe_path": "C:\\Users\\rayki\\AppData\\Local\\Programs\\Antigravity\\Antigravity.exe",
+    "confidence": "Full",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 2384,
+    "name": "msedgewebview2.exe",
+    "cmd": [
+      "C:\\Program Files (x86)\\Microsoft\\EdgeWebView\\Application\\144.0.3719.115\\msedgewebview2.exe",
+      "--type=renderer",
+      "--noerrdialogs",
+      "--user-data-dir=C:\\Users\\rayki\\AppData\\Local\\Packages\\5319275A.WhatsAppDesktop_cv1g1gvanyjgm\\LocalCache\\EBWebView",
+      "--webview-exe-name=WhatsApp.Root.exe",
+      "--webview-exe-version=1.0.0",
+      "--embedded-browser-webview=1",
+      "--disable-gpu-compositing",
+      "--video-capture-use-gpu-memory-buffer",
+      "--lang=en-US",
+      "--device-scale-factor=1",
+      "--num-raster-threads=4",
+      "--enable-main-frame-before-activation",
+      "--renderer-client-id=8",
+      "--js-flags=--expose-gc --ms-user-locale=en_KE",
+      "--time-ticks-at-unix-epoch=-1770832885297127",
+      "--launch-time-ticks=233229064",
+      "--skip-read-main-dll",
+      "--metrics-shmem-handle=4876,i,4241573620311612729,3205591397759103468,2097152",
+      "--field-trial-handle=1832,i,14715393238203826449,8973043153835195014,262144",
+      "--variations-seed-version",
+      "--trace-process-track-uuid=3190708993808206286",
+      "--mojo-platform-channel-handle=4888",
+      "/pfhostedapp:6b869b7592cfb31f7f9267f569d92848c239ed8e",
+      "/prefetch:1"
+    ],
+    "memory": 71327744,
+    "cpu_usage": 0.91083235,
+    "parent_pid": 10900,
+    "exe_path": "C:\\Program Files (x86)\\Microsoft\\EdgeWebView\\Application\\144.0.3719.115\\msedgewebview2.exe",
+    "confidence": "Full",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 15100,
+    "name": "powershell.exe",
+    "cmd": [
+      "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+      "-NoProfile",
+      "-ExecutionPolicy",
+      "Bypass",
+      "-Command",
+      "Import-Module 'c:\\Users\\rayki\\.antigravity\\extensions\\ms-vscode.powershell-2025.4.0-universal\\modules\\PowerShellEditorServices\\PowerShellEditorServices.psd1'; Start-EditorServices -HostName 'Visual Studio Code Host' -HostProfileId 'Microsoft.VSCode' -HostVersion '2025.4.0' -BundledModulesPath 'c:\\Users\\rayki\\.antigravity\\extensions\\ms-vscode.powershell-2025.4.0-universal\\modules' -EnableConsoleRepl -StartupBanner \"PowerShell Extension v2025.4.0\nCopyright (c) Microsoft Corporation.\n\nhttps://aka.ms/vscode-powershell\nType 'help' to get help.\n\" -LogLevel 'Warning' -LogPath 'c:\\Users\\rayki\\AppData\\Roaming\\Antigravity\\logs\\20260211T210239\\window1\\exthost\\ms-vscode.powershell' -SessionDetailsPath 'c:\\Users\\rayki\\AppData\\Roaming\\Antigravity\\User\\globalStorage\\ms-vscode.powershell\\sessions\\PSES-VSCode-16100-331062.json' -FeatureFlags @() "
+    ],
+    "memory": 8056832,
+    "cpu_usage": 0.13390595,
+    "parent_pid": 13352,
+    "exe_path": "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+    "confidence": "Full",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 7336,
+    "name": "conhost.exe",
+    "cmd": [
+      "conhost.exe"
+    ],
+    "memory": 405504,
+    "cpu_usage": 0.0,
+    "parent_pid": 7312,
+    "exe_path": null,
+    "confidence": "Partial",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 1792,
+    "name": "svchost.exe",
+    "cmd": [
+      "svchost.exe"
+    ],
+    "memory": 487424,
+    "cpu_usage": 0.0,
+    "parent_pid": 1092,
+    "exe_path": null,
+    "confidence": "Low",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 9316,
+    "name": "svchost.exe",
+    "cmd": [
+      "svchost.exe"
+    ],
+    "memory": 2691072,
+    "cpu_usage": 0.0,
+    "parent_pid": 1092,
+    "exe_path": null,
+    "confidence": "Low",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 2584,
+    "name": "NVDisplay.Container.exe",
+    "cmd": [
+      "NVDisplay.Container.exe"
+    ],
+    "memory": 5394432,
+    "cpu_usage": 0.0,
+    "parent_pid": 1092,
+    "exe_path": null,
+    "confidence": "Partial",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 5904,
+    "name": "nvcontainer.exe",
+    "cmd": [
+      "C:\\Program Files\\NVIDIA Corporation\\NvContainer\\nvcontainer.exe",
+      "-f",
+      "C:\\ProgramData\\NVIDIA\\NvContainerUser%d.log",
+      "-d",
+      "C:\\Program Files\\NVIDIA Corporation\\NvContainer\\plugins\\User",
+      "-r",
+      "-l",
+      "3",
+      "-p",
+      "30000",
+      "-st",
+      "C:\\Program Files\\NVIDIA Corporation\\NvContainer\\NvContainerTelemetryApi.dll",
+      "-c"
+    ],
+    "memory": 25055232,
+    "cpu_usage": 0.2239696,
+    "parent_pid": 5564,
+    "exe_path": "C:\\Program Files\\NVIDIA Corporation\\NvContainer\\nvcontainer.exe",
+    "confidence": "Full",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 12408,
+    "name": "RGBFusion.exe",
+    "cmd": [
+      "RGBFusion.exe"
+    ],
+    "memory": 13930496,
+    "cpu_usage": 1.1728666,
+    "parent_pid": 12116,
+    "exe_path": "C:\\Program Files (x86)\\GIGABYTE\\RGBFusion\\RGBFusion.exe",
+    "confidence": "Partial",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 15880,
+    "name": "Antigravity.exe",
+    "cmd": [
+      "C:\\Users\\rayki\\AppData\\Local\\Programs\\Antigravity\\Antigravity.exe",
+      "--type=utility",
+      "--utility-sub-type=audio.mojom.AudioService",
+      "--lang=en-US",
+      "--service-sandbox-type=audio",
+      "--video-capture-use-gpu-memory-buffer",
+      "--user-data-dir=C:\\Users\\rayki\\AppData\\Roaming\\Antigravity",
+      "--standard-schemes=vscode-webview,vscode-file",
+      "--enable-sandbox",
+      "--secure-schemes=vscode-webview,vscode-file",
+      "--cors-schemes=vscode-webview,vscode-file",
+      "--fetch-schemes=vscode-webview,vscode-file",
+      "--service-worker-schemes=vscode-webview",
+      "--code-cache-schemes=vscode-webview,vscode-file",
+      "--field-trial-handle=1844,i,5049527470075640650,15285414162923931184,262144",
+      "--enable-features=DocumentPolicyIncludeJSCallStacksInCrashReports,EarlyEstablishGpuChannel,EnableTransparentHwndEnlargement,EstablishGpuChannelAsync,PdfUseShowSaveFilePicker",
+      "--disable-features=CalculateNativeWinOcclusion,LocalNetworkAccessChecks,ScreenAIOCREnabled,SpareRendererForSitePerProcess,TraceSiteInstanceGetProcessCreation",
+      "--variations-seed-version",
+      "--trace-process-track-uuid=3190708995682289984",
+      "--mojo-platform-channel-handle=4156",
+      "/prefetch:12"
+    ],
+    "memory": 1626112,
+    "cpu_usage": 0.0040783538,
+    "parent_pid": 16100,
+    "exe_path": "C:\\Users\\rayki\\AppData\\Local\\Programs\\Antigravity\\Antigravity.exe",
+    "confidence": "Full",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 3468,
+    "name": "svchost.exe",
+    "cmd": [
+      "svchost.exe"
+    ],
+    "memory": 548864,
+    "cpu_usage": 0.0,
+    "parent_pid": 1092,
+    "exe_path": null,
+    "confidence": "Low",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 4752,
+    "name": "Antigravity.exe",
+    "cmd": [
+      "C:\\Users\\rayki\\AppData\\Local\\Programs\\Antigravity\\Antigravity.exe",
+      "--type=utility",
+      "--utility-sub-type=node.mojom.NodeService",
+      "--lang=en-US",
+      "--service-sandbox-type=none",
+      "--dns-result-order=ipv4first",
+      "--experimental-network-inspection",
+      "--inspect-port=0",
+      "--video-capture-use-gpu-memory-buffer",
+      "--user-data-dir=C:\\Users\\rayki\\AppData\\Roaming\\Antigravity",
+      "--standard-schemes=vscode-webview,vscode-file",
+      "--enable-sandbox",
+      "--secure-schemes=vscode-webview,vscode-file",
+      "--cors-schemes=vscode-webview,vscode-file",
+      "--fetch-schemes=vscode-webview,vscode-file",
+      "--service-worker-schemes=vscode-webview",
+      "--code-cache-schemes=vscode-webview,vscode-file",
+      "--field-trial-handle=1844,i,5049527470075640650,15285414162923931184,262144",
+      "--enable-features=DocumentPolicyIncludeJSCallStacksInCrashReports,EarlyEstablishGpuChannel,EnableTransparentHwndEnlargement,EstablishGpuChannelAsync,PdfUseShowSaveFilePicker",
+      "--disable-features=CalculateNativeWinOcclusion,LocalNetworkAccessChecks,ScreenAIOCREnabled,SpareRendererForSitePerProcess,TraceSiteInstanceGetProcessCreation",
+      "--variations-seed-version",
+      "--trace-process-track-uuid=3190708991934122588",
+      "--mojo-platform-channel-handle=4108",
+      "/prefetch:14"
+    ],
+    "memory": 517390336,
+    "cpu_usage": 208.80864,
+    "parent_pid": 16100,
+    "exe_path": "C:\\Users\\rayki\\AppData\\Local\\Programs\\Antigravity\\Antigravity.exe",
+    "confidence": "Full",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 8268,
+    "name": "AppActions.exe",
+    "cmd": [
+      "C:\\WINDOWS\\SystemApps\\MicrosoftWindows.Client.CBS_cw5n1h2txyewy\\AppActions.exe",
+      "-Embedding"
+    ],
+    "memory": 5222400,
+    "cpu_usage": 0.018012729,
+    "parent_pid": 1324,
+    "exe_path": "C:\\Windows\\SystemApps\\MicrosoftWindows.Client.CBS_cw5n1h2txyewy\\AppActions.exe",
+    "confidence": "Full",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 16184,
+    "name": "SecurityHealthSystray.exe",
+    "cmd": [
+      "C:\\Windows\\System32\\SecurityHealthSystray.exe"
+    ],
+    "memory": 421888,
+    "cpu_usage": 0.0016993141,
+    "parent_pid": 11496,
+    "exe_path": "C:\\Windows\\System32\\SecurityHealthSystray.exe",
+    "confidence": "Full",
+    "risk_level": "Medium",
+    "risk_reason": "AI runtime detected: ray (Ray distributed AI framework)",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 4256,
+    "name": "svchost.exe",
+    "cmd": [
+      "svchost.exe"
+    ],
+    "memory": 471040,
+    "cpu_usage": 0.0,
+    "parent_pid": 1092,
+    "exe_path": null,
+    "confidence": "Low",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 2284,
+    "name": "svchost.exe",
+    "cmd": [
+      "svchost.exe"
+    ],
+    "memory": 8757248,
+    "cpu_usage": 0.0,
+    "parent_pid": 1092,
+    "exe_path": null,
+    "confidence": "Low",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 2524,
+    "name": "svchost.exe",
+    "cmd": [
+      "svchost.exe"
+    ],
+    "memory": 491520,
+    "cpu_usage": 0.0,
+    "parent_pid": 1092,
+    "exe_path": null,
+    "confidence": "Low",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 5632,
+    "name": "pg_ctl.exe",
+    "cmd": [
+      "pg_ctl.exe"
+    ],
+    "memory": 4096,
+    "cpu_usage": 0.0,
+    "parent_pid": 1092,
+    "exe_path": null,
+    "confidence": "Partial",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 5288,
+    "name": "svchost.exe",
+    "cmd": [
+      "svchost.exe"
+    ],
+    "memory": 15474688,
+    "cpu_usage": 0.0,
+    "parent_pid": 1092,
+    "exe_path": null,
+    "confidence": "Low",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 18524,
+    "name": "svchost.exe",
+    "cmd": [
+      "C:\\WINDOWS\\system32\\svchost.exe",
+      "-k",
+      "LocalService",
+      "-p",
+      "-s",
+      "NPSMSvc"
+    ],
+    "memory": 1744896,
+    "cpu_usage": 0.0044182166,
+    "parent_pid": 1092,
+    "exe_path": "C:\\Windows\\System32\\svchost.exe",
+    "confidence": "Low",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 11584,
+    "name": "FileCoAuth.exe",
+    "cmd": [
+      "C:\\Program Files\\Microsoft OneDrive\\24.196.0929.0005\\FileCoAuth.exe",
+      "-Embedding"
+    ],
+    "memory": 5160960,
+    "cpu_usage": 0.019032318,
+    "parent_pid": 1324,
+    "exe_path": "C:\\Program Files\\Microsoft OneDrive\\24.196.0929.0005\\FileCoAuth.exe",
+    "confidence": "Full",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 140,
+    "name": "Secure System",
+    "cmd": [
+      "Secure System"
+    ],
+    "memory": 33173504,
+    "cpu_usage": 0.0,
+    "parent_pid": 4,
+    "exe_path": null,
+    "confidence": "Partial",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 2784,
+    "name": "svchost.exe",
+    "cmd": [
+      "svchost.exe"
+    ],
+    "memory": 516096,
+    "cpu_usage": 0.0,
+    "parent_pid": 1092,
+    "exe_path": null,
+    "confidence": "Low",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 16460,
+    "name": "SearchProtocolHost.exe",
+    "cmd": [
+      "SearchProtocolHost.exe"
+    ],
+    "memory": 12521472,
+    "cpu_usage": 0.0,
+    "parent_pid": 11292,
+    "exe_path": null,
+    "confidence": "Partial",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 3544,
+    "name": "svchost.exe",
+    "cmd": [
+      "svchost.exe"
+    ],
+    "memory": 475136,
+    "cpu_usage": 0.0,
+    "parent_pid": 1092,
+    "exe_path": null,
+    "confidence": "Low",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 3056,
+    "name": "svchost.exe",
+    "cmd": [
+      "svchost.exe"
+    ],
+    "memory": 4915200,
+    "cpu_usage": 0.0,
+    "parent_pid": 1092,
+    "exe_path": null,
+    "confidence": "Low",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 2184,
+    "name": "svchost.exe",
+    "cmd": [
+      "svchost.exe"
+    ],
+    "memory": 516096,
+    "cpu_usage": 0.0,
+    "parent_pid": 1092,
+    "exe_path": null,
+    "confidence": "Low",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 11124,
+    "name": "svchost.exe",
+    "cmd": [
+      "svchost.exe"
+    ],
+    "memory": 3948544,
+    "cpu_usage": 0.0,
+    "parent_pid": 1092,
+    "exe_path": null,
+    "confidence": "Low",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 17320,
+    "name": "svchost.exe",
+    "cmd": [
+      "svchost.exe"
+    ],
+    "memory": 565248,
+    "cpu_usage": 0.0,
+    "parent_pid": 1092,
+    "exe_path": null,
+    "confidence": "Low",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 5840,
+    "name": "vmnetdhcp.exe",
+    "cmd": [
+      "vmnetdhcp.exe"
+    ],
+    "memory": 446464,
+    "cpu_usage": 0.0,
+    "parent_pid": 1092,
+    "exe_path": null,
+    "confidence": "Partial",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 8536,
+    "name": "postgres.exe",
+    "cmd": [
+      "postgres.exe"
+    ],
+    "memory": 1036288,
+    "cpu_usage": 0.0,
+    "parent_pid": 7312,
+    "exe_path": null,
+    "confidence": "Partial",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 11068,
+    "name": "nvcontainer.exe",
+    "cmd": [
+      "nvcontainer.exe"
+    ],
+    "memory": 180224,
+    "cpu_usage": 0.0,
+    "parent_pid": 5564,
+    "exe_path": null,
+    "confidence": "Partial",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 2368,
+    "name": "svchost.exe",
+    "cmd": [
+      "svchost.exe"
+    ],
+    "memory": 749568,
+    "cpu_usage": 0.0,
+    "parent_pid": 1092,
+    "exe_path": null,
+    "confidence": "Low",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 9536,
+    "name": "aswidsagent.exe",
+    "cmd": [
+      "aswidsagent.exe"
+    ],
+    "memory": 92246016,
+    "cpu_usage": 0.0,
+    "parent_pid": 1092,
+    "exe_path": null,
+    "confidence": "Partial",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 3120,
+    "name": "Memory Compression",
+    "cmd": [
+      "Memory Compression"
+    ],
+    "memory": 215375872,
+    "cpu_usage": 0.0,
+    "parent_pid": 4,
+    "exe_path": null,
+    "confidence": "Low",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 5384,
+    "name": "postgres.exe",
+    "cmd": [
+      "postgres.exe"
+    ],
+    "memory": 278528,
+    "cpu_usage": 0.0,
+    "parent_pid": 7356,
+    "exe_path": null,
+    "confidence": "Partial",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 8704,
+    "name": "postgres.exe",
+    "cmd": [
+      "postgres.exe"
+    ],
+    "memory": 786432,
+    "cpu_usage": 0.0,
+    "parent_pid": 7356,
+    "exe_path": null,
+    "confidence": "Partial",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 5372,
+    "name": "postgres.exe",
+    "cmd": [
+      "postgres.exe"
+    ],
+    "memory": 327680,
+    "cpu_usage": 0.0,
+    "parent_pid": 7356,
+    "exe_path": null,
+    "confidence": "Partial",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 0,
+    "name": "Idle",
+    "cmd": [
+      "Idle"
+    ],
+    "memory": 8192,
+    "cpu_usage": 0.0,
+    "parent_pid": null,
+    "exe_path": null,
+    "confidence": "Partial",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 3816,
+    "name": "svchost.exe",
+    "cmd": [
+      "svchost.exe"
+    ],
+    "memory": 2641920,
+    "cpu_usage": 0.0,
+    "parent_pid": 1092,
+    "exe_path": null,
+    "confidence": "Low",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 14180,
+    "name": "msedgewebview2.exe",
+    "cmd": [
+      "C:\\Program Files (x86)\\Microsoft\\EdgeWebView\\Application\\144.0.3719.115\\msedgewebview2.exe",
+      "--type=gpu-process",
+      "--noerrdialogs",
+      "--user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64; Cortana 1.18.9.23723; 10.0.0.0.26200.7840) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.102 Safari/537.36 Edge/18.26200 IsWebView2/True (WebView2Version 144.0.3719.115)",
+      "--user-data-dir=C:\\Users\\rayki\\AppData\\Local\\Packages\\MicrosoftWindows.Client.CBS_cw5n1h2txyewy\\LocalState\\EBWebView",
+      "--webview-exe-name=SearchHost.exe",
+      "--webview-exe-version=2125.34901.0.0",
+      "--embedded-browser-webview=1",
+      "--gpu-preferences=SAAAAAAAAADgAAAEAAAAAAAAAAAAAGAAAQAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAQAAAAAAAAABAAAAAAAAAACAAAAAAAAAAIAAAAAAAAAA==",
+      "--startup-read-main-dll",
+      "--metrics-shmem-handle=1624,i,15595959160187553056,1881564495414490028,262144",
+      "--field-trial-handle=1832,i,13593863120704638766,16283418745392549220,262144",
+      "--enable-features=msEdgeFluentOverlayScrollbar",
+      "--disable-features=msSmartScreenProtection",
+      "--variations-seed-version",
+      "--trace-process-track-uuid=3190708988185955192",
+      "--mojo-platform-channel-handle=1820",
+      "/prefetch:2",
+      "/pfhostedapp:72106ac74575bf1b2add3a34a434cb4ccb213dd3"
+    ],
+    "memory": 1294336,
+    "cpu_usage": 0.10263857,
+    "parent_pid": 13408,
+    "exe_path": "C:\\Program Files (x86)\\Microsoft\\EdgeWebView\\Application\\144.0.3719.115\\msedgewebview2.exe",
+    "confidence": "Full",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 9284,
+    "name": "AvastUI.exe",
+    "cmd": [
+      "C:\\Program Files\\Avast Software\\Avast\\AvastUI.exe",
+      "--type=utility",
+      "--utility-sub-type=storage.mojom.StorageService",
+      "--field-trial-handle=8832,12843269798529070907,17423939201335259968,131072",
+      "--disable-features=CalculateNativeWinOcclusion,CookiesWithoutSameSiteMustBeSecure,SameSiteByDefaultCookies,SameSiteDefaultChecksMethodRigorously,WebRtcHideLocalIpsWithMdns",
+      "--lang=en-GB",
+      "--service-sandbox-type=utility",
+      "--no-sandbox",
+      "--force-wave-audio",
+      "--log-file=C:\\Users\\rayki\\AppData\\Roaming\\Avast Software\\Avast\\log\\cef_log.txt",
+      "--log-severity=error",
+      "--user-agent=Mozilla/5.0 AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.101 Safari/537.36 Avastium (0.0.0) (Windows 10.0)",
+      "--lang=en-KE",
+      "--disable-webaudio",
+      "--force-wave-audio",
+      "--disable-software-rasterizer",
+      "--no-sandbox",
+      "--blacklist-accelerated-compositing",
+      "--disable-accelerated-2d-canvas",
+      "--disable-accelerated-compositing",
+      "--disable-accelerated-layers",
+      "--disable-accelerated-video-decode",
+      "--blacklist-webgl",
+      "--disable-bundled-ppapi-flash",
+      "--disable-flash-3d",
+      "--enable-aggressive-domstorage-flushing",
+      "--enable-media-stream",
+      "--disable-gpu",
+      "--disable-webgl",
+      "--disable-gpu-compositing",
+      "--allow-file-access-from-files=1",
+      "--force-device-scale-factor=1",
+      "--pack_loading_disabled=1",
+      "--log-file=C:\\Users\\rayki\\AppData\\Roaming\\Avast Software\\Avast\\log\\cef_log.txt",
+      "--mojo-platform-channel-handle=10384",
+      "/prefetch:8"
+    ],
+    "memory": 1966080,
+    "cpu_usage": 0.0054377867,
+    "parent_pid": 16672,
+    "exe_path": "C:\\Program Files\\Avast Software\\Avast\\AvastUI.exe",
+    "confidence": "Full",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 10920,
+    "name": "nvcontainer.exe",
+    "cmd": [
+      "C:\\Program Files\\NVIDIA Corporation\\NvContainer\\nvcontainer.exe",
+      "-f",
+      "C:\\ProgramData\\NVIDIA\\NvContainerUser%dSPUser.log",
+      "-d",
+      "C:\\Program Files\\NVIDIA Corporation\\NvContainer\\plugins\\SPUser",
+      "-r",
+      "-l",
+      "3",
+      "-p",
+      "30000",
+      "-st",
+      "C:\\Program Files\\NVIDIA Corporation\\NvContainer\\NvContainerTelemetryApi.dll",
+      "-c"
+    ],
+    "memory": 348160,
+    "cpu_usage": 0.0067972788,
+    "parent_pid": 5564,
+    "exe_path": "C:\\Program Files\\NVIDIA Corporation\\NvContainer\\nvcontainer.exe",
+    "confidence": "Full",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 3000,
+    "name": "svchost.exe",
+    "cmd": [
+      "svchost.exe"
+    ],
+    "memory": 2703360,
+    "cpu_usage": 0.0,
+    "parent_pid": 1092,
+    "exe_path": null,
+    "confidence": "Low",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 8096,
+    "name": "postgres.exe",
+    "cmd": [
+      "postgres.exe"
+    ],
+    "memory": 4096,
+    "cpu_usage": 0.0,
+    "parent_pid": 7312,
+    "exe_path": null,
+    "confidence": "Partial",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 5620,
+    "name": "svchost.exe",
+    "cmd": [
+      "svchost.exe"
+    ],
+    "memory": 40960,
+    "cpu_usage": 0.0,
+    "parent_pid": 1092,
+    "exe_path": null,
+    "confidence": "Low",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 13440,
+    "name": "TextInputHost.exe",
+    "cmd": [
+      "C:\\WINDOWS\\SystemApps\\MicrosoftWindows.Client.CBS_cw5n1h2txyewy\\TextInputHost.exe",
+      "-ServerName:InputApp.AppXk0k6mrh4r2q0ct33a9wgbez0x7v9cz5y.mca"
+    ],
+    "memory": 20922368,
+    "cpu_usage": 0.09074338,
+    "parent_pid": 1324,
+    "exe_path": "C:\\Windows\\SystemApps\\MicrosoftWindows.Client.CBS_cw5n1h2txyewy\\TextInputHost.exe",
+    "confidence": "Full",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 8776,
+    "name": "svchost.exe",
+    "cmd": [
+      "svchost.exe"
+    ],
+    "memory": 11804672,
+    "cpu_usage": 0.0,
+    "parent_pid": 1092,
+    "exe_path": null,
+    "confidence": "Low",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 3476,
+    "name": "svchost.exe",
+    "cmd": [
+      "svchost.exe"
+    ],
+    "memory": 1179648,
+    "cpu_usage": 0.0,
+    "parent_pid": 1092,
+    "exe_path": null,
+    "confidence": "Low",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 5692,
+    "name": "RuntimeBroker.exe",
+    "cmd": [
+      "C:\\Windows\\System32\\RuntimeBroker.exe",
+      "-Embedding"
+    ],
+    "memory": 2596864,
+    "cpu_usage": 0.0067972564,
+    "parent_pid": 1324,
+    "exe_path": "C:\\Windows\\System32\\RuntimeBroker.exe",
+    "confidence": "Full",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 11024,
+    "name": "svchost.exe",
+    "cmd": [
+      "svchost.exe"
+    ],
+    "memory": 7307264,
+    "cpu_usage": 0.0,
+    "parent_pid": 1092,
+    "exe_path": null,
+    "confidence": "Low",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 8200,
+    "name": "chrome.exe",
+    "cmd": [
+      "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+      "--type=utility",
+      "--utility-sub-type=storage.mojom.StorageService",
+      "--lang=en-US",
+      "--service-sandbox-type=service",
+      "--metrics-shmem-handle=2488,i,13014705525094831259,12464856568761722846,524288",
+      "--field-trial-handle=2028,i,1516321125442107916,10647554292692679619,262144",
+      "--variations-seed-version=20260211-010038.545000-production",
+      "--trace-process-track-uuid=3190708990060038890",
+      "--mojo-platform-channel-handle=2508",
+      "/prefetch:13"
+    ],
+    "memory": 3817472,
+    "cpu_usage": 0.011895198,
+    "parent_pid": 6516,
+    "exe_path": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+    "confidence": "Full",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 11780,
+    "name": "CrossDeviceResume.exe",
+    "cmd": [
+      "C:\\WINDOWS\\SystemApps\\MicrosoftWindows.Client.CBS_cw5n1h2txyewy\\CrossDeviceResume.exe",
+      "/tileid",
+      "MicrosoftWindows.Client.CBS_cw5n1h2txyewy!CrossDeviceResumeApp"
+    ],
+    "memory": 3661824,
+    "cpu_usage": 0.015973551,
+    "parent_pid": 4932,
+    "exe_path": "C:\\Windows\\SystemApps\\MicrosoftWindows.Client.CBS_cw5n1h2txyewy\\CrossDeviceResume.exe",
+    "confidence": "Full",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 8020,
+    "name": "postgres.exe",
+    "cmd": [
+      "postgres.exe"
+    ],
+    "memory": 4096,
+    "cpu_usage": 0.0,
+    "parent_pid": 7312,
+    "exe_path": null,
+    "confidence": "Partial",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 11568,
+    "name": "ShellHost.exe",
+    "cmd": [
+      "C:\\Windows\\System32\\ShellHost.exe"
+    ],
+    "memory": 5939200,
+    "cpu_usage": 0.06525366,
+    "parent_pid": 4932,
+    "exe_path": "C:\\Windows\\System32\\ShellHost.exe",
+    "confidence": "Full",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 9272,
+    "name": "wlanext.exe",
+    "cmd": [
+      "wlanext.exe"
+    ],
+    "memory": 4096,
+    "cpu_usage": 0.0,
+    "parent_pid": 4052,
+    "exe_path": null,
+    "confidence": "Partial",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 10492,
+    "name": "Antigravity.exe",
+    "cmd": [
+      "C:\\Users\\rayki\\AppData\\Local\\Programs\\Antigravity\\Antigravity.exe",
+      "c:\\Users\\rayki\\.antigravity\\extensions\\google.geminicodeassist-2.70.0-universal\\agent\\a2a-server.mjs"
+    ],
+    "memory": 34947072,
+    "cpu_usage": 0.07137119,
+    "parent_pid": 4752,
+    "exe_path": "C:\\Users\\rayki\\AppData\\Local\\Programs\\Antigravity\\Antigravity.exe",
+    "confidence": "Full",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 4848,
+    "name": "svchost.exe",
+    "cmd": [
+      "svchost.exe"
+    ],
+    "memory": 962560,
+    "cpu_usage": 0.0,
+    "parent_pid": 1092,
+    "exe_path": null,
+    "confidence": "Low",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 8112,
+    "name": "postgres.exe",
+    "cmd": [
+      "postgres.exe"
+    ],
+    "memory": 327680,
+    "cpu_usage": 0.0,
+    "parent_pid": 7312,
+    "exe_path": null,
+    "confidence": "Partial",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 5932,
+    "name": "vmnat.exe",
+    "cmd": [
+      "vmnat.exe"
+    ],
+    "memory": 462848,
+    "cpu_usage": 0.0,
+    "parent_pid": 1092,
+    "exe_path": null,
+    "confidence": "Partial",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 16996,
+    "name": "Antigravity.exe",
+    "cmd": [
+      "C:\\Users\\rayki\\AppData\\Local\\Programs\\Antigravity\\Antigravity.exe",
+      "c:\\Users\\rayki\\.antigravity\\extensions\\googlecloudtools.cloudcode-2.36.0-universal\\dist\\server\\server.js",
+      "--node-ipc",
+      "--clientProcessId=4752"
+    ],
+    "memory": 11698176,
+    "cpu_usage": 0.095501445,
+    "parent_pid": 4752,
+    "exe_path": "C:\\Users\\rayki\\AppData\\Local\\Programs\\Antigravity\\Antigravity.exe",
+    "confidence": "Full",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 4472,
+    "name": "TrustedInstaller.exe",
+    "cmd": [
+      "TrustedInstaller.exe"
+    ],
+    "memory": 4534272,
+    "cpu_usage": 0.0,
+    "parent_pid": 1092,
+    "exe_path": null,
+    "confidence": "Partial",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 1700,
+    "name": "svchost.exe",
+    "cmd": [
+      "svchost.exe"
+    ],
+    "memory": 479232,
+    "cpu_usage": 0.0,
+    "parent_pid": 1092,
+    "exe_path": null,
+    "confidence": "Low",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 12852,
+    "name": "RuntimeBroker.exe",
+    "cmd": [
+      "C:\\Windows\\System32\\RuntimeBroker.exe",
+      "-Embedding"
+    ],
+    "memory": 1499136,
+    "cpu_usage": 0.0013594559,
+    "parent_pid": 1324,
+    "exe_path": "C:\\Windows\\System32\\RuntimeBroker.exe",
+    "confidence": "Full",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 18796,
+    "name": "WmiPrvSE.exe",
+    "cmd": [
+      "WmiPrvSE.exe"
+    ],
+    "memory": 1208320,
+    "cpu_usage": 0.0,
+    "parent_pid": 1324,
+    "exe_path": null,
+    "confidence": "Partial",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 4616,
+    "name": "svchost.exe",
+    "cmd": [
+      "svchost.exe"
+    ],
+    "memory": 3817472,
+    "cpu_usage": 0.0,
+    "parent_pid": 1092,
+    "exe_path": null,
+    "confidence": "Low",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 6820,
+    "name": "Antigravity.exe",
+    "cmd": [
+      "C:\\Users\\rayki\\AppData\\Local\\Programs\\Antigravity\\Antigravity.exe",
+      "--type=utility",
+      "--utility-sub-type=video_capture.mojom.VideoCaptureService",
+      "--lang=en-US",
+      "--service-sandbox-type=none",
+      "--video-capture-use-gpu-memory-buffer",
+      "--user-data-dir=C:\\Users\\rayki\\AppData\\Roaming\\Antigravity",
+      "--standard-schemes=vscode-webview,vscode-file",
+      "--enable-sandbox",
+      "--secure-schemes=vscode-webview,vscode-file",
+      "--cors-schemes=vscode-webview,vscode-file",
+      "--fetch-schemes=vscode-webview,vscode-file",
+      "--service-worker-schemes=vscode-webview",
+      "--code-cache-schemes=vscode-webview,vscode-file",
+      "--field-trial-handle=1844,i,5049527470075640650,15285414162923931184,262144",
+      "--enable-features=DocumentPolicyIncludeJSCallStacksInCrashReports,EarlyEstablishGpuChannel,EnableTransparentHwndEnlargement,EstablishGpuChannelAsync,PdfUseShowSaveFilePicker",
+      "--disable-features=CalculateNativeWinOcclusion,LocalNetworkAccessChecks,ScreenAIOCREnabled,SpareRendererForSitePerProcess,TraceSiteInstanceGetProcessCreation",
+      "--variations-seed-version",
+      "--trace-process-track-uuid=3190708996619331833",
+      "--mojo-platform-channel-handle=4416",
+      "/prefetch:14"
+    ],
+    "memory": 5033984,
+    "cpu_usage": 0.05539764,
+    "parent_pid": 16100,
+    "exe_path": "C:\\Users\\rayki\\AppData\\Local\\Programs\\Antigravity\\Antigravity.exe",
+    "confidence": "Full",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 2004,
+    "name": "svchost.exe",
+    "cmd": [
+      "svchost.exe"
+    ],
+    "memory": 1331200,
+    "cpu_usage": 0.0,
+    "parent_pid": 1092,
+    "exe_path": null,
+    "confidence": "Low",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 3584,
+    "name": "svchost.exe",
+    "cmd": [
+      "svchost.exe"
+    ],
+    "memory": 8503296,
+    "cpu_usage": 0.0,
+    "parent_pid": 1092,
+    "exe_path": null,
+    "confidence": "Low",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 14052,
+    "name": "svchost.exe",
+    "cmd": [
+      "svchost.exe"
+    ],
+    "memory": 11886592,
+    "cpu_usage": 0.0,
+    "parent_pid": 1092,
+    "exe_path": null,
+    "confidence": "Low",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 4720,
+    "name": "wuaucltcore.exe",
+    "cmd": [
+      "wuaucltcore.exe"
+    ],
+    "memory": 13942784,
+    "cpu_usage": 0.0,
+    "parent_pid": 6348,
+    "exe_path": null,
+    "confidence": "Partial",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 8800,
+    "name": "chrome.exe",
+    "cmd": [
+      "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+      "--type=renderer",
+      "--origin-trial-disabled-features=CanvasTextNg|WebAssemblyCustomDescriptors",
+      "--video-capture-use-gpu-memory-buffer",
+      "--lang=en-US",
+      "--device-scale-factor=1",
+      "--num-raster-threads=4",
+      "--enable-main-frame-before-activation",
+      "--renderer-client-id=25",
+      "--time-ticks-at-unix-epoch=-1770832885297128",
+      "--launch-time-ticks=172777453",
+      "--metrics-shmem-handle=8392,i,14982240709853794114,9239951620839183107,2097152",
+      "--field-trial-handle=2028,i,1516321125442107916,10647554292692679619,262144",
+      "--variations-seed-version=20260211-010038.545000-production",
+      "--trace-process-track-uuid=3190709009737917719",
+      "--mojo-platform-channel-handle=8396",
+      "/prefetch:1"
+    ],
+    "memory": 26398720,
+    "cpu_usage": 1.0093925,
+    "parent_pid": 6516,
+    "exe_path": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+    "confidence": "Full",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 4932,
+    "name": "sihost.exe",
+    "cmd": [
+      "sihost.exe"
+    ],
+    "memory": 18477056,
+    "cpu_usage": 0.18250632,
+    "parent_pid": 2416,
+    "exe_path": "C:\\Windows\\System32\\sihost.exe",
+    "confidence": "Full",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 13904,
+    "name": "WidgetService.exe",
+    "cmd": [
+      "C:\\Program Files\\WindowsApps\\Microsoft.WidgetsPlatformRuntime_1.6.14.0_x64__8wekyb3d8bbwe\\WidgetService\\WidgetService.exe",
+      "-RegisterProcessAsComServer",
+      "-Embedding"
+    ],
+    "memory": 2605056,
+    "cpu_usage": 0.0149539625,
+    "parent_pid": 1324,
+    "exe_path": "C:\\Program Files\\WindowsApps\\Microsoft.WidgetsPlatformRuntime_1.6.14.0_x64__8wekyb3d8bbwe\\WidgetService\\WidgetService.exe",
+    "confidence": "Full",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 3048,
+    "name": "Antigravity.exe",
+    "cmd": [
+      "C:\\Users\\rayki\\AppData\\Local\\Programs\\Antigravity\\Antigravity.exe",
+      "c:\\Users\\rayki\\AppData\\Local\\Programs\\Antigravity\\resources\\app\\extensions\\markdown-language-features\\dist\\serverWorkerMain",
+      "--node-ipc",
+      "--clientProcessId=4752"
+    ],
+    "memory": 4554752,
+    "cpu_usage": 0.00951613,
+    "parent_pid": 4752,
+    "exe_path": "C:\\Users\\rayki\\AppData\\Local\\Programs\\Antigravity\\Antigravity.exe",
+    "confidence": "Full",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 1092,
+    "name": "services.exe",
+    "cmd": [
+      "services.exe"
+    ],
+    "memory": 5070848,
+    "cpu_usage": 0.0,
+    "parent_pid": 816,
+    "exe_path": null,
+    "confidence": "Low",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 12444,
+    "name": "conhost.exe",
+    "cmd": [
+      "\\\\?\\C:\\WINDOWS\\system32\\conhost.exe",
+      "--headless",
+      "--width",
+      "80",
+      "--height",
+      "30",
+      "--signal",
+      "0x5e0",
+      "--server",
+      "0x5d4"
+    ],
+    "memory": 1486848,
+    "cpu_usage": 0.0611751,
+    "parent_pid": 13352,
+    "exe_path": "C:\\Windows\\System32\\conhost.exe",
+    "confidence": "Full",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 15328,
+    "name": "chrome.exe",
+    "cmd": [
+      "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+      "--type=renderer",
+      "--extension-process",
+      "--origin-trial-disabled-features=CanvasTextNg|WebAssemblyCustomDescriptors",
+      "--video-capture-use-gpu-memory-buffer",
+      "--lang=en-US",
+      "--device-scale-factor=1",
+      "--num-raster-threads=4",
+      "--enable-main-frame-before-activation",
+      "--renderer-client-id=206",
+      "--time-ticks-at-unix-epoch=-1770832885297128",
+      "--launch-time-ticks=4560013574",
+      "--metrics-shmem-handle=7340,i,874162882268807277,662752341667125634,2097152",
+      "--field-trial-handle=2028,i,1516321125442107916,10647554292692679619,262144",
+      "--variations-seed-version=20260211-010038.545000-production",
+      "--trace-process-track-uuid=3190709179342492388",
+      "--mojo-platform-channel-handle=7872",
+      "/prefetch:9"
+    ],
+    "memory": 127893504,
+    "cpu_usage": 0.04112326,
+    "parent_pid": 6516,
+    "exe_path": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+    "confidence": "Full",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 6092,
+    "name": "taskhostw.exe",
+    "cmd": [
+      "taskhostw.exe",
+      "{222A245B-E637-4AE9-A93F-A59CA119A75E}"
+    ],
+    "memory": 3084288,
+    "cpu_usage": 0.023450533,
+    "parent_pid": 1476,
+    "exe_path": "C:\\Windows\\System32\\taskhostw.exe",
+    "confidence": "Full",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 1720,
+    "name": "svchost.exe",
+    "cmd": [
+      "svchost.exe"
+    ],
+    "memory": 446464,
+    "cpu_usage": 0.0,
+    "parent_pid": 1092,
+    "exe_path": null,
+    "confidence": "Low",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 2100,
+    "name": "svchost.exe",
+    "cmd": [
+      "svchost.exe"
+    ],
+    "memory": 495616,
+    "cpu_usage": 0.0,
+    "parent_pid": 1092,
+    "exe_path": null,
+    "confidence": "Low",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 4248,
+    "name": "conhost.exe",
+    "cmd": [
+      "\\??\\C:\\WINDOWS\\system32\\conhost.exe",
+      "0x4"
+    ],
+    "memory": 299008,
+    "cpu_usage": 0.0010195884,
+    "parent_pid": 4660,
+    "exe_path": "C:\\Windows\\System32\\conhost.exe",
+    "confidence": "Full",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 2124,
+    "name": "svchost.exe",
+    "cmd": [
+      "svchost.exe"
+    ],
+    "memory": 2658304,
+    "cpu_usage": 0.0,
+    "parent_pid": 1092,
+    "exe_path": null,
+    "confidence": "Low",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 16672,
+    "name": "AvastUI.exe",
+    "cmd": [
+      "AvastUI.exe",
+      "/nogui"
+    ],
+    "memory": 22343680,
+    "cpu_usage": 0.40409687,
+    "parent_pid": 16668,
+    "exe_path": "C:\\Program Files\\Avast Software\\Avast\\AvastUI.exe",
+    "confidence": "Full",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 16524,
+    "name": "msedgewebview2.exe",
+    "cmd": [
+      "C:\\Program Files (x86)\\Microsoft\\EdgeWebView\\Application\\144.0.3719.115\\msedgewebview2.exe",
+      "--type=utility",
+      "--utility-sub-type=storage.mojom.StorageService",
+      "--lang=en-US",
+      "--service-sandbox-type=service",
+      "--noerrdialogs",
+      "--user-data-dir=C:\\Users\\rayki\\AppData\\Local\\Packages\\5319275A.WhatsAppDesktop_cv1g1gvanyjgm\\LocalCache\\EBWebView",
+      "--webview-exe-name=WhatsApp.Root.exe",
+      "--webview-exe-version=1.0.0",
+      "--embedded-browser-webview=1",
+      "--startup-read-main-dll",
+      "--metrics-shmem-handle=2308,i,3341160826495543388,11567722821108619051,524288",
+      "--field-trial-handle=1832,i,14715393238203826449,8973043153835195014,262144",
+      "--variations-seed-version",
+      "--trace-process-track-uuid=3190708990060038890",
+      "--mojo-platform-channel-handle=2320",
+      "/prefetch:13",
+      "/pfhostedapp:6b869b7592cfb31f7f9267f569d92848c239ed8e"
+    ],
+    "memory": 2011136,
+    "cpu_usage": 0.0037384906,
+    "parent_pid": 10900,
+    "exe_path": "C:\\Program Files (x86)\\Microsoft\\EdgeWebView\\Application\\144.0.3719.115\\msedgewebview2.exe",
+    "confidence": "Full",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 996,
+    "name": "AvastUI.exe",
+    "cmd": [
+      "C:\\Program Files\\Avast Software\\Avast\\AvastUI.exe",
+      "--type=utility",
+      "--utility-sub-type=network.mojom.NetworkService",
+      "--field-trial-handle=8832,12843269798529070907,17423939201335259968,131072",
+      "--disable-features=CalculateNativeWinOcclusion,CookiesWithoutSameSiteMustBeSecure,SameSiteByDefaultCookies,SameSiteDefaultChecksMethodRigorously,WebRtcHideLocalIpsWithMdns",
+      "--lang=en-GB",
+      "--service-sandbox-type=none",
+      "--no-sandbox",
+      "--force-wave-audio",
+      "--log-file=C:\\Users\\rayki\\AppData\\Roaming\\Avast Software\\Avast\\log\\cef_log.txt",
+      "--log-severity=error",
+      "--user-agent=Mozilla/5.0 AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.101 Safari/537.36 Avastium (0.0.0) (Windows 10.0)",
+      "--lang=en-KE",
+      "--disable-webaudio",
+      "--force-wave-audio",
+      "--disable-software-rasterizer",
+      "--no-sandbox",
+      "--blacklist-accelerated-compositing",
+      "--disable-accelerated-2d-canvas",
+      "--disable-accelerated-compositing",
+      "--disable-accelerated-layers",
+      "--disable-accelerated-video-decode",
+      "--blacklist-webgl",
+      "--disable-bundled-ppapi-flash",
+      "--disable-flash-3d",
+      "--enable-aggressive-domstorage-flushing",
+      "--enable-media-stream",
+      "--disable-gpu",
+      "--disable-webgl",
+      "--disable-gpu-compositing",
+      "--allow-file-access-from-files=1",
+      "--force-device-scale-factor=1",
+      "--pack_loading_disabled=1",
+      "--log-file=C:\\Users\\rayki\\AppData\\Roaming\\Avast Software\\Avast\\log\\cef_log.txt",
+      "--mojo-platform-channel-handle=9840",
+      "/prefetch:8"
+    ],
+    "memory": 8372224,
+    "cpu_usage": 0.011215434,
+    "parent_pid": 16672,
+    "exe_path": "C:\\Program Files\\Avast Software\\Avast\\AvastUI.exe",
+    "confidence": "Full",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 1460,
+    "name": "svchost.exe",
+    "cmd": [
+      "svchost.exe"
+    ],
+    "memory": 12853248,
+    "cpu_usage": 0.0,
+    "parent_pid": 1092,
+    "exe_path": null,
+    "confidence": "Low",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 5132,
+    "name": "MicrosoftStartFeedProvider.exe",
+    "cmd": [
+      "C:\\Program Files\\WindowsApps\\Microsoft.StartExperiencesApp_1.195.0.0_x64__8wekyb3d8bbwe\\MicrosoftStartFeedProvider\\MicrosoftStartFeedProvider.exe",
+      "-Embedding"
+    ],
+    "memory": 3514368,
+    "cpu_usage": 0.021071494,
+    "parent_pid": 1324,
+    "exe_path": "C:\\Program Files\\WindowsApps\\Microsoft.StartExperiencesApp_1.195.0.0_x64__8wekyb3d8bbwe\\MicrosoftStartFeedProvider\\MicrosoftStartFeedProvider.exe",
+    "confidence": "Full",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 3980,
+    "name": "NVDisplay.Container.exe",
+    "cmd": [
+      "NVDisplay.Container.exe"
+    ],
+    "memory": 2551808,
+    "cpu_usage": 0.0,
+    "parent_pid": 2584,
+    "exe_path": null,
+    "confidence": "Partial",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 5732,
+    "name": "svchost.exe",
+    "cmd": [
+      "svchost.exe"
+    ],
+    "memory": 16384,
+    "cpu_usage": 0.0,
+    "parent_pid": 1092,
+    "exe_path": null,
+    "confidence": "Low",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 17768,
+    "name": "backgroundTaskHost.exe",
+    "cmd": [
+      "C:\\WINDOWS\\system32\\backgroundTaskHost.exe",
+      "-ServerName:App.AppXe9cvj1thv1hmcw0cs98xm3r97tyzy2xs.mca"
+    ],
+    "memory": 10743808,
+    "cpu_usage": 0.019712044,
+    "parent_pid": 1324,
+    "exe_path": "C:\\Windows\\System32\\backgroundTaskHost.exe",
+    "confidence": "Full",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 16344,
+    "name": "Antigravity.exe",
+    "cmd": [
+      "C:\\Users\\rayki\\AppData\\Local\\Programs\\Antigravity\\Antigravity.exe",
+      "--type=gpu-process",
+      "--user-data-dir=C:\\Users\\rayki\\AppData\\Roaming\\Antigravity",
+      "--gpu-preferences=SAAAAAAAAADgAAAEAAAAAAAAAAAAAGAAAQAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAQAAAAAAAAABAAAAAAAAAACAAAAAAAAAAIAAAAAAAAAA==",
+      "--field-trial-handle=1844,i,5049527470075640650,15285414162923931184,262144",
+      "--enable-features=DocumentPolicyIncludeJSCallStacksInCrashReports,EarlyEstablishGpuChannel,EnableTransparentHwndEnlargement,EstablishGpuChannelAsync,PdfUseShowSaveFilePicker",
+      "--disable-features=CalculateNativeWinOcclusion,LocalNetworkAccessChecks,ScreenAIOCREnabled,SpareRendererForSitePerProcess,TraceSiteInstanceGetProcessCreation",
+      "--variations-seed-version",
+      "--trace-process-track-uuid=3190708988185955192",
+      "--mojo-platform-channel-handle=1832",
+      "/prefetch:2"
+    ],
+    "memory": 73367552,
+    "cpu_usage": 2.6189826,
+    "parent_pid": 16100,
+    "exe_path": "C:\\Users\\rayki\\AppData\\Local\\Programs\\Antigravity\\Antigravity.exe",
+    "confidence": "Full",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 5860,
+    "name": "vmware-usbarbitrator64.exe",
+    "cmd": [
+      "vmware-usbarbitrator64.exe"
+    ],
+    "memory": 253952,
+    "cpu_usage": 0.0,
+    "parent_pid": 1092,
+    "exe_path": null,
+    "confidence": "Partial",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 3920,
+    "name": "AvastSvc.exe",
+    "cmd": [
+      "AvastSvc.exe"
+    ],
+    "memory": 71237632,
+    "cpu_usage": 0.0,
+    "parent_pid": 1092,
+    "exe_path": null,
+    "confidence": "Partial",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 6136,
+    "name": "wslservice.exe",
+    "cmd": [
+      "wslservice.exe"
+    ],
+    "memory": 81920,
+    "cpu_usage": 0.0,
+    "parent_pid": 1092,
+    "exe_path": null,
+    "confidence": "Partial",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 17680,
+    "name": "RuntimeBroker.exe",
+    "cmd": [
+      "C:\\Windows\\System32\\RuntimeBroker.exe",
+      "-Embedding"
+    ],
+    "memory": 1548288,
+    "cpu_usage": 0.00067972334,
+    "parent_pid": 1324,
+    "exe_path": "C:\\Windows\\System32\\RuntimeBroker.exe",
+    "confidence": "Full",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 13780,
+    "name": "msedgewebview2.exe",
+    "cmd": [
+      "C:\\Program Files (x86)\\Microsoft\\EdgeWebView\\Application\\144.0.3719.115\\msedgewebview2.exe",
+      "--type=crashpad-handler",
+      "--user-data-dir=C:\\Users\\rayki\\AppData\\Local\\Packages\\MicrosoftWindows.Client.CBS_cw5n1h2txyewy\\LocalState\\EBWebView",
+      "/prefetch:4",
+      "/pfhostedapp:72106ac74575bf1b2add3a34a434cb4ccb213dd3",
+      "--monitor-self-annotation=ptype=crashpad-handler",
+      "--database=C:\\Users\\rayki\\AppData\\Local\\Packages\\MicrosoftWindows.Client.CBS_cw5n1h2txyewy\\LocalState\\EBWebView\\Crashpad",
+      "--metrics-dir=C:\\Users\\rayki\\AppData\\Local\\Packages\\MicrosoftWindows.Client.CBS_cw5n1h2txyewy\\LocalState\\EBWebView",
+      "--annotation=IsOfficialBuild=1",
+      "--annotation=channel=",
+      "--annotation=chromium-version=144.0.7559.133",
+      "--annotation=exe=C:\\Program Files (x86)\\Microsoft\\EdgeWebView\\Application\\144.0.3719.115\\msedgewebview2.exe",
+      "--annotation=plat=Win64",
+      "--annotation=prod=Edge WebView2",
+      "--annotation=ver=144.0.3719.115",
+      "--initial-client-data=0x180,0x184,0x188,0x15c,0x190,0x7ffc21332c98,0x7ffc21332ca4,0x7ffc21332cb0"
+    ],
+    "memory": 901120,
+    "cpu_usage": 0.0010195884,
+    "parent_pid": 13408,
+    "exe_path": "C:\\Program Files (x86)\\Microsoft\\EdgeWebView\\Application\\144.0.3719.115\\msedgewebview2.exe",
+    "confidence": "Full",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 14684,
+    "name": "cargo.exe",
+    "cmd": [
+      "cargo",
+      "run"
+    ],
+    "memory": 12914688,
+    "cpu_usage": 0.0013594467,
+    "parent_pid": 15720,
+    "exe_path": "C:\\Users\\rayki\\.cargo\\bin\\cargo.exe",
+    "confidence": "Full",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 17196,
+    "name": "msedgewebview2.exe",
+    "cmd": [
+      "C:\\Program Files (x86)\\Microsoft\\EdgeWebView\\Application\\144.0.3719.115\\msedgewebview2.exe",
+      "--type=utility",
+      "--utility-sub-type=audio.mojom.AudioService",
+      "--lang=en-US",
+      "--service-sandbox-type=audio",
+      "--noerrdialogs",
+      "--user-data-dir=C:\\Users\\rayki\\AppData\\Local\\Packages\\5319275A.WhatsAppDesktop_cv1g1gvanyjgm\\LocalCache\\EBWebView",
+      "--webview-exe-name=WhatsApp.Root.exe",
+      "--webview-exe-version=1.0.0",
+      "--embedded-browser-webview=1",
+      "--skip-read-main-dll",
+      "--metrics-shmem-handle=5272,i,16914589165166480750,11013013865128909321,524288",
+      "--field-trial-handle=1832,i,14715393238203826449,8973043153835195014,262144",
+      "--variations-seed-version",
+      "--trace-process-track-uuid=3190709000367499229",
+      "--mojo-platform-channel-handle=5744",
+      "/prefetch:12",
+      "/pfhostedapp:6b869b7592cfb31f7f9267f569d92848c239ed8e"
+    ],
+    "memory": 2134016,
+    "cpu_usage": 0.0030587756,
+    "parent_pid": 10900,
+    "exe_path": "C:\\Program Files (x86)\\Microsoft\\EdgeWebView\\Application\\144.0.3719.115\\msedgewebview2.exe",
+    "confidence": "Full",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 19240,
+    "name": "taskhostw.exe",
+    "cmd": [
+      "taskhostw.exe"
+    ],
+    "memory": 663552,
+    "cpu_usage": 0.0067972564,
+    "parent_pid": 1476,
+    "exe_path": "C:\\Windows\\System32\\taskhostw.exe",
+    "confidence": "Partial",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 6516,
+    "name": "chrome.exe",
+    "cmd": [
+      "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+      "--profile-directory=Default"
+    ],
+    "memory": 85393408,
+    "cpu_usage": 1.3485711,
+    "parent_pid": 11496,
+    "exe_path": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+    "confidence": "Full",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 3168,
+    "name": "svchost.exe",
+    "cmd": [
+      "svchost.exe"
+    ],
+    "memory": 4407296,
+    "cpu_usage": 0.0,
+    "parent_pid": 1092,
+    "exe_path": null,
+    "confidence": "Low",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 7548,
+    "name": "rundll32.exe",
+    "cmd": [
+      "rundll32.exe"
+    ],
+    "memory": 434176,
+    "cpu_usage": 0.0,
+    "parent_pid": 5564,
+    "exe_path": null,
+    "confidence": "Partial",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 3264,
+    "name": "svchost.exe",
+    "cmd": [
+      "svchost.exe"
+    ],
+    "memory": 3194880,
+    "cpu_usage": 0.0,
+    "parent_pid": 1092,
+    "exe_path": null,
+    "confidence": "Low",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 16264,
+    "name": "Antigravity.exe",
+    "cmd": [
+      "C:\\Users\\rayki\\AppData\\Local\\Programs\\Antigravity\\Antigravity.exe",
+      "--type=crashpad-handler",
+      "--user-data-dir=C:\\Users\\rayki\\AppData\\Roaming\\Antigravity",
+      "/prefetch:4",
+      "--no-rate-limit",
+      "--monitor-self-annotation=ptype=crashpad-handler",
+      "--database=C:\\Users\\rayki\\AppData\\Roaming\\Antigravity\\Crashpad",
+      "--annotation=_companyName=Google",
+      "--annotation=_productName=Antigravity",
+      "--annotation=_version=1.107.0",
+      "--annotation=plat=Win64",
+      "--annotation=prod=Electron",
+      "--annotation=ver=39.2.3",
+      "--initial-client-data=0x570,0x574,0x578,0x56c,0x57c,0x7ff725eef6ac,0x7ff725eef6b8,0x7ff725eef6c8"
+    ],
+    "memory": 516096,
+    "cpu_usage": 0.0020391769,
+    "parent_pid": 16100,
+    "exe_path": "C:\\Users\\rayki\\AppData\\Local\\Programs\\Antigravity\\Antigravity.exe",
+    "confidence": "Full",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 16828,
+    "name": "conhost.exe",
+    "cmd": [
+      "\\??\\C:\\WINDOWS\\system32\\conhost.exe",
+      "0x4"
+    ],
+    "memory": 307200,
+    "cpu_usage": 0.0003398628,
+    "parent_pid": 16820,
+    "exe_path": "C:\\Windows\\System32\\conhost.exe",
+    "confidence": "Full",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 5308,
+    "name": "svchost.exe",
+    "cmd": [
+      "svchost.exe"
+    ],
+    "memory": 462848,
+    "cpu_usage": 0.0,
+    "parent_pid": 1092,
+    "exe_path": null,
+    "confidence": "Low",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 6048,
+    "name": "svchost.exe",
+    "cmd": [
+      "svchost.exe"
+    ],
+    "memory": 516096,
+    "cpu_usage": 0.0,
+    "parent_pid": 1092,
+    "exe_path": null,
+    "confidence": "Low",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 7312,
+    "name": "postgres.exe",
+    "cmd": [
+      "postgres.exe"
+    ],
+    "memory": 585728,
+    "cpu_usage": 0.0,
+    "parent_pid": 5596,
+    "exe_path": null,
+    "confidence": "Partial",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 816,
+    "name": "wininit.exe",
+    "cmd": [
+      "wininit.exe"
+    ],
+    "memory": 8192,
+    "cpu_usage": 0.0,
+    "parent_pid": 1016,
+    "exe_path": null,
+    "confidence": "Low",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 8088,
+    "name": "postgres.exe",
+    "cmd": [
+      "postgres.exe"
+    ],
+    "memory": 4096,
+    "cpu_usage": 0.0,
+    "parent_pid": 7312,
+    "exe_path": null,
+    "confidence": "Partial",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 5064,
+    "name": "svchost.exe",
+    "cmd": [
+      "svchost.exe"
+    ],
+    "memory": 1327104,
+    "cpu_usage": 0.0,
+    "parent_pid": 1092,
+    "exe_path": null,
+    "confidence": "Low",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 1012,
+    "name": "csrss.exe",
+    "cmd": [
+      "csrss.exe"
+    ],
+    "memory": 1265664,
+    "cpu_usage": 0.0,
+    "parent_pid": 712,
+    "exe_path": null,
+    "confidence": "Low",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 6348,
+    "name": "svchost.exe",
+    "cmd": [
+      "svchost.exe"
+    ],
+    "memory": 38260736,
+    "cpu_usage": 0.0,
+    "parent_pid": 1092,
+    "exe_path": null,
+    "confidence": "Low",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 17844,
+    "name": "SDXHelper.exe",
+    "cmd": [
+      "C:\\Program Files\\Microsoft Office\\Root\\Office16\\SDXHelper.exe",
+      "-Embedding"
+    ],
+    "memory": 23621632,
+    "cpu_usage": 0.09006364,
+    "parent_pid": 1324,
+    "exe_path": "C:\\Program Files\\Microsoft Office\\root\\Office16\\SDXHelper.exe",
+    "confidence": "Full",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 13012,
+    "name": "StartMenuExperienceHost.exe",
+    "cmd": [
+      "C:\\WINDOWS\\SystemApps\\Microsoft.Windows.StartMenuExperienceHost_cw5n1h2txyewy\\StartMenuExperienceHost.exe",
+      "-ServerName:FullTrustApp.AppXykjsye98af63ez2annt9djke8trg8stn.mca"
+    ],
+    "memory": 18780160,
+    "cpu_usage": 0.70589507,
+    "parent_pid": 1324,
+    "exe_path": "C:\\Windows\\SystemApps\\Microsoft.Windows.StartMenuExperienceHost_cw5n1h2txyewy\\StartMenuExperienceHost.exe",
+    "confidence": "Full",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 11416,
+    "name": "svchost.exe",
+    "cmd": [
+      "svchost.exe"
+    ],
+    "memory": 2445312,
+    "cpu_usage": 0.0,
+    "parent_pid": 1092,
+    "exe_path": null,
+    "confidence": "Low",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 4,
+    "name": "System",
+    "cmd": [
+      "System"
+    ],
+    "memory": 262144,
+    "cpu_usage": 0.0,
+    "parent_pid": null,
+    "exe_path": null,
+    "confidence": "Low",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 6164,
+    "name": "svchost.exe",
+    "cmd": [
+      "svchost.exe"
+    ],
+    "memory": 704512,
+    "cpu_usage": 0.0,
+    "parent_pid": 1092,
+    "exe_path": null,
+    "confidence": "Low",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 4800,
+    "name": "spoolsv.exe",
+    "cmd": [
+      "spoolsv.exe"
+    ],
+    "memory": 4096,
+    "cpu_usage": 0.0,
+    "parent_pid": 1092,
+    "exe_path": null,
+    "confidence": "Partial",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 10300,
+    "name": "svchost.exe",
+    "cmd": [
+      "svchost.exe"
+    ],
+    "memory": 4542464,
+    "cpu_usage": 0.0,
+    "parent_pid": 1092,
+    "exe_path": null,
+    "confidence": "Low",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 2416,
+    "name": "svchost.exe",
+    "cmd": [
+      "svchost.exe"
+    ],
+    "memory": 5578752,
+    "cpu_usage": 0.0,
+    "parent_pid": 1092,
+    "exe_path": null,
+    "confidence": "Low",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 12284,
+    "name": "CrossDeviceService.exe",
+    "cmd": [
+      "C:\\Program Files\\WindowsApps\\MicrosoftWindows.CrossDevice_1.26011.30.0_x64__cw5n1h2txyewy\\CrossDeviceService.exe",
+      "-RegisterProcessAsComServer",
+      "-Embedding"
+    ],
+    "memory": 3883008,
+    "cpu_usage": 0.05165915,
+    "parent_pid": 1324,
+    "exe_path": "C:\\Program Files\\WindowsApps\\MicrosoftWindows.CrossDevice_1.26011.30.0_x64__cw5n1h2txyewy\\CrossDeviceService.exe",
+    "confidence": "Full",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 3224,
+    "name": "svchost.exe",
+    "cmd": [
+      "svchost.exe"
+    ],
+    "memory": 536576,
+    "cpu_usage": 0.0,
+    "parent_pid": 1092,
+    "exe_path": null,
+    "confidence": "Low",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 8880,
+    "name": "gamingservices.exe",
+    "cmd": [
+      "gamingservices.exe"
+    ],
+    "memory": 15941632,
+    "cpu_usage": 0.0,
+    "parent_pid": 1092,
+    "exe_path": null,
+    "confidence": "Partial",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 2992,
+    "name": "wsc_proxy.exe",
+    "cmd": [
+      "wsc_proxy.exe"
+    ],
+    "memory": 552960,
+    "cpu_usage": 0.0,
+    "parent_pid": 1092,
+    "exe_path": null,
+    "confidence": "Partial",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 1624,
+    "name": "cargo.exe",
+    "cmd": [
+      "C:\\Users\\rayki\\.rustup\\toolchains\\stable-x86_64-pc-windows-msvc\\bin\\cargo.exe",
+      "run"
+    ],
+    "memory": 21020672,
+    "cpu_usage": 0.00407834,
+    "parent_pid": 14684,
+    "exe_path": "C:\\Users\\rayki\\.rustup\\toolchains\\stable-x86_64-pc-windows-msvc\\bin\\cargo.exe",
+    "confidence": "Full",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 14268,
+    "name": "msedgewebview2.exe",
+    "cmd": [
+      "C:\\Program Files (x86)\\Microsoft\\EdgeWebView\\Application\\144.0.3719.115\\msedgewebview2.exe",
+      "--type=utility",
+      "--utility-sub-type=storage.mojom.StorageService",
+      "--lang=en-US",
+      "--service-sandbox-type=service",
+      "--noerrdialogs",
+      "--user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64; Cortana 1.18.9.23723; 10.0.0.0.26200.7840) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.102 Safari/537.36 Edge/18.26200 IsWebView2/True (WebView2Version 144.0.3719.115)",
+      "--user-data-dir=C:\\Users\\rayki\\AppData\\Local\\Packages\\MicrosoftWindows.Client.CBS_cw5n1h2txyewy\\LocalState\\EBWebView",
+      "--webview-exe-name=SearchHost.exe",
+      "--webview-exe-version=2125.34901.0.0",
+      "--embedded-browser-webview=1",
+      "--startup-read-main-dll",
+      "--metrics-shmem-handle=2444,i,5046950891059916260,5022047823287101247,524288",
+      "--field-trial-handle=1832,i,13593863120704638766,16283418745392549220,262144",
+      "--enable-features=msEdgeFluentOverlayScrollbar",
+      "--disable-features=msSmartScreenProtection",
+      "--variations-seed-version",
+      "--trace-process-track-uuid=3190708990060038890",
+      "--mojo-platform-channel-handle=2456",
+      "/prefetch:13",
+      "/pfhostedapp:72106ac74575bf1b2add3a34a434cb4ccb213dd3"
+    ],
+    "memory": 57344,
+    "cpu_usage": 0.005437805,
+    "parent_pid": 13408,
+    "exe_path": "C:\\Program Files (x86)\\Microsoft\\EdgeWebView\\Application\\144.0.3719.115\\msedgewebview2.exe",
+    "confidence": "Full",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 16100,
+    "name": "Antigravity.exe",
+    "cmd": [
+      "C:\\Users\\rayki\\AppData\\Local\\Programs\\Antigravity\\Antigravity.exe"
+    ],
+    "memory": 78958592,
+    "cpu_usage": 0.98220354,
+    "parent_pid": 11496,
+    "exe_path": "C:\\Users\\rayki\\AppData\\Local\\Programs\\Antigravity\\Antigravity.exe",
+    "confidence": "Full",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 12304,
+    "name": "svchost.exe",
+    "cmd": [
+      "C:\\WINDOWS\\system32\\svchost.exe",
+      "-k",
+      "UdkSvcGroup",
+      "-s",
+      "UdkUserSvc"
+    ],
+    "memory": 3436544,
+    "cpu_usage": 0.009856022,
+    "parent_pid": 1092,
+    "exe_path": "C:\\Windows\\System32\\svchost.exe",
+    "confidence": "Low",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 15320,
+    "name": "RuntimeBroker.exe",
+    "cmd": [
+      "C:\\Windows\\System32\\RuntimeBroker.exe",
+      "-Embedding"
+    ],
+    "memory": 1597440,
+    "cpu_usage": 0.0044182166,
+    "parent_pid": 1324,
+    "exe_path": "C:\\Windows\\System32\\RuntimeBroker.exe",
+    "confidence": "Full",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 520,
+    "name": "csrss.exe",
+    "cmd": [
+      "csrss.exe"
+    ],
+    "memory": 987136,
+    "cpu_usage": 0.0,
+    "parent_pid": 1016,
+    "exe_path": null,
+    "confidence": "Low",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 1324,
+    "name": "svchost.exe",
+    "cmd": [
+      "svchost.exe"
+    ],
+    "memory": 19173376,
+    "cpu_usage": 0.0,
+    "parent_pid": 1092,
+    "exe_path": null,
+    "confidence": "Low",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 11132,
+    "name": "chrome.exe",
+    "cmd": [
+      "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+      "--type=renderer",
+      "--origin-trial-disabled-features=CanvasTextNg|WebAssemblyCustomDescriptors",
+      "--video-capture-use-gpu-memory-buffer",
+      "--lang=en-US",
+      "--device-scale-factor=1",
+      "--num-raster-threads=4",
+      "--enable-main-frame-before-activation",
+      "--renderer-client-id=31",
+      "--time-ticks-at-unix-epoch=-1770832885297128",
+      "--launch-time-ticks=177000432",
+      "--metrics-shmem-handle=9188,i,10444848163910444147,11186558555526024255,2097152",
+      "--field-trial-handle=2028,i,1516321125442107916,10647554292692679619,262144",
+      "--variations-seed-version=20260211-010038.545000-production",
+      "--trace-process-track-uuid=3190709015360168813",
+      "--mojo-platform-channel-handle=3812",
+      "/prefetch:1"
+    ],
+    "memory": 5832704,
+    "cpu_usage": 0.03636532,
+    "parent_pid": 6516,
+    "exe_path": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+    "confidence": "Full",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 17784,
+    "name": "msedgewebview2.exe",
+    "cmd": [
+      "C:\\Program Files (x86)\\Microsoft\\EdgeWebView\\Application\\144.0.3719.115\\msedgewebview2.exe",
+      "--type=gpu-process",
+      "--noerrdialogs",
+      "--user-data-dir=C:\\Users\\rayki\\AppData\\Local\\Packages\\5319275A.WhatsAppDesktop_cv1g1gvanyjgm\\LocalCache\\EBWebView",
+      "--webview-exe-name=WhatsApp.Root.exe",
+      "--webview-exe-version=1.0.0",
+      "--embedded-browser-webview=1",
+      "--gpu-preferences=SAAAAAAAAADgAAAEAAAAAAAAAAAAAGAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAQAAAAAAAAABAAAAAAAAAACAAAAAAAAAAIAAAAAAAAAA==",
+      "--use-gl=angle",
+      "--use-angle=d3d11-warp-webgl",
+      "--startup-read-main-dll",
+      "--metrics-shmem-handle=1692,i,17607162878096030514,14769417244842728382,262144",
+      "--field-trial-handle=1832,i,14715393238203826449,8973043153835195014,262144",
+      "--variations-seed-version",
+      "--trace-process-track-uuid=3190708988185955192",
+      "--mojo-platform-channel-handle=1852",
+      "/prefetch:2",
+      "/pfhostedapp:6b869b7592cfb31f7f9267f569d92848c239ed8e"
+    ],
+    "memory": 8658944,
+    "cpu_usage": 0.038064636,
+    "parent_pid": 10900,
+    "exe_path": "C:\\Program Files (x86)\\Microsoft\\EdgeWebView\\Application\\144.0.3719.115\\msedgewebview2.exe",
+    "confidence": "Full",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 13352,
+    "name": "Antigravity.exe",
+    "cmd": [
+      "C:\\Users\\rayki\\AppData\\Local\\Programs\\Antigravity\\Antigravity.exe",
+      "--type=utility",
+      "--utility-sub-type=node.mojom.NodeService",
+      "--lang=en-US",
+      "--service-sandbox-type=none",
+      "--video-capture-use-gpu-memory-buffer",
+      "--user-data-dir=C:\\Users\\rayki\\AppData\\Roaming\\Antigravity",
+      "--standard-schemes=vscode-webview,vscode-file",
+      "--enable-sandbox",
+      "--secure-schemes=vscode-webview,vscode-file",
+      "--cors-schemes=vscode-webview,vscode-file",
+      "--fetch-schemes=vscode-webview,vscode-file",
+      "--service-worker-schemes=vscode-webview",
+      "--code-cache-schemes=vscode-webview,vscode-file",
+      "--field-trial-handle=1844,i,5049527470075640650,15285414162923931184,262144",
+      "--enable-features=DocumentPolicyIncludeJSCallStacksInCrashReports,EarlyEstablishGpuChannel,EnableTransparentHwndEnlargement,EstablishGpuChannelAsync,PdfUseShowSaveFilePicker",
+      "--disable-features=CalculateNativeWinOcclusion,LocalNetworkAccessChecks,ScreenAIOCREnabled,SpareRendererForSitePerProcess,TraceSiteInstanceGetProcessCreation",
+      "--variations-seed-version",
+      "--trace-process-track-uuid=3190708994745248135",
+      "--mojo-platform-channel-handle=4080",
+      "/prefetch:14"
+    ],
+    "memory": 35004416,
+    "cpu_usage": 0.12608911,
+    "parent_pid": 16100,
+    "exe_path": "C:\\Users\\rayki\\AppData\\Local\\Programs\\Antigravity\\Antigravity.exe",
+    "confidence": "Full",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 1120,
+    "name": "lsass.exe",
+    "cmd": [
+      "lsass.exe"
+    ],
+    "memory": 11153408,
+    "cpu_usage": 0.0,
+    "parent_pid": 816,
+    "exe_path": null,
+    "confidence": "Low",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 4412,
+    "name": "svchost.exe",
+    "cmd": [
+      "svchost.exe"
+    ],
+    "memory": 32768,
+    "cpu_usage": 0.0,
+    "parent_pid": 1092,
+    "exe_path": null,
+    "confidence": "Low",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 4052,
+    "name": "svchost.exe",
+    "cmd": [
+      "svchost.exe"
+    ],
+    "memory": 5894144,
+    "cpu_usage": 0.0,
+    "parent_pid": 1092,
+    "exe_path": null,
+    "confidence": "Low",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 5236,
+    "name": "svchost.exe",
+    "cmd": [
+      "svchost.exe"
+    ],
+    "memory": 32768,
+    "cpu_usage": 0.0,
+    "parent_pid": 1092,
+    "exe_path": null,
+    "confidence": "Low",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 13656,
+    "name": "msedgewebview2.exe",
+    "cmd": [
+      "C:\\Program Files (x86)\\Microsoft\\EdgeWebView\\Application\\144.0.3719.115\\msedgewebview2.exe",
+      "--type=renderer",
+      "--noerrdialogs",
+      "--user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64; Cortana 1.18.9.23723; 10.0.0.0.26200.7840) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.102 Safari/537.36 Edge/18.26200 IsWebView2/True (WebView2Version 144.0.3719.115)",
+      "--user-data-dir=C:\\Users\\rayki\\AppData\\Local\\Packages\\MicrosoftWindows.Client.CBS_cw5n1h2txyewy\\LocalState\\EBWebView",
+      "--webview-exe-name=SearchHost.exe",
+      "--webview-exe-version=2125.34901.0.0",
+      "--embedded-browser-webview=1",
+      "--video-capture-use-gpu-memory-buffer",
+      "--lang=en-US",
+      "--device-scale-factor=1",
+      "--num-raster-threads=4",
+      "--enable-main-frame-before-activation",
+      "--renderer-client-id=5",
+      "--js-flags=--expose-gc --ms-user-locale=en_KE",
+      "--time-ticks-at-unix-epoch=-1770832885297128",
+      "--launch-time-ticks=43049940",
+      "--ssd-no-pressure-read-main-dll",
+      "--metrics-shmem-handle=3876,i,7660978673414374130,4010752473314950193,2097152",
+      "--field-trial-handle=1832,i,13593863120704638766,16283418745392549220,262144",
+      "--enable-features=msEdgeFluentOverlayScrollbar",
+      "--disable-features=msSmartScreenProtection",
+      "--variations-seed-version",
+      "--trace-process-track-uuid=3190708990997080739",
+      "--mojo-platform-channel-handle=3896",
+      "/pfhostedapp:72106ac74575bf1b2add3a34a434cb4ccb213dd3",
+      "/prefetch:1"
+    ],
+    "memory": 643072,
+    "cpu_usage": 0.21343385,
+    "parent_pid": 13408,
+    "exe_path": "C:\\Program Files (x86)\\Microsoft\\EdgeWebView\\Application\\144.0.3719.115\\msedgewebview2.exe",
+    "confidence": "Full",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 1816,
+    "name": "svchost.exe",
+    "cmd": [
+      "svchost.exe"
+    ],
+    "memory": 483328,
+    "cpu_usage": 0.0,
+    "parent_pid": 1092,
+    "exe_path": null,
+    "confidence": "Low",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 3628,
+    "name": "svchost.exe",
+    "cmd": [
+      "svchost.exe"
+    ],
+    "memory": 466944,
+    "cpu_usage": 0.0,
+    "parent_pid": 1092,
+    "exe_path": null,
+    "confidence": "Low",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 10292,
+    "name": "svchost.exe",
+    "cmd": [
+      "svchost.exe"
+    ],
+    "memory": 1990656,
+    "cpu_usage": 0.0,
+    "parent_pid": 1092,
+    "exe_path": null,
+    "confidence": "Low",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 5276,
+    "name": "AnyDesk.exe",
+    "cmd": [
+      "AnyDesk.exe"
+    ],
+    "memory": 2510848,
+    "cpu_usage": 0.023790477,
+    "parent_pid": 1092,
+    "exe_path": "C:\\Program Files (x86)\\AnyDesk\\AnyDesk.exe",
+    "confidence": "Partial",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 4724,
+    "name": "msiexec.exe",
+    "cmd": [
+      "msiexec.exe"
+    ],
+    "memory": 7184384,
+    "cpu_usage": 0.0,
+    "parent_pid": 1092,
+    "exe_path": null,
+    "confidence": "Partial",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 3936,
+    "name": "Antigravity.exe",
+    "cmd": [
+      "C:\\Users\\rayki\\AppData\\Local\\Programs\\Antigravity\\Antigravity.exe",
+      "c:\\Users\\rayki\\AppData\\Local\\Programs\\Antigravity\\resources\\app\\extensions\\json-language-features\\server\\dist\\node\\jsonServerMain",
+      "--node-ipc",
+      "--clientProcessId=4752"
+    ],
+    "memory": 6311936,
+    "cpu_usage": 0.0081567075,
+    "parent_pid": 4752,
+    "exe_path": "C:\\Users\\rayki\\AppData\\Local\\Programs\\Antigravity\\Antigravity.exe",
+    "confidence": "Full",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 5476,
+    "name": "jhi_service.exe",
+    "cmd": [
+      "jhi_service.exe"
+    ],
+    "memory": 4096,
+    "cpu_usage": 0.0,
+    "parent_pid": 1092,
+    "exe_path": null,
+    "confidence": "Partial",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 5880,
+    "name": "vmware-authd.exe",
+    "cmd": [
+      "vmware-authd.exe"
+    ],
+    "memory": 4096,
+    "cpu_usage": 0.0,
+    "parent_pid": 1092,
+    "exe_path": null,
+    "confidence": "Partial",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 14172,
+    "name": "msedgewebview2.exe",
+    "cmd": [
+      "C:\\Program Files (x86)\\Microsoft\\EdgeWebView\\Application\\144.0.3719.115\\msedgewebview2.exe",
+      "--type=utility",
+      "--utility-sub-type=network.mojom.NetworkService",
+      "--lang=en-US",
+      "--service-sandbox-type=none",
+      "--noerrdialogs",
+      "--user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64; Cortana 1.18.9.23723; 10.0.0.0.26200.7840) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.102 Safari/537.36 Edge/18.26200 IsWebView2/True (WebView2Version 144.0.3719.115)",
+      "--user-data-dir=C:\\Users\\rayki\\AppData\\Local\\Packages\\MicrosoftWindows.Client.CBS_cw5n1h2txyewy\\LocalState\\EBWebView",
+      "--webview-exe-name=SearchHost.exe",
+      "--webview-exe-version=2125.34901.0.0",
+      "--embedded-browser-webview=1",
+      "--startup-read-main-dll",
+      "--metrics-shmem-handle=1872,i,868718222989671934,17253067186425339617,524288",
+      "--field-trial-handle=1832,i,13593863120704638766,16283418745392549220,262144",
+      "--enable-features=msEdgeFluentOverlayScrollbar",
+      "--disable-features=msSmartScreenProtection",
+      "--variations-seed-version",
+      "--trace-process-track-uuid=3190708989122997041",
+      "--mojo-platform-channel-handle=1988",
+      "/prefetch:11",
+      "/pfhostedapp:72106ac74575bf1b2add3a34a434cb4ccb213dd3"
+    ],
+    "memory": 4784128,
+    "cpu_usage": 0.05165915,
+    "parent_pid": 13408,
+    "exe_path": "C:\\Program Files (x86)\\Microsoft\\EdgeWebView\\Application\\144.0.3719.115\\msedgewebview2.exe",
+    "confidence": "Full",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 12768,
+    "name": "Antigravity.exe",
+    "cmd": [
+      "C:\\Users\\rayki\\AppData\\Local\\Programs\\Antigravity\\Antigravity.exe",
+      "--type=renderer",
+      "--user-data-dir=C:\\Users\\rayki\\AppData\\Roaming\\Antigravity",
+      "--standard-schemes=vscode-webview,vscode-file",
+      "--enable-sandbox",
+      "--secure-schemes=vscode-webview,vscode-file",
+      "--cors-schemes=vscode-webview,vscode-file",
+      "--fetch-schemes=vscode-webview,vscode-file",
+      "--service-worker-schemes=vscode-webview",
+      "--code-cache-schemes=vscode-webview,vscode-file",
+      "--app-user-model-id=Google.Antigravity",
+      "--app-path=C:\\Users\\rayki\\AppData\\Local\\Programs\\Antigravity\\resources\\app",
+      "--enable-sandbox",
+      "--enable-blink-features=HighlightAPI",
+      "--disable-blink-features=FontMatchingCTMigration,StandardizedBrowserZoom,",
+      "--video-capture-use-gpu-memory-buffer",
+      "--lang=en-US",
+      "--device-scale-factor=1",
+      "--num-raster-threads=4",
+      "--enable-main-frame-before-activation",
+      "--renderer-client-id=5",
+      "--time-ticks-at-unix-epoch=-1770832885297126",
+      "--launch-time-ticks=74786604",
+      "--field-trial-handle=1844,i,5049527470075640650,15285414162923931184,262144",
+      "--enable-features=DocumentPolicyIncludeJSCallStacksInCrashReports,EarlyEstablishGpuChannel,EnableTransparentHwndEnlargement,EstablishGpuChannelAsync,PdfUseShowSaveFilePicker",
+      "--disable-features=CalculateNativeWinOcclusion,LocalNetworkAccessChecks,ScreenAIOCREnabled,SpareRendererForSitePerProcess,TraceSiteInstanceGetProcessCreation",
+      "--variations-seed-version",
+      "--trace-process-track-uuid=3190708990997080739",
+      "--mojo-platform-channel-handle=4208",
+      "--vscode-window-config=vscode:05f28dc5-cfb0-420d-8e9e-0d5f7855024b",
+      "/prefetch:1"
+    ],
+    "memory": 2441216,
+    "cpu_usage": 0.017672867,
+    "parent_pid": 16100,
+    "exe_path": "C:\\Users\\rayki\\AppData\\Local\\Programs\\Antigravity\\Antigravity.exe",
+    "confidence": "Full",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 13264,
+    "name": "WidgetBoard.exe",
+    "cmd": [
+      "C:\\Program Files\\WindowsApps\\MicrosoftWindows.Client.WebExperience_526.1202.40.0_x64__cw5n1h2txyewy\\WidgetBoard.exe",
+      "-RegisterProcessAsComServer",
+      "-ServerName:Microsoft.Windows.WidgetBoardServer"
+    ],
+    "memory": 3158016,
+    "cpu_usage": 0.01087561,
+    "parent_pid": 1324,
+    "exe_path": "C:\\Program Files\\WindowsApps\\MicrosoftWindows.Client.WebExperience_526.1202.40.0_x64__cw5n1h2txyewy\\WidgetBoard.exe",
+    "confidence": "Full",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 4012,
+    "name": "svchost.exe",
+    "cmd": [
+      "svchost.exe"
+    ],
+    "memory": 11706368,
+    "cpu_usage": 0.0,
+    "parent_pid": 1092,
+    "exe_path": null,
+    "confidence": "Low",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 15604,
+    "name": "WmiPrvSE.exe",
+    "cmd": [
+      "WmiPrvSE.exe"
+    ],
+    "memory": 16089088,
+    "cpu_usage": 0.0,
+    "parent_pid": 1324,
+    "exe_path": null,
+    "confidence": "Partial",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 7064,
+    "name": "svchost.exe",
+    "cmd": [
+      "C:\\WINDOWS\\system32\\svchost.exe",
+      "-k",
+      "UnistackSvcGroup",
+      "-s",
+      "WpnUserService"
+    ],
+    "memory": 18272256,
+    "cpu_usage": 0.2385837,
+    "parent_pid": 1092,
+    "exe_path": "C:\\Windows\\System32\\svchost.exe",
+    "confidence": "Low",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 10404,
+    "name": "ShellExperienceHost.exe",
+    "cmd": [
+      "C:\\WINDOWS\\SystemApps\\ShellExperienceHost_cw5n1h2txyewy\\ShellExperienceHost.exe",
+      "-ServerName:App.AppXtk181tbxbce2qsex02s8tw7hfxa9xb3t.mca"
+    ],
+    "memory": 46174208,
+    "cpu_usage": 0.09448186,
+    "parent_pid": 1324,
+    "exe_path": "C:\\Windows\\SystemApps\\ShellExperienceHost_cw5n1h2txyewy\\ShellExperienceHost.exe",
+    "confidence": "Full",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 7356,
+    "name": "postgres.exe",
+    "cmd": [
+      "postgres.exe"
+    ],
+    "memory": 561152,
+    "cpu_usage": 0.0,
+    "parent_pid": 5632,
+    "exe_path": null,
+    "confidence": "Partial",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 1556,
+    "name": "dwm.exe",
+    "cmd": [
+      "dwm.exe"
+    ],
+    "memory": 23957504,
+    "cpu_usage": 0.0,
+    "parent_pid": 1156,
+    "exe_path": null,
+    "confidence": "Low",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 11292,
+    "name": "SearchIndexer.exe",
+    "cmd": [
+      "SearchIndexer.exe"
+    ],
+    "memory": 24760320,
+    "cpu_usage": 0.0,
+    "parent_pid": 1092,
+    "exe_path": null,
+    "confidence": "Partial",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 5232,
+    "name": "GigabyteUpdateService.exe",
+    "cmd": [
+      "GigabyteUpdateService.exe"
+    ],
+    "memory": 49152,
+    "cpu_usage": 0.0,
+    "parent_pid": 1092,
+    "exe_path": null,
+    "confidence": "Partial",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 9692,
+    "name": "AggregatorHost.exe",
+    "cmd": [
+      "AggregatorHost.exe"
+    ],
+    "memory": 1228800,
+    "cpu_usage": 0.0,
+    "parent_pid": 5288,
+    "exe_path": null,
+    "confidence": "Partial",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 17136,
+    "name": "svchost.exe",
+    "cmd": [
+      "svchost.exe"
+    ],
+    "memory": 5476352,
+    "cpu_usage": 0.0,
+    "parent_pid": 1092,
+    "exe_path": null,
+    "confidence": "Low",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 2984,
+    "name": "svchost.exe",
+    "cmd": [
+      "svchost.exe"
+    ],
+    "memory": 4366336,
+    "cpu_usage": 0.0,
+    "parent_pid": 1092,
+    "exe_path": null,
+    "confidence": "Low",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 2712,
+    "name": "svchost.exe",
+    "cmd": [
+      "svchost.exe"
+    ],
+    "memory": 5697536,
+    "cpu_usage": 0.0,
+    "parent_pid": 1092,
+    "exe_path": null,
+    "confidence": "Low",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 12252,
+    "name": "dllhost.exe",
+    "cmd": [
+      "C:\\WINDOWS\\system32\\DllHost.exe",
+      "/Processid:{AB8902B4-09CA-4BB6-B78D-A8F59079A8D5}"
+    ],
+    "memory": 10506240,
+    "cpu_usage": 0.001019585,
+    "parent_pid": 1324,
+    "exe_path": "C:\\Windows\\System32\\dllhost.exe",
+    "confidence": "Full",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 12152,
+    "name": "chrome.exe",
+    "cmd": [
+      "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+      "--type=utility",
+      "--utility-sub-type=network.mojom.NetworkService",
+      "--lang=en-US",
+      "--service-sandbox-type=none",
+      "--metrics-shmem-handle=2244,i,10099960990704994819,8724466591522389728,524288",
+      "--field-trial-handle=2028,i,1516321125442107916,10647554292692679619,262144",
+      "--variations-seed-version=20260211-010038.545000-production",
+      "--trace-process-track-uuid=3190708989122997041",
+      "--mojo-platform-channel-handle=2264",
+      "/prefetch:11"
+    ],
+    "memory": 31080448,
+    "cpu_usage": 0.32864732,
+    "parent_pid": 6516,
+    "exe_path": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+    "confidence": "Full",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 5668,
+    "name": "svchost.exe",
+    "cmd": [
+      "svchost.exe"
+    ],
+    "memory": 1052672,
+    "cpu_usage": 0.0,
+    "parent_pid": 1092,
+    "exe_path": null,
+    "confidence": "Low",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 5296,
+    "name": "svchost.exe",
+    "cmd": [
+      "svchost.exe"
+    ],
+    "memory": 11530240,
+    "cpu_usage": 0.0,
+    "parent_pid": 1092,
+    "exe_path": null,
+    "confidence": "Low",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 14260,
+    "name": "svchost.exe",
+    "cmd": [
+      "svchost.exe"
+    ],
+    "memory": 475136,
+    "cpu_usage": 0.0,
+    "parent_pid": 1092,
+    "exe_path": null,
+    "confidence": "Low",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 5796,
+    "name": "svchost.exe",
+    "cmd": [
+      "svchost.exe"
+    ],
+    "memory": 4018176,
+    "cpu_usage": 0.0,
+    "parent_pid": 1092,
+    "exe_path": null,
+    "confidence": "Low",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 8120,
+    "name": "postgres.exe",
+    "cmd": [
+      "postgres.exe"
+    ],
+    "memory": 270336,
+    "cpu_usage": 0.0,
+    "parent_pid": 7312,
+    "exe_path": null,
+    "confidence": "Partial",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 1156,
+    "name": "winlogon.exe",
+    "cmd": [
+      "winlogon.exe"
+    ],
+    "memory": 57344,
+    "cpu_usage": 0.0,
+    "parent_pid": 712,
+    "exe_path": null,
+    "confidence": "Low",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 15936,
+    "name": "setup.exe",
+    "cmd": [
+      "setup.exe"
+    ],
+    "memory": 191787008,
+    "cpu_usage": 1.3591114,
+    "parent_pid": 11148,
+    "exe_path": "C:\\Program Files (x86)\\Microsoft Visual Studio\\Installer\\setup.exe",
+    "confidence": "Partial",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 4660,
+    "name": "language_server_windows_x64.exe",
+    "cmd": [
+      "c:\\Users\\rayki\\AppData\\Local\\Programs\\Antigravity\\resources\\app\\extensions\\antigravity\\bin\\language_server_windows_x64.exe",
+      "--enable_lsp",
+      "--extension_server_port",
+      "64086",
+      "--csrf_token",
+      "c9b4ef53-6db6-4961-b8d6-0cd6e38e3710",
+      "--random_port",
+      "--workspace_id",
+      "file_c_3A_Users_rayki_OneDrive_Desktop_Empire_Ideas_Raypher_20_exe",
+      "--cloud_code_endpoint",
+      "https://daily-cloudcode-pa.googleapis.com",
+      "--app_data_dir",
+      "antigravity",
+      "--parent_pipe_path",
+      "\\\\.\\pipe\\server_6248b6dcbfbebe5d"
+    ],
+    "memory": 565792768,
+    "cpu_usage": 7.8997707,
+    "parent_pid": 4752,
+    "exe_path": "C:\\Users\\rayki\\AppData\\Local\\Programs\\Antigravity\\resources\\app\\extensions\\antigravity\\bin\\language_server_windows_x64.exe",
+    "confidence": "Full",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 3600,
+    "name": "chrome.exe",
+    "cmd": [
+      "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+      "--type=renderer",
+      "--origin-trial-disabled-features=CanvasTextNg|WebAssemblyCustomDescriptors",
+      "--video-capture-use-gpu-memory-buffer",
+      "--lang=en-US",
+      "--device-scale-factor=1",
+      "--num-raster-threads=4",
+      "--enable-main-frame-before-activation",
+      "--renderer-client-id=26",
+      "--time-ticks-at-unix-epoch=-1770832885297128",
+      "--launch-time-ticks=172824417",
+      "--metrics-shmem-handle=3816,i,16977155530564539774,11567546982679509344,2097152",
+      "--field-trial-handle=2028,i,1516321125442107916,10647554292692679619,262144",
+      "--variations-seed-version=20260211-010038.545000-production",
+      "--trace-process-track-uuid=3190709010674959568",
+      "--mojo-platform-channel-handle=8468",
+      "/prefetch:1"
+    ],
+    "memory": 8126464,
+    "cpu_usage": 0.04588148,
+    "parent_pid": 6516,
+    "exe_path": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+    "confidence": "Full",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 6856,
+    "name": "postgres.exe",
+    "cmd": [
+      "postgres.exe"
+    ],
+    "memory": 4096,
+    "cpu_usage": 0.0,
+    "parent_pid": 7356,
+    "exe_path": null,
+    "confidence": "Partial",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 18228,
+    "name": "chrome.exe",
+    "cmd": [
+      "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+      "--type=renderer",
+      "--origin-trial-disabled-features=CanvasTextNg|WebAssemblyCustomDescriptors",
+      "--video-capture-use-gpu-memory-buffer",
+      "--lang=en-US",
+      "--device-scale-factor=1",
+      "--num-raster-threads=4",
+      "--enable-main-frame-before-activation",
+      "--renderer-client-id=41",
+      "--time-ticks-at-unix-epoch=-1770832885297128",
+      "--launch-time-ticks=206978045",
+      "--metrics-shmem-handle=7996,i,15379526333342212523,6822908623021229706,2097152",
+      "--field-trial-handle=2028,i,1516321125442107916,10647554292692679619,262144",
+      "--variations-seed-version=20260211-010038.545000-production",
+      "--trace-process-track-uuid=3190709024730587303",
+      "--mojo-platform-channel-handle=7800",
+      "/prefetch:1"
+    ],
+    "memory": 170123264,
+    "cpu_usage": 0.47988462,
+    "parent_pid": 6516,
+    "exe_path": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+    "confidence": "Full",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 6760,
+    "name": "svchost.exe",
+    "cmd": [
+      "C:\\WINDOWS\\system32\\svchost.exe",
+      "-k",
+      "UnistackSvcGroup",
+      "-s",
+      "CDPUserSvc"
+    ],
+    "memory": 22192128,
+    "cpu_usage": 0.48532405,
+    "parent_pid": 1092,
+    "exe_path": "C:\\Windows\\System32\\svchost.exe",
+    "confidence": "Low",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 5260,
+    "name": "NgcIso.exe",
+    "cmd": [
+      "NgcIso.exe"
+    ],
+    "memory": 4096,
+    "cpu_usage": 0.0,
+    "parent_pid": 5160,
+    "exe_path": null,
+    "confidence": "Partial",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 4652,
+    "name": "aswToolsSvc.exe",
+    "cmd": [
+      "aswToolsSvc.exe"
+    ],
+    "memory": 16384000,
+    "cpu_usage": 0.0,
+    "parent_pid": 1092,
+    "exe_path": null,
+    "confidence": "Partial",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 8788,
+    "name": "backgroundTaskHost.exe",
+    "cmd": [
+      "C:\\WINDOWS\\system32\\backgroundTaskHost.exe",
+      "-ServerName:Global.DesktopSpotlight.AppXz2j21w56bgxkgsjhtn7zkjsepq96erz2.mca"
+    ],
+    "memory": 10944512,
+    "cpu_usage": 0.0023790314,
+    "parent_pid": 1324,
+    "exe_path": "C:\\Windows\\System32\\backgroundTaskHost.exe",
+    "confidence": "Full",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 1316,
+    "name": "RuntimeBroker.exe",
+    "cmd": [
+      "C:\\Windows\\System32\\RuntimeBroker.exe",
+      "-Embedding"
+    ],
+    "memory": 17047552,
+    "cpu_usage": 0.028548477,
+    "parent_pid": 1324,
+    "exe_path": "C:\\Windows\\System32\\RuntimeBroker.exe",
+    "confidence": "Full",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 1100,
+    "name": "LsaIso.exe",
+    "cmd": [
+      "LsaIso.exe"
+    ],
+    "memory": 4096,
+    "cpu_usage": 0.0,
+    "parent_pid": 816,
+    "exe_path": null,
+    "confidence": "Partial",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 8688,
+    "name": "postgres.exe",
+    "cmd": [
+      "postgres.exe"
+    ],
+    "memory": 196608,
+    "cpu_usage": 0.0,
+    "parent_pid": 7356,
+    "exe_path": null,
+    "confidence": "Partial",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 11188,
+    "name": "svchost.exe",
+    "cmd": [
+      "svchost.exe"
+    ],
+    "memory": 2310144,
+    "cpu_usage": 0.0,
+    "parent_pid": 1092,
+    "exe_path": null,
+    "confidence": "Low",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 5424,
+    "name": "svchost.exe",
+    "cmd": [
+      "svchost.exe"
+    ],
+    "memory": 1126400,
+    "cpu_usage": 0.0,
+    "parent_pid": 1092,
+    "exe_path": null,
+    "confidence": "Low",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 11580,
+    "name": "chrome.exe",
+    "cmd": [
+      "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+      "--type=utility",
+      "--utility-sub-type=audio.mojom.AudioService",
+      "--lang=en-US",
+      "--service-sandbox-type=audio",
+      "--video-capture-use-gpu-memory-buffer",
+      "--metrics-shmem-handle=7596,i,9608031443318531177,7422883309310585983,524288",
+      "--field-trial-handle=2028,i,1516321125442107916,10647554292692679619,262144",
+      "--variations-seed-version=20260211-010038.545000-production",
+      "--trace-process-track-uuid=3190709011612001417",
+      "--mojo-platform-channel-handle=3764",
+      "/prefetch:12"
+    ],
+    "memory": 2715648,
+    "cpu_usage": 0.005437805,
+    "parent_pid": 6516,
+    "exe_path": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+    "confidence": "Full",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 1476,
+    "name": "svchost.exe",
+    "cmd": [
+      "svchost.exe"
+    ],
+    "memory": 2367488,
+    "cpu_usage": 0.0,
+    "parent_pid": 1092,
+    "exe_path": null,
+    "confidence": "Low",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 8896,
+    "name": "svchost.exe",
+    "cmd": [
+      "svchost.exe"
+    ],
+    "memory": 540672,
+    "cpu_usage": 0.0,
+    "parent_pid": 1092,
+    "exe_path": null,
+    "confidence": "Low",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 3272,
+    "name": "chrome.exe",
+    "cmd": [
+      "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+      "--type=renderer",
+      "--origin-trial-disabled-features=CanvasTextNg|WebAssemblyCustomDescriptors",
+      "--video-capture-use-gpu-memory-buffer",
+      "--lang=en-US",
+      "--device-scale-factor=1",
+      "--num-raster-threads=4",
+      "--enable-main-frame-before-activation",
+      "--renderer-client-id=101",
+      "--time-ticks-at-unix-epoch=-1770832885297128",
+      "--launch-time-ticks=1672108793",
+      "--metrics-shmem-handle=7824,i,2112740398149329506,17034661091145970986,2097152",
+      "--field-trial-handle=2028,i,1516321125442107916,10647554292692679619,262144",
+      "--variations-seed-version=20260211-010038.545000-production",
+      "--trace-process-track-uuid=3190709080953098243",
+      "--mojo-platform-channel-handle=7048",
+      "/prefetch:1"
+    ],
+    "memory": 18644992,
+    "cpu_usage": 0.5607736,
+    "parent_pid": 6516,
+    "exe_path": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+    "confidence": "Full",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 7388,
+    "name": "conhost.exe",
+    "cmd": [
+      "conhost.exe"
+    ],
+    "memory": 409600,
+    "cpu_usage": 0.0,
+    "parent_pid": 7356,
+    "exe_path": null,
+    "confidence": "Partial",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 5988,
+    "name": "WMIRegistrationService.exe",
+    "cmd": [
+      "WMIRegistrationService.exe"
+    ],
+    "memory": 4096,
+    "cpu_usage": 0.0,
+    "parent_pid": 1092,
+    "exe_path": null,
+    "confidence": "Partial",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 13408,
+    "name": "msedgewebview2.exe",
+    "cmd": [
+      "C:\\Program Files (x86)\\Microsoft\\EdgeWebView\\Application\\144.0.3719.115\\msedgewebview2.exe",
+      "--embedded-browser-webview=1",
+      "--webview-exe-name=SearchHost.exe",
+      "--webview-exe-version=2125.34901.0.0",
+      "--user-data-dir=C:\\Users\\rayki\\AppData\\Local\\Packages\\MicrosoftWindows.Client.CBS_cw5n1h2txyewy\\LocalState\\EBWebView",
+      "--noerrdialogs",
+      "--disable-features=msSmartScreenProtection",
+      "--edge-webview-enable-mojo-ipcz",
+      "--enable-features=msEdgeFluentOverlayScrollbar",
+      "--user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64; Cortana 1.18.9.23723; 10.0.0.0.26200.7840) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.102 Safari/537.36 Edge/18.26200 IsWebView2/True (WebView2Version 144.0.3719.115)",
+      "--lang=en-US",
+      "--mojo-named-platform-channel-pipe=13004.13392.18055441534714983939",
+      "/pfhostedapp:72106ac74575bf1b2add3a34a434cb4ccb213dd3"
+    ],
+    "memory": 10342400,
+    "cpu_usage": 0.16041525,
+    "parent_pid": 13004,
+    "exe_path": "C:\\Program Files (x86)\\Microsoft\\EdgeWebView\\Application\\144.0.3719.115\\msedgewebview2.exe",
+    "confidence": "Full",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 1360,
+    "name": "fontdrvhost.exe",
+    "cmd": [
+      "fontdrvhost.exe"
+    ],
+    "memory": 4096,
+    "cpu_usage": 0.0,
+    "parent_pid": 816,
+    "exe_path": null,
+    "confidence": "Low",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 2936,
+    "name": "svchost.exe",
+    "cmd": [
+      "svchost.exe"
+    ],
+    "memory": 4198400,
+    "cpu_usage": 0.0,
+    "parent_pid": 1092,
+    "exe_path": null,
+    "confidence": "Low",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 9024,
+    "name": "chrome.exe",
+    "cmd": [
+      "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+      "--type=renderer",
+      "--extension-process",
+      "--origin-trial-disabled-features=CanvasTextNg|WebAssemblyCustomDescriptors",
+      "--video-capture-use-gpu-memory-buffer",
+      "--lang=en-US",
+      "--device-scale-factor=1",
+      "--num-raster-threads=4",
+      "--enable-main-frame-before-activation",
+      "--renderer-client-id=8",
+      "--time-ticks-at-unix-epoch=-1770832885297128",
+      "--launch-time-ticks=168096070",
+      "--metrics-shmem-handle=4224,i,11127449938660690838,7901501405034131809,2097152",
+      "--field-trial-handle=2028,i,1516321125442107916,10647554292692679619,262144",
+      "--variations-seed-version=20260211-010038.545000-production",
+      "--trace-process-track-uuid=3190708993808206286",
+      "--mojo-platform-channel-handle=4488",
+      "/prefetch:9"
+    ],
+    "memory": 17952768,
+    "cpu_usage": 0.060155716,
+    "parent_pid": 6516,
+    "exe_path": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+    "confidence": "Full",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 15720,
+    "name": "cmd.exe",
+    "cmd": [
+      "C:\\Windows\\system32\\cmd.exe",
+      "/c",
+      "call C:\\Program",
+      "Files",
+      "(x86)\\Microsoft",
+      "Visual",
+      "Studio\\2022\\BuildTools\\VC\\Auxiliary\\Build\\vcvars64.bat && cargo run > week1_scan_results.json"
+    ],
+    "memory": 9547776,
+    "cpu_usage": 0.016653221,
+    "parent_pid": 12844,
+    "exe_path": "C:\\Windows\\System32\\cmd.exe",
+    "confidence": "Full",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 1964,
+    "name": "svchost.exe",
+    "cmd": [
+      "svchost.exe"
+    ],
+    "memory": 458752,
+    "cpu_usage": 0.0,
+    "parent_pid": 1092,
+    "exe_path": null,
+    "confidence": "Low",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 4372,
+    "name": "svchost.exe",
+    "cmd": [
+      "svchost.exe"
+    ],
+    "memory": 7323648,
+    "cpu_usage": 0.0,
+    "parent_pid": 1092,
+    "exe_path": null,
+    "confidence": "Low",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 2324,
+    "name": "RuntimeBroker.exe",
+    "cmd": [
+      "C:\\Windows\\System32\\RuntimeBroker.exe",
+      "-Embedding"
+    ],
+    "memory": 12197888,
+    "cpu_usage": 0.00033986167,
+    "parent_pid": 1324,
+    "exe_path": "C:\\Windows\\System32\\RuntimeBroker.exe",
+    "confidence": "Full",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 3156,
+    "name": "svchost.exe",
+    "cmd": [
+      "svchost.exe"
+    ],
+    "memory": 495616,
+    "cpu_usage": 0.0,
+    "parent_pid": 1092,
+    "exe_path": null,
+    "confidence": "Low",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 5644,
+    "name": "svchost.exe",
+    "cmd": [
+      "svchost.exe"
+    ],
+    "memory": 491520,
+    "cpu_usage": 0.0,
+    "parent_pid": 1092,
+    "exe_path": null,
+    "confidence": "Low",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 2836,
+    "name": "svchost.exe",
+    "cmd": [
+      "svchost.exe"
+    ],
+    "memory": 7892992,
+    "cpu_usage": 0.0,
+    "parent_pid": 1092,
+    "exe_path": null,
+    "confidence": "Low",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 14936,
+    "name": "chrome.exe",
+    "cmd": [
+      "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+      "--type=gpu-process",
+      "--gpu-preferences=SAAAAAAAAADgAAAEAAAAAAAAAAAAAGAAAQAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAQAAAAAAAAABAAAAAAAAAACAAAAAAAAAAIAAAAAAAAAA==",
+      "--metrics-shmem-handle=1852,i,11358049988869016109,8162624418184170352,262144",
+      "--field-trial-handle=2028,i,1516321125442107916,10647554292692679619,262144",
+      "--variations-seed-version=20260211-010038.545000-production",
+      "--trace-process-track-uuid=3190708988185955192",
+      "--mojo-platform-channel-handle=2024",
+      "/prefetch:2"
+    ],
+    "memory": 13586432,
+    "cpu_usage": 0.6097139,
+    "parent_pid": 6516,
+    "exe_path": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+    "confidence": "Full",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 9744,
+    "name": "UserOOBEBroker.exe",
+    "cmd": [
+      "C:\\Windows\\System32\\oobe\\UserOOBEBroker.exe",
+      "-Embedding"
+    ],
+    "memory": 1798144,
+    "cpu_usage": 0.0020391769,
+    "parent_pid": 1324,
+    "exe_path": "C:\\Windows\\System32\\oobe\\UserOOBEBroker.exe",
+    "confidence": "Full",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 17344,
+    "name": "backgroundTaskHost.exe",
+    "cmd": [
+      "C:\\WINDOWS\\system32\\backgroundTaskHost.exe",
+      "-ServerName:WindowsBackup.AppXnn6fnh4raxtmg45ba8k2f4ykb7n0k3y4.mca"
+    ],
+    "memory": 45056,
+    "cpu_usage": 0.0064573935,
+    "parent_pid": 1324,
+    "exe_path": "C:\\Windows\\System32\\backgroundTaskHost.exe",
+    "confidence": "Full",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 16204,
+    "name": "SecurityHealthService.exe",
+    "cmd": [
+      "SecurityHealthService.exe"
+    ],
+    "memory": 2727936,
+    "cpu_usage": 0.0,
+    "parent_pid": 1092,
+    "exe_path": null,
+    "confidence": "Partial",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 12480,
+    "name": "Antigravity.exe",
+    "cmd": [
+      "C:\\Users\\rayki\\AppData\\Local\\Programs\\Antigravity\\Antigravity.exe",
+      "--type=renderer",
+      "--user-data-dir=C:\\Users\\rayki\\AppData\\Roaming\\Antigravity",
+      "--standard-schemes=vscode-webview,vscode-file",
+      "--enable-sandbox",
+      "--secure-schemes=vscode-webview,vscode-file",
+      "--cors-schemes=vscode-webview,vscode-file",
+      "--fetch-schemes=vscode-webview,vscode-file",
+      "--service-worker-schemes=vscode-webview",
+      "--code-cache-schemes=vscode-webview,vscode-file",
+      "--app-user-model-id=Google.Antigravity",
+      "--app-path=C:\\Users\\rayki\\AppData\\Local\\Programs\\Antigravity\\resources\\app",
+      "--enable-sandbox",
+      "--enable-blink-features=HighlightAPI",
+      "--disable-blink-features=FontMatchingCTMigration,StandardizedBrowserZoom,",
+      "--video-capture-use-gpu-memory-buffer",
+      "--lang=en-US",
+      "--device-scale-factor=1",
+      "--num-raster-threads=4",
+      "--enable-main-frame-before-activation",
+      "--renderer-client-id=4",
+      "--time-ticks-at-unix-epoch=-1770832885297126",
+      "--launch-time-ticks=74598487",
+      "--field-trial-handle=1844,i,5049527470075640650,15285414162923931184,262144",
+      "--enable-features=DocumentPolicyIncludeJSCallStacksInCrashReports,EarlyEstablishGpuChannel,EnableTransparentHwndEnlargement,EstablishGpuChannelAsync,PdfUseShowSaveFilePicker",
+      "--disable-features=CalculateNativeWinOcclusion,LocalNetworkAccessChecks,ScreenAIOCREnabled,SpareRendererForSitePerProcess,TraceSiteInstanceGetProcessCreation",
+      "--variations-seed-version",
+      "--trace-process-track-uuid=3190708990060038890",
+      "--mojo-platform-channel-handle=3336",
+      "--vscode-window-config=vscode:926bc7fe-6114-4491-8e9c-c098a72034ee",
+      "/prefetch:1"
+    ],
+    "memory": 460505088,
+    "cpu_usage": 8.822159,
+    "parent_pid": 16100,
+    "exe_path": "C:\\Users\\rayki\\AppData\\Local\\Programs\\Antigravity\\Antigravity.exe",
+    "confidence": "Full",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 11300,
+    "name": "svchost.exe",
+    "cmd": [
+      "C:\\WINDOWS\\system32\\svchost.exe",
+      "-k",
+      "ClipboardSvcGroup",
+      "-p",
+      "-s",
+      "cbdhsvc"
+    ],
+    "memory": 561152,
+    "cpu_usage": 0.010195884,
+    "parent_pid": 1092,
+    "exe_path": "C:\\Windows\\System32\\svchost.exe",
+    "confidence": "Low",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 15088,
+    "name": "svchost.exe",
+    "cmd": [
+      "svchost.exe"
+    ],
+    "memory": 5451776,
+    "cpu_usage": 0.0,
+    "parent_pid": 1092,
+    "exe_path": null,
+    "confidence": "Low",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 7324,
+    "name": "conhost.exe",
+    "cmd": [
+      "\\\\?\\C:\\WINDOWS\\system32\\conhost.exe",
+      "--headless",
+      "--width",
+      "160",
+      "--height",
+      "13",
+      "--signal",
+      "0x680",
+      "--server",
+      "0x534"
+    ],
+    "memory": 475136,
+    "cpu_usage": 0.0006797256,
+    "parent_pid": 13352,
+    "exe_path": "C:\\Windows\\System32\\conhost.exe",
+    "confidence": "Full",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 5504,
+    "name": "unsecapp.exe",
+    "cmd": [
+      "unsecapp.exe"
+    ],
+    "memory": 2134016,
+    "cpu_usage": 0.0,
+    "parent_pid": 1324,
+    "exe_path": null,
+    "confidence": "Partial",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 16376,
+    "name": "Antigravity.exe",
+    "cmd": [
+      "C:\\Users\\rayki\\AppData\\Local\\Programs\\Antigravity\\Antigravity.exe",
+      "--type=utility",
+      "--utility-sub-type=network.mojom.NetworkService",
+      "--lang=en-US",
+      "--service-sandbox-type=none",
+      "--user-data-dir=C:\\Users\\rayki\\AppData\\Roaming\\Antigravity",
+      "--standard-schemes=vscode-webview,vscode-file",
+      "--enable-sandbox",
+      "--secure-schemes=vscode-webview,vscode-file",
+      "--cors-schemes=vscode-webview,vscode-file",
+      "--fetch-schemes=vscode-webview,vscode-file",
+      "--service-worker-schemes=vscode-webview",
+      "--code-cache-schemes=vscode-webview,vscode-file",
+      "--field-trial-handle=1844,i,5049527470075640650,15285414162923931184,262144",
+      "--enable-features=DocumentPolicyIncludeJSCallStacksInCrashReports,EarlyEstablishGpuChannel,EnableTransparentHwndEnlargement,EstablishGpuChannelAsync,PdfUseShowSaveFilePicker",
+      "--disable-features=CalculateNativeWinOcclusion,LocalNetworkAccessChecks,ScreenAIOCREnabled,SpareRendererForSitePerProcess,TraceSiteInstanceGetProcessCreation",
+      "--variations-seed-version",
+      "--trace-process-track-uuid=3190708989122997041",
+      "--mojo-platform-channel-handle=2116",
+      "/prefetch:11"
+    ],
+    "memory": 16388096,
+    "cpu_usage": 0.061515167,
+    "parent_pid": 16100,
+    "exe_path": "C:\\Users\\rayki\\AppData\\Local\\Programs\\Antigravity\\Antigravity.exe",
+    "confidence": "Full",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 668,
+    "name": "smss.exe",
+    "cmd": [
+      "smss.exe"
+    ],
+    "memory": 4096,
+    "cpu_usage": 0.0,
+    "parent_pid": 4,
+    "exe_path": null,
+    "confidence": "Low",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 5348,
+    "name": "OfficeClickToRun.exe",
+    "cmd": [
+      "OfficeClickToRun.exe"
+    ],
+    "memory": 3989504,
+    "cpu_usage": 0.0,
+    "parent_pid": 1092,
+    "exe_path": null,
+    "confidence": "Partial",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 11484,
+    "name": "Antigravity.exe",
+    "cmd": [
+      "C:\\Users\\rayki\\AppData\\Local\\Programs\\Antigravity\\Antigravity.exe",
+      "--type=utility",
+      "--utility-sub-type=node.mojom.NodeService",
+      "--lang=en-US",
+      "--service-sandbox-type=none",
+      "--video-capture-use-gpu-memory-buffer",
+      "--user-data-dir=C:\\Users\\rayki\\AppData\\Roaming\\Antigravity",
+      "--standard-schemes=vscode-webview,vscode-file",
+      "--enable-sandbox",
+      "--secure-schemes=vscode-webview,vscode-file",
+      "--cors-schemes=vscode-webview,vscode-file",
+      "--fetch-schemes=vscode-webview,vscode-file",
+      "--service-worker-schemes=vscode-webview",
+      "--code-cache-schemes=vscode-webview,vscode-file",
+      "--field-trial-handle=1844,i,5049527470075640650,15285414162923931184,262144",
+      "--enable-features=DocumentPolicyIncludeJSCallStacksInCrashReports,EarlyEstablishGpuChannel,EnableTransparentHwndEnlargement,EstablishGpuChannelAsync,PdfUseShowSaveFilePicker",
+      "--disable-features=CalculateNativeWinOcclusion,LocalNetworkAccessChecks,ScreenAIOCREnabled,SpareRendererForSitePerProcess,TraceSiteInstanceGetProcessCreation",
+      "--variations-seed-version",
+      "--trace-process-track-uuid=3190708993808206286",
+      "--mojo-platform-channel-handle=3780",
+      "/prefetch:14"
+    ],
+    "memory": 22614016,
+    "cpu_usage": 0.7619724,
+    "parent_pid": 16100,
+    "exe_path": "C:\\Users\\rayki\\AppData\\Local\\Programs\\Antigravity\\Antigravity.exe",
+    "confidence": "Full",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 2012,
+    "name": "svchost.exe",
+    "cmd": [
+      "svchost.exe"
+    ],
+    "memory": 5623808,
+    "cpu_usage": 0.0,
+    "parent_pid": 1092,
+    "exe_path": null,
+    "confidence": "Low",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 3872,
+    "name": "svchost.exe",
+    "cmd": [
+      "svchost.exe"
+    ],
+    "memory": 34697216,
+    "cpu_usage": 0.0,
+    "parent_pid": 1092,
+    "exe_path": null,
+    "confidence": "Low",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 13800,
+    "name": "chrome.exe",
+    "cmd": [
+      "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+      "--type=renderer",
+      "--origin-trial-disabled-features=CanvasTextNg|WebAssemblyCustomDescriptors",
+      "--video-capture-use-gpu-memory-buffer",
+      "--lang=en-US",
+      "--device-scale-factor=1",
+      "--num-raster-threads=4",
+      "--enable-main-frame-before-activation",
+      "--renderer-client-id=202",
+      "--time-ticks-at-unix-epoch=-1770832885297128",
+      "--launch-time-ticks=4386646965",
+      "--metrics-shmem-handle=5748,i,14623181179352096470,17629190562452851371,2097152",
+      "--field-trial-handle=2028,i,1516321125442107916,10647554292692679619,262144",
+      "--variations-seed-version=20260211-010038.545000-production",
+      "--trace-process-track-uuid=3190709175594324992",
+      "--mojo-platform-channel-handle=5868",
+      "/prefetch:1"
+    ],
+    "memory": 6017024,
+    "cpu_usage": 0.0016993141,
+    "parent_pid": 6516,
+    "exe_path": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+    "confidence": "Full",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 5740,
+    "name": "svchost.exe",
+    "cmd": [
+      "svchost.exe"
+    ],
+    "memory": 475136,
+    "cpu_usage": 0.0,
+    "parent_pid": 1092,
+    "exe_path": null,
+    "confidence": "Low",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 8328,
+    "name": "TiWorker.exe",
+    "cmd": [
+      "TiWorker.exe"
+    ],
+    "memory": 242962432,
+    "cpu_usage": 0.0,
+    "parent_pid": 1324,
+    "exe_path": null,
+    "confidence": "Partial",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 13004,
+    "name": "SearchHost.exe",
+    "cmd": [
+      "C:\\WINDOWS\\SystemApps\\MicrosoftWindows.Client.CBS_cw5n1h2txyewy\\SearchHost.exe",
+      "-ServerName:CortanaUIFullTrustApp.AppXqe55xpfenh3k6gvsbjaqb6bkfgy5pkbf.mca"
+    ],
+    "memory": 27090944,
+    "cpu_usage": 0.6742878,
+    "parent_pid": 1324,
+    "exe_path": "C:\\Windows\\SystemApps\\MicrosoftWindows.Client.CBS_cw5n1h2txyewy\\SearchHost.exe",
+    "confidence": "Full",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 5484,
+    "name": "svchost.exe",
+    "cmd": [
+      "svchost.exe"
+    ],
+    "memory": 507904,
+    "cpu_usage": 0.0,
+    "parent_pid": 1092,
+    "exe_path": null,
+    "confidence": "Low",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 14904,
+    "name": "MidiSrv.exe",
+    "cmd": [
+      "MidiSrv.exe"
+    ],
+    "memory": 2170880,
+    "cpu_usage": 0.0,
+    "parent_pid": 1092,
+    "exe_path": null,
+    "confidence": "Partial",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 12588,
+    "name": "Copilot.exe",
+    "cmd": [
+      "C:\\Program Files\\WindowsApps\\Microsoft.Copilot_1.25121.84.0_x64__8wekyb3d8bbwe\\Copilot.exe"
+    ],
+    "memory": 11735040,
+    "cpu_usage": 0.15803567,
+    "parent_pid": 4932,
+    "exe_path": "C:\\Program Files\\WindowsApps\\Microsoft.Copilot_1.25121.84.0_x64__8wekyb3d8bbwe\\Copilot.exe",
+    "confidence": "Full",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 10900,
+    "name": "msedgewebview2.exe",
+    "cmd": [
+      "C:\\Program Files (x86)\\Microsoft\\EdgeWebView\\Application\\144.0.3719.115\\msedgewebview2.exe",
+      "--embedded-browser-webview=1",
+      "--webview-exe-name=WhatsApp.Root.exe",
+      "--webview-exe-version=1.0.0",
+      "--user-data-dir=C:\\Users\\rayki\\AppData\\Local\\Packages\\5319275A.WhatsAppDesktop_cv1g1gvanyjgm\\LocalCache\\EBWebView",
+      "--noerrdialogs",
+      "--edge-webview-disable-crash-reporting=1",
+      "--embedded-browser-webview-enable-extension",
+      "--disable-gpu",
+      "--edge-webview-is-background",
+      "--mojo-named-platform-channel-pipe=14692.11736.12019380462233733822",
+      "/pfhostedapp:6b869b7592cfb31f7f9267f569d92848c239ed8e"
+    ],
+    "memory": 40882176,
+    "cpu_usage": 0.5006179,
+    "parent_pid": 14692,
+    "exe_path": "C:\\Program Files (x86)\\Microsoft\\EdgeWebView\\Application\\144.0.3719.115\\msedgewebview2.exe",
+    "confidence": "Full",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 5564,
+    "name": "nvcontainer.exe",
+    "cmd": [
+      "nvcontainer.exe"
+    ],
+    "memory": 14684160,
+    "cpu_usage": 0.0,
+    "parent_pid": 1092,
+    "exe_path": null,
+    "confidence": "Partial",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 3012,
+    "name": "svchost.exe",
+    "cmd": [
+      "svchost.exe"
+    ],
+    "memory": 1236992,
+    "cpu_usage": 0.0,
+    "parent_pid": 1092,
+    "exe_path": null,
+    "confidence": "Low",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 17256,
+    "name": "figma_agent.exe",
+    "cmd": [
+      "C:\\Users\\rayki\\AppData\\Local\\FigmaAgent\\figma_agent.exe"
+    ],
+    "memory": 2826240,
+    "cpu_usage": 0.12540936,
+    "parent_pid": 11496,
+    "exe_path": "C:\\Users\\rayki\\AppData\\Local\\FigmaAgent\\figma_agent.exe",
+    "confidence": "Full",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 8888,
+    "name": "gamingservicesnet.exe",
+    "cmd": [
+      "gamingservicesnet.exe"
+    ],
+    "memory": 557056,
+    "cpu_usage": 0.0,
+    "parent_pid": 1092,
+    "exe_path": null,
+    "confidence": "Partial",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 6656,
+    "name": "RAVCpl64.exe",
+    "cmd": [
+      "C:\\Program Files\\Realtek\\Audio\\HDA\\RAVCpl64.exe",
+      "-s"
+    ],
+    "memory": 1552384,
+    "cpu_usage": 0.0033986282,
+    "parent_pid": 11496,
+    "exe_path": "C:\\Program Files\\Realtek\\Audio\\HDA\\RAVCpl64.exe",
+    "confidence": "Full",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 5596,
+    "name": "pg_ctl.exe",
+    "cmd": [
+      "pg_ctl.exe"
+    ],
+    "memory": 4096,
+    "cpu_usage": 0.0,
+    "parent_pid": 1092,
+    "exe_path": null,
+    "confidence": "Partial",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 1808,
+    "name": "svchost.exe",
+    "cmd": [
+      "svchost.exe"
+    ],
+    "memory": 598016,
+    "cpu_usage": 0.0,
+    "parent_pid": 1092,
+    "exe_path": null,
+    "confidence": "Low",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 184,
+    "name": "Registry",
+    "cmd": [
+      "Registry"
+    ],
+    "memory": 54153216,
+    "cpu_usage": 0.0,
+    "parent_pid": 4,
+    "exe_path": null,
+    "confidence": "Low",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 1796,
+    "name": "svchost.exe",
+    "cmd": [
+      "svchost.exe"
+    ],
+    "memory": 1736704,
+    "cpu_usage": 0.0,
+    "parent_pid": 1092,
+    "exe_path": null,
+    "confidence": "Low",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 11920,
+    "name": "msedgewebview2.exe",
+    "cmd": [
+      "C:\\Program Files (x86)\\Microsoft\\EdgeWebView\\Application\\144.0.3719.115\\msedgewebview2.exe",
+      "--type=utility",
+      "--utility-sub-type=network.mojom.NetworkService",
+      "--lang=en-US",
+      "--service-sandbox-type=none",
+      "--noerrdialogs",
+      "--user-data-dir=C:\\Users\\rayki\\AppData\\Local\\Packages\\5319275A.WhatsAppDesktop_cv1g1gvanyjgm\\LocalCache\\EBWebView",
+      "--webview-exe-name=WhatsApp.Root.exe",
+      "--webview-exe-version=1.0.0",
+      "--embedded-browser-webview=1",
+      "--startup-read-main-dll",
+      "--metrics-shmem-handle=1956,i,14741465604507428562,16852342187325125746,524288",
+      "--field-trial-handle=1832,i,14715393238203826449,8973043153835195014,262144",
+      "--variations-seed-version",
+      "--trace-process-track-uuid=3190708989122997041",
+      "--mojo-platform-channel-handle=1968",
+      "/prefetch:11",
+      "/pfhostedapp:6b869b7592cfb31f7f9267f569d92848c239ed8e"
+    ],
+    "memory": 11018240,
+    "cpu_usage": 0.039424088,
+    "parent_pid": 10900,
+    "exe_path": "C:\\Program Files (x86)\\Microsoft\\EdgeWebView\\Application\\144.0.3719.115\\msedgewebview2.exe",
+    "confidence": "Full",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 2480,
+    "name": "AvastUI.exe",
+    "cmd": [
+      "C:\\Program Files\\Avast Software\\Avast\\AvastUI.exe",
+      "--type=gpu-process",
+      "--field-trial-handle=8832,12843269798529070907,17423939201335259968,131072",
+      "--disable-features=CalculateNativeWinOcclusion,CookiesWithoutSameSiteMustBeSecure,SameSiteByDefaultCookies,SameSiteDefaultChecksMethodRigorously,WebRtcHideLocalIpsWithMdns",
+      "--no-sandbox",
+      "--disable-gpu-driver-bug-workarounds",
+      "--log-file=C:\\Users\\rayki\\AppData\\Roaming\\Avast Software\\Avast\\log\\cef_log.txt",
+      "--log-severity=error",
+      "--user-agent=Mozilla/5.0 AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.101 Safari/537.36 Avastium (0.0.0) (Windows 10.0)",
+      "--lang=en-KE",
+      "--disable-webaudio",
+      "--force-wave-audio",
+      "--disable-software-rasterizer",
+      "--no-sandbox",
+      "--blacklist-accelerated-compositing",
+      "--disable-accelerated-2d-canvas",
+      "--disable-accelerated-compositing",
+      "--disable-accelerated-layers",
+      "--disable-accelerated-video-decode",
+      "--blacklist-webgl",
+      "--disable-bundled-ppapi-flash",
+      "--disable-flash-3d",
+      "--enable-aggressive-domstorage-flushing",
+      "--enable-media-stream",
+      "--disable-gpu",
+      "--disable-webgl",
+      "--disable-gpu-compositing",
+      "--allow-file-access-from-files=1",
+      "--force-device-scale-factor=1",
+      "--pack_loading_disabled=1",
+      "--gpu-preferences=SAAAAAAAAADgAABwAAAAAAAAAAAAAAAAAABgAAAAAAAoAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAB4AAAAAAAAAHgAAAAAAAAAKAAAAAQAAAAgAAAAAAAAACgAAAAAAAAAMAAAAAAAAAA4AAAAAAAAABAAAAAAAAAAAAAAAAUAAAAQAAAAAAAAAAAAAAAGAAAAEAAAAAAAAAABAAAABQAAABAAAAAAAAAAAQAAAAYAAAAIAAAAAAAAAAgAAAAAAAAA",
+      "--use-gl=swiftshader-webgl",
+      "--log-file=C:\\Users\\rayki\\AppData\\Roaming\\Avast Software\\Avast\\log\\cef_log.txt",
+      "--mojo-platform-channel-handle=9728",
+      "/prefetch:2"
+    ],
+    "memory": 7032832,
+    "cpu_usage": 0.014953913,
+    "parent_pid": 16672,
+    "exe_path": "C:\\Program Files\\Avast Software\\Avast\\AvastUI.exe",
+    "confidence": "Full",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 7024,
+    "name": "WmiPrvSE.exe",
+    "cmd": [
+      "WmiPrvSE.exe"
+    ],
+    "memory": 10158080,
+    "cpu_usage": 0.0,
+    "parent_pid": 1324,
+    "exe_path": null,
+    "confidence": "Partial",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 8520,
+    "name": "postgres.exe",
+    "cmd": [
+      "postgres.exe"
+    ],
+    "memory": 204800,
+    "cpu_usage": 0.0,
+    "parent_pid": 7312,
+    "exe_path": null,
+    "confidence": "Partial",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 3824,
+    "name": "svchost.exe",
+    "cmd": [
+      "svchost.exe"
+    ],
+    "memory": 1122304,
+    "cpu_usage": 0.0,
+    "parent_pid": 1092,
+    "exe_path": null,
+    "confidence": "Low",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 8056,
+    "name": "svchost.exe",
+    "cmd": [
+      "svchost.exe"
+    ],
+    "memory": 9871360,
+    "cpu_usage": 0.0,
+    "parent_pid": 1092,
+    "exe_path": null,
+    "confidence": "Low",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 14504,
+    "name": "chrome.exe",
+    "cmd": [
+      "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+      "--type=utility",
+      "--utility-sub-type=video_capture.mojom.VideoCaptureService",
+      "--lang=en-US",
+      "--service-sandbox-type=none",
+      "--video-capture-use-gpu-memory-buffer",
+      "--metrics-shmem-handle=5028,i,4772351491427548087,11404681186128336599,524288",
+      "--field-trial-handle=2028,i,1516321125442107916,10647554292692679619,262144",
+      "--variations-seed-version=20260211-010038.545000-production",
+      "--trace-process-track-uuid=3190709012549043266",
+      "--mojo-platform-channel-handle=8648",
+      "/prefetch:14"
+    ],
+    "memory": 3178496,
+    "cpu_usage": 0.011215473,
+    "parent_pid": 6516,
+    "exe_path": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+    "confidence": "Full",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 9852,
+    "name": "svchost.exe",
+    "cmd": [
+      "C:\\WINDOWS\\system32\\svchost.exe",
+      "-k",
+      "LocalSystemNetworkRestricted",
+      "-p",
+      "-s",
+      "webthreatdefusersvc"
+    ],
+    "memory": 98304,
+    "cpu_usage": 0.0003398628,
+    "parent_pid": 1092,
+    "exe_path": "C:\\Windows\\System32\\svchost.exe",
+    "confidence": "Low",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 7880,
+    "name": "chrome.exe",
+    "cmd": [
+      "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+      "--type=crashpad-handler",
+      "--user-data-dir=C:\\Users\\rayki\\AppData\\Local\\Google\\Chrome\\User Data",
+      "/prefetch:4",
+      "--monitor-self-annotation=ptype=crashpad-handler",
+      "--database=C:\\Users\\rayki\\AppData\\Local\\Google\\Chrome\\User Data\\Crashpad",
+      "--metrics-dir=C:\\Users\\rayki\\AppData\\Local\\Google\\Chrome\\User Data",
+      "--url=https://clients2.google.com/cr/report",
+      "--annotation=channel=",
+      "--annotation=plat=Win64",
+      "--annotation=prod=Chrome",
+      "--annotation=ver=144.0.7559.133",
+      "--initial-client-data=0x138,0x13c,0x140,0x114,0x144,0x7ffbff660068,0x7ffbff660074,0x7ffbff660080"
+    ],
+    "memory": 921600,
+    "cpu_usage": 0.0013594559,
+    "parent_pid": 6516,
+    "exe_path": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+    "confidence": "Full",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 10696,
+    "name": "svchost.exe",
+    "cmd": [
+      "svchost.exe"
+    ],
+    "memory": 13172736,
+    "cpu_usage": 0.0,
+    "parent_pid": 1092,
+    "exe_path": null,
+    "confidence": "Low",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 5760,
+    "name": "raypher-core.exe",
+    "cmd": [
+      "target\\debug\\raypher-core.exe"
+    ],
+    "memory": 9035776,
+    "cpu_usage": 0.0016993083,
+    "parent_pid": 1624,
+    "exe_path": "C:\\Users\\rayki\\OneDrive\\Desktop\\Empire\\Ideas\\Raypher .exe\\raypher-core\\target\\debug\\raypher-core.exe",
+    "confidence": "Full",
+    "risk_level": "Medium",
+    "risk_reason": "AI runtime detected: ray (Ray distributed AI framework)",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 16820,
+    "name": "cloudcode_cli.exe",
+    "cmd": [
+      "C:\\Users\\rayki\\AppData\\Local\\cloud-code\\cloudcode_cli\\cloudcode_cli\\dd2543ac\\cloudcode_cli.exe",
+      "duet",
+      "-trace",
+      "-logtostderr"
+    ],
+    "memory": 46469120,
+    "cpu_usage": 0.04724093,
+    "parent_pid": 4752,
+    "exe_path": "C:\\Users\\rayki\\AppData\\Local\\cloud-code\\cloudcode_cli\\cloudcode_cli\\dd2543ac\\cloudcode_cli.exe",
+    "confidence": "Full",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 1504,
+    "name": "svchost.exe",
+    "cmd": [
+      "svchost.exe"
+    ],
+    "memory": 3072000,
+    "cpu_usage": 0.0,
+    "parent_pid": 1092,
+    "exe_path": null,
+    "confidence": "Low",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 16060,
+    "name": "vctip.exe",
+    "cmd": [
+      "C:\\Program Files (x86)\\Microsoft Visual Studio\\2022\\BuildTools\\VC\\Tools\\MSVC\\14.44.35207\\bin\\HostX64\\x64\\VCTIP.EXE"
+    ],
+    "memory": 27504640,
+    "cpu_usage": 0.024470123,
+    "parent_pid": 19284,
+    "exe_path": "C:\\Program Files (x86)\\Microsoft Visual Studio\\2022\\BuildTools\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\vctip.exe",
+    "confidence": "Full",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 11496,
+    "name": "explorer.exe",
+    "cmd": [
+      "C:\\WINDOWS\\Explorer.EXE"
+    ],
+    "memory": 141070336,
+    "cpu_usage": 3.250448,
+    "parent_pid": 11424,
+    "exe_path": "C:\\Windows\\explorer.exe",
+    "confidence": "Full",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 4128,
+    "name": "audiodg.exe",
+    "cmd": [
+      "audiodg.exe"
+    ],
+    "memory": 14012416,
+    "cpu_usage": 0.0149539625,
+    "parent_pid": 3584,
+    "exe_path": "C:\\Windows\\System32\\audiodg.exe",
+    "confidence": "Partial",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 7372,
+    "name": "svchost.exe",
+    "cmd": [
+      "svchost.exe"
+    ],
+    "memory": 487424,
+    "cpu_usage": 0.0,
+    "parent_pid": 1092,
+    "exe_path": null,
+    "confidence": "Low",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 1356,
+    "name": "fontdrvhost.exe",
+    "cmd": [
+      "fontdrvhost.exe"
+    ],
+    "memory": 12288,
+    "cpu_usage": 0.0,
+    "parent_pid": 1156,
+    "exe_path": null,
+    "confidence": "Low",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 10016,
+    "name": "svchost.exe",
+    "cmd": [
+      "svchost.exe"
+    ],
+    "memory": 520192,
+    "cpu_usage": 0.0,
+    "parent_pid": 1092,
+    "exe_path": null,
+    "confidence": "Low",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 8104,
+    "name": "postgres.exe",
+    "cmd": [
+      "postgres.exe"
+    ],
+    "memory": 4096,
+    "cpu_usage": 0.0,
+    "parent_pid": 7312,
+    "exe_path": null,
+    "confidence": "Partial",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 10228,
+    "name": "svchost.exe",
+    "cmd": [
+      "svchost.exe"
+    ],
+    "memory": 28672,
+    "cpu_usage": 0.0,
+    "parent_pid": 1092,
+    "exe_path": null,
+    "confidence": "Low",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  },
+  {
+    "pid": 7624,
+    "name": "msedgewebview2.exe",
+    "cmd": [
+      "C:\\Program Files (x86)\\Microsoft\\EdgeWebView\\Application\\144.0.3719.115\\msedgewebview2.exe",
+      "--type=crashpad-handler",
+      "--user-data-dir=C:\\Users\\rayki\\AppData\\Local\\Packages\\5319275A.WhatsAppDesktop_cv1g1gvanyjgm\\LocalCache\\EBWebView",
+      "/prefetch:4",
+      "/pfhostedapp:6b869b7592cfb31f7f9267f569d92848c239ed8e",
+      "--monitor-self-annotation=ptype=crashpad-handler",
+      "--database=C:\\Users\\rayki\\AppData\\Local\\Packages\\5319275A.WhatsAppDesktop_cv1g1gvanyjgm\\LocalCache\\EBWebView\\Crashpad",
+      "--metrics-dir=C:\\Users\\rayki\\AppData\\Local\\Packages\\5319275A.WhatsAppDesktop_cv1g1gvanyjgm\\LocalCache\\EBWebView",
+      "--annotation=IsOfficialBuild=1",
+      "--annotation=channel=",
+      "--annotation=chromium-version=144.0.7559.133",
+      "--annotation=exe=C:\\Program Files (x86)\\Microsoft\\EdgeWebView\\Application\\144.0.3719.115\\msedgewebview2.exe",
+      "--annotation=plat=Win64",
+      "--annotation=prod=Edge WebView2",
+      "--annotation=ver=144.0.3719.115",
+      "--initial-client-data=0x17c,0x180,0x184,0x158,0x18c,0x7ffc21332c98,0x7ffc21332ca4,0x7ffc21332cb0"
+    ],
+    "memory": 1482752,
+    "cpu_usage": 0.0016993141,
+    "parent_pid": 10900,
+    "exe_path": "C:\\Program Files (x86)\\Microsoft\\EdgeWebView\\Application\\144.0.3719.115\\msedgewebview2.exe",
+    "confidence": "Full",
+    "risk_level": "None",
+    "risk_reason": "No risk indicators detected",
+    "scanned_at": "2026-02-11T19:18:02.993665900Z"
+  }
+]
+[2m2026-02-11T19:18:03.032162Z[0m [32m INFO[0m [2mraypher_core[0m[2m:[0m Scan complete [3mtotal[0m[2m=[0m271 [3mduration_ms[0m[2m=[0m55

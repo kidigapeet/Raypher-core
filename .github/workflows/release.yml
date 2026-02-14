@@ -1,0 +1,148 @@
+# ──────────────────────────────────────────────────────────────
+# Raypher Release Pipeline — The Factory
+# ──────────────────────────────────────────────────────────────
+# Triggered by pushing a version tag (e.g., v0.2.0).
+# Builds for: Windows (binary + MSI), Linux AMD64, Linux ARM64.
+# Generates SHA256 checksums for integrity verification.
+# ──────────────────────────────────────────────────────────────
+
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: write
+
+jobs:
+  # ── Gate: Run tests before any builds ──────────────────────
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+      - name: Run tests
+        run: cargo test --no-default-features
+
+  # ── Linux Builds (AMD64 + ARM64) ──────────────────────────
+  build-linux:
+    needs: test
+    strategy:
+      matrix:
+        include:
+          - target: x86_64-unknown-linux-gnu
+            artifact: raypher-linux-amd64
+          - target: aarch64-unknown-linux-gnu
+            artifact: raypher-linux-arm64
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: ${{ matrix.target }}
+
+      - name: Install cross-compilation toolchain
+        run: cargo install cross --locked
+
+      - name: Build
+        run: cross build --release --target ${{ matrix.target }} --no-default-features
+
+      - name: Prepare artifact
+        run: |
+          cp target/${{ matrix.target }}/release/raypher-core ${{ matrix.artifact }}
+          chmod +x ${{ matrix.artifact }}
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.artifact }}
+          path: ${{ matrix.artifact }}
+
+  # ── Windows Build (Binary + MSI Installer) ────────────────
+  build-windows:
+    needs: test
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+
+      - name: Build release binary
+        run: cargo build --release
+
+      - name: Install cargo-wix
+        run: cargo install cargo-wix --locked
+
+      - name: Build MSI installer
+        run: cargo wix --no-build --nocapture
+        # --no-build because we already built above
+
+      - name: Upload binary
+        uses: actions/upload-artifact@v4
+        with:
+          name: raypher-windows.exe
+          path: target/release/raypher-core.exe
+
+      - name: Upload MSI
+        uses: actions/upload-artifact@v4
+        with:
+          name: RaypherSetup.msi
+          path: target/wix/*.msi
+
+  # ── Create GitHub Release ──────────────────────────────────
+  release:
+    needs: [build-linux, build-windows]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download all artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: artifacts
+
+      - name: Generate SHA256 checksums
+        run: |
+          cd artifacts
+          find . -type f \( -name "*.exe" -o -name "*.msi" -o -name "raypher-*" \) -exec sha256sum {} \; | sort > SHA256SUMS.txt
+          echo "=== Checksums ==="
+          cat SHA256SUMS.txt
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          name: Raypher ${{ github.ref_name }} — Ghost Protocol
+          body: |
+            ## Raypher ${{ github.ref_name }} — Ghost Protocol
+
+            Silicon-native sovereign security for AI agents.
+
+            ### Downloads
+
+            | Platform | File | Notes |
+            |---|---|---|
+            | 🪟 Windows (Installer) | `RaypherSetup.msi` | **Recommended.** Double-click → auto-installs as service. |
+            | 🪟 Windows (Binary) | `raypher-windows.exe` | Manual / portable installation. |
+            | 🐧 Linux (AMD64) | `raypher-linux-amd64` | For x86_64 servers and desktops. |
+            | 🐧 Linux (ARM64) | `raypher-linux-arm64` | For Raspberry Pi, AWS Graviton, etc. |
+
+            ### Verify Integrity
+            ```bash
+            sha256sum -c SHA256SUMS.txt
+            ```
+
+            ### Quick Start
+            ```powershell
+            # Windows (after MSI install)
+            raypher-core scan
+            raypher-core seal --provider openai --key "sk-..."
+            raypher-core proxy
+
+            # Linux
+            chmod +x raypher-linux-amd64
+            ./raypher-linux-amd64 scan
+            ```
+          files: |
+            artifacts/**/*
+            artifacts/SHA256SUMS.txt
+          draft: false
+          prerelease: false

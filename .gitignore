@@ -1,0 +1,6 @@
+﻿target/
+.idea/
+.vscode/
+*.exe
+*.pdb
+scan_results.json

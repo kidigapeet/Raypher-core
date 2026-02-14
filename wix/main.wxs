@@ -1,0 +1,164 @@
+<?xml version='1.0' encoding='windows-1252'?>
+<!--
+  Raypher MSI Installer — WiX Configuration
+  ──────────────────────────────────────────
+  Generated for cargo-wix. This file defines:
+  • File installation to Program Files
+  • Windows Service registration (RaypherService)
+  • Service auto-start and failure recovery
+  • Start Menu shortcuts
+  • Clean uninstallation
+-->
+<?if $(sys.BUILDARCH) = x64 or $(sys.BUILDARCH) = ia64 ?>
+    <?define PlatformProgramFilesFolder = "ProgramFiles64Folder" ?>
+<?else ?>
+    <?define PlatformProgramFilesFolder = "ProgramFilesFolder" ?>
+<?endif ?>
+
+<Wix xmlns='http://schemas.microsoft.com/wix/2006/wi'
+     xmlns:util='http://schemas.microsoft.com/wix/UtilExtension'>
+
+    <Product
+        Id='*'
+        Name='Raypher AI Safety Agent'
+        UpgradeCode='A1B2C3D4-E5F6-7890-ABCD-EF1234567890'
+        Manufacturer='Raypher Labs'
+        Language='1033'
+        Codepage='1252'
+        Version='$(var.Version)'>
+
+        <Package Id='*'
+            Keywords='Installer'
+            Description='Raypher — Silicon-native sovereign security for AI agents'
+            Manufacturer='Raypher Labs'
+            InstallerVersion='450'
+            Languages='1033'
+            Compressed='yes'
+            InstallScope='perMachine'
+            SummaryCodepage='1252'
+            Platform='$(sys.BUILDARCH)' />
+
+        <MajorUpgrade
+            Schedule='afterInstallInitialize'
+            DowngradeErrorMessage='A newer version of [ProductName] is already installed. Setup will now exit.' />
+
+        <MediaTemplate EmbedCab='yes' />
+
+        <!-- ── Metadata (for Programs & Features) ── -->
+        <Property Id='ARPHELPLINK' Value='https://github.com/kidigapeet/Raypher-core' />
+        <Property Id='ARPURLINFOABOUT' Value='https://github.com/kidigapeet/Raypher-core' />
+
+        <!-- ══════════════════════════════════════════════════════
+             DIRECTORY STRUCTURE
+             ══════════════════════════════════════════════════════ -->
+        <Directory Id='TARGETDIR' Name='SourceDir'>
+            <Directory Id='$(var.PlatformProgramFilesFolder)' Name='PFiles'>
+                <Directory Id='APPLICATIONFOLDER' Name='Raypher'>
+                    <!-- Main binary -->
+                    <Component Id='binary0' Guid='*'>
+                        <File
+                            Id='exe0'
+                            Name='raypher-core.exe'
+                            DiskId='1'
+                            Source='target\release\raypher-core.exe'
+                            KeyPath='yes'>
+                            
+                            <!-- ── Advertised Start Menu Shortcut ── -->
+                            <Shortcut
+                                Id='ApplicationStartMenuShortcut'
+                                Directory='ApplicationProgramsFolder'
+                                Name='Raypher CLI'
+                                Description='Raypher AI Safety Agent — Command Line Interface'
+                                WorkingDirectory='APPLICATIONFOLDER'
+                                Advertise='yes' />
+                        </File>
+
+                        <!-- ── Windows Service Registration ── -->
+                        <ServiceInstall
+                            Id='RaypherServiceInstall'
+                            Name='RaypherService'
+                            DisplayName='Raypher AI Safety Agent'
+                            Description='Silicon-native sovereign security — monitors AI processes, manages API key vault, localhost proxy.'
+                            Start='auto'
+                            Type='ownProcess'
+                            ErrorControl='normal'
+                            Account='LocalSystem'
+                            Arguments='--service' />
+
+                        <!-- Start on install, stop on uninstall -->
+                        <ServiceControl
+                            Id='RaypherServiceControl'
+                            Name='RaypherService'
+                            Start='install'
+                            Stop='both'
+                            Remove='uninstall'
+                            Wait='yes' />
+
+                        <!-- ── Service Recovery: Auto-restart on failure ── -->
+                        <util:ServiceConfig
+                            ServiceName='RaypherService'
+                            FirstFailureActionType='restart'
+                            SecondFailureActionType='restart'
+                            ThirdFailureActionType='restart'
+                            RestartServiceDelayInSeconds='1'
+                            ResetPeriodInDays='1' />
+                    </Component>
+
+                    <!-- ── Add to PATH (Machine-wide) ── -->
+                    <Component Id='Path' Guid='*'>
+                        <Environment
+                            Id='PATH'
+                            Name='PATH'
+                            Value='[APPLICATIONFOLDER]'
+                            Permanent='no'
+                            Part='last'
+                            Action='set'
+                            System='yes' />
+                        <RegistryValue
+                            Root='HKLM'
+                            Key='Software\Raypher Labs\Raypher'
+                            Name='PathConfigured'
+                            Type='integer'
+                            Value='1'
+                            KeyPath='yes' />
+                    </Component>
+                </Directory>
+            </Directory>
+
+            <!-- ── Start Menu Folder ── -->
+            <Directory Id='ProgramMenuFolder' Name='Programs'>
+                <Directory Id='ApplicationProgramsFolder' Name='Raypher'>
+                    <Component Id='CleanUpShortCut' Guid='*'>
+                        <RemoveFolder Id='CleanUpShortCut' On='uninstall' />
+                        <RegistryValue
+                            Root='HKCU'
+                            Key='Software\Raypher Labs\Raypher'
+                            Name='ShortcutsCleaned'
+                            Type='integer'
+                            Value='1'
+                            KeyPath='yes' />
+                    </Component>
+                </Directory>
+            </Directory>
+        </Directory>
+
+        <!-- ══════════════════════════════════════════════════════
+             FEATURE TREE
+             ══════════════════════════════════════════════════════ -->
+        <Feature
+            Id='Main'
+            Title='Raypher Application'
+            Description='Installs Raypher binary, registers the Windows service, adds a Start Menu shortcut, and configures the system PATH.'
+            Level='1'
+            ConfigurableDirectory='APPLICATIONFOLDER'
+            AllowAdvertise='no'
+            Display='expand'
+            Absent='disallow'>
+
+            <ComponentRef Id='binary0' />
+            <ComponentRef Id='Path' />
+            <ComponentRef Id='CleanUpShortCut' />
+        </Feature>
+
+    </Product>
+</Wix>

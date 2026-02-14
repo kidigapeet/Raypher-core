@@ -1,0 +1,14 @@
+[build.env]
+passthrough = ["TPM2TOOLS_TCTI", "TCTI"]
+
+[target.x86_64-pc-windows-gnu]
+# Windows cross-compilation settings
+image = "ghcr.io/cross-rs/x86_64-pc-windows-gnu:latest"
+
+[target.x86_64-unknown-linux-gnu]
+# Standatd Linux
+image = "ghcr.io/cross-rs/x86_64-unknown-linux-gnu:latest"
+
+[target.aarch64-unknown-linux-gnu]
+# ARM64 Linux (Raspberry Pi 4, AWS Graviton)
+image = "ghcr.io/cross-rs/aarch64-unknown-linux-gnu:latest"

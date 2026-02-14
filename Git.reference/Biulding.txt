@@ -1,0 +1,161 @@
+Week 1: The "Hunter" (Process Discovery)
+Objective: Build a Rust module that sees everything running on the OS, including processes trying to hide.
+
+Step 1: The sysinfo Foundation (Day 1-2)
+Context: In Python, psutil handles permission errors for you. In Rust, you get None.
+
+Action:
+
+Create a new file src/scanner.rs.
+
+Use the AI to generate the struct:
+
+pub struct ProcessData { pid: u32, name: String, cmd: Vec<String>, memory: u64 }
+
+The Trap: When you run process.cmd() on a System Process (like Antivirus or Root), it will return an empty list because you lack permissions.
+
+The Fix (Write this Logic):
+
+Rust
+// If cmd is empty, fall back to process name.
+// Log a "Low Confidence" warning internally.
+let cmd_line = if process.cmd().is_empty() {
+    vec![process.name().to_string()] // Fallback
+} else {
+    process.cmd().to_vec()
+};
+Step 2: The Heuristic Engine (Day 3-5)
+Context: A hacker won't name their agent malware.exe. They will name it python.exe or node.exe.
+
+Action: Implement a RiskScore function.
+
+Level 1 (Binary Name): Matches ollama, uvicorn, torchserve. -> Risk: MEDIUM.
+
+Level 2 (Arguments):
+
+If binary is python, scan the arguments.
+
+Keywords: langchain, openai, api_key, huggingface.
+
+Match: -> Risk: HIGH.
+
+Level 3 (Environment - Advanced):
+
+Try to read process.environ().
+
+Look for: OPENAI_API_KEY.
+
+Note: This often fails on Windows/Mac due to OS protections. Don't rely on it, but log it if you see it.
+
+Week 2: The "Hardware Handshake" (TPM Identity)
+Objective: Bind the binary to the physical silicon so it cannot be cloned.
+Warning: This is the hardest part of Phase 1.
+
+Step 1: Setup FFI (Foreign Function Interface) (Day 1-2)
+Context: The library tss-esapi talks to C code (tpm2-tss).
+
+The Build Trap: You need the C libraries installed on your machine to compile this.
+
+Linux: sudo apt install libtss2-dev
+
+Windows: You might need to download the pre-compiled DLLs (ask the AI how to "link tpm2-tss on Windows").
+
+Action: Write a simple test function that just connects to the TPM context.
+
+let context = Context::new(TctiNameConf::from_environment_variable())?;
+
+Step 2: Read the EK (Endorsement Key) (Day 3-4)
+The Logic: You want the Public Key of the EK. This is burned into the chip at the factory.
+
+The Code Path:
+
+Create the EK Handle (0x81010001 is the standard persistent handle).
+
+Read the public part.
+
+Serialize it to bytes.
+
+Hash it (SHA-256).
+
+The Security Check:
+
+Run the code. Note the Hash.
+
+Reboot. Run it again.
+
+If the Hash changes, you failed. It must be persistent.
+
+Week 3: The "Terminator" (Panic Protocol)
+Objective: Kill a process and its children safely.
+
+Step 1: The Recursive Tree (Day 1-2)
+Context: If you kill a Python script, the chrome window it opened might stay open.
+
+Action:
+
+Use sysinfo to get the parent_id of every running process.
+
+Build a "Map" of Parent -> [Children].
+
+Algorithm:
+
+Input: Target_PID
+
+Find children of Target_PID.
+
+Find children of those children (Recursion).
+
+Collect ALL PIDs into a list.
+
+Kill them from Bottom-Up (Children first, then Parent).
+
+Step 2: The "Safety" Filter (Day 3-4)
+The Risk: You accidentally kill csrss.exe (Windows) or systemd (Linux) and blue-screen the user.
+
+Action: Implement a Hard Whitelist.
+
+Rust
+fn is_safe_to_kill(pid: u32) -> bool {
+    if pid < 100 { return false; } // System PIDs
+    if pid == my_own_pid { return false; } // Suicide check
+    // Add OS-specific critical processes
+    let critical = vec!["explorer.exe", "kernel_task", "launchd"];
+    // ... check names ...
+}
+Week 4: The "Watchtower" (Automation)
+Objective: Run the scanner in a loop without eating 100% CPU.
+
+Step 1: The Efficient Loop (Day 1-2)
+The Trap: sysinfo::System::new_all() is expensive. It scans everything.
+
+Action:
+
+Initialize System once outside the loop.
+
+Inside the loop, call system.refresh_processes().
+
+Add a std::thread::sleep(Duration::from_secs(2)) delay.
+
+Result: < 1% CPU usage.
+
+Step 2: Cross-Compilation (Day 3-5)
+Context: You code on Linux/Mac, but your first user is on Windows.
+
+Action:
+
+Use the cross crate (tool for cross-compiling Rust).
+
+Command: cross build --target x86_64-pc-windows-gnu --release.
+
+Why: This uses Docker to compile a Windows .exe from your Linux machine. It saves you from buying a Windows PC immediately.
+
+The "Founder 1" Checklist for Success
+[ ] Can I print my TPM Hash?
+
+[ ] Can I detect a Python script running langchain?
+
+[ ] Can I kill a process tree without crashing my own laptop?
+
+[ ] Does my binary run on a different OS than the one I built it on?
+
+If you check these 4 boxes, Phase 1 is complete.

@@ -1,0 +1,50 @@
+[package]
+name = "raypher-core"
+version = "0.2.0"
+edition = "2021"
+description = "Silicon-native sovereign security for AI agents"
+authors = ["Raypher Labs"]
+license = "MIT"
+homepage = "https://github.com/kidigapeet/Raypher-core"
+repository = "https://github.com/kidigapeet/Raypher-core"
+
+[dependencies]
+sysinfo = "0.32"
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+sha2 = "0.10"
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["fmt", "env-filter"] }
+tracing-appender = "0.2"
+chrono = { version = "0.4", features = ["serde"] }
+hex = "0.4"
+clap = { version = "4.4", features = ["derive"] }
+ctrlc = "3.4"
+rusqlite = { version = "0.31", features = ["bundled"] }
+toml = "0.8"
+tokio = { version = "1", features = ["full"] }
+axum = "0.7"
+reqwest = { version = "0.12", default-features = false, features = ["rustls-tls", "json"] }
+hyper-util = { version = "0.1", features = ["tokio"] }
+rpassword = "7.3"
+self_update = { version = "0.41", default-features = false, features = ["rustls"] }
+dirs-next = "2.0"
+
+[features]
+default = ["tpm"]
+tpm = ["dep:windows"]
+
+[profile.release]
+opt-level = 3
+lto = true          # Link-Time Optimization for smaller, faster binary
+strip = true        # Strip debug symbols
+codegen-units = 1   # Maximum optimization (slower compile, faster runtime)
+
+# Windows-specific dependencies
+[target.'cfg(windows)'.dependencies]
+windows = { version = "0.57.0", features = [
+    "Win32_Security_Cryptography",
+    "Win32_Security",
+    "Win32_Foundation"
+], optional = true }
+windows-service = "0.7"
