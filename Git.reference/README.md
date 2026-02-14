@@ -1,545 +1,317 @@
-<![CDATA[# RAYPHER — The Operating System for AI Security
+<![CDATA[<div align="center">
 
-> **"No other platform on earth connects hardware identity to kernel enforcement to enterprise governance in one binary."**
+# 🛡️ RAYPHER
 
-Raypher is a silicon-native, sovereign security platform that monitors, controls, and governs autonomous AI agents at the hardware and OS level. It runs as an invisible background service, binds its identity to physical TPM silicon, and sits between AI agents and the outside world — intercepting, auditing, and enforcing policy on every action.
+### The Operating System for AI Security
 
-**Repository:** [github.com/kidigapeet/Raypher-core](https://github.com/kidigapeet/Raypher-core)
-**Version:** `v0.2.0`
-**Language:** Rust
-**License:** MIT
+[![Version](https://img.shields.io/badge/version-v0.2.0-blue?style=for-the-badge)](https://github.com/kidigapeet/Raypher-core/releases)
+[![Language](https://img.shields.io/badge/built_with-Rust-orange?style=for-the-badge&logo=rust)](https://www.rust-lang.org)
+[![License](https://img.shields.io/badge/license-MIT-green?style=for-the-badge)](LICENSE)
+[![Platform](https://img.shields.io/badge/platform-Windows%20%7C%20Linux-lightgrey?style=for-the-badge)]()
 
----
+**Silicon-native sovereign security for autonomous AI agents.**
+**No other platform on earth connects hardware identity to kernel enforcement to enterprise governance in one binary.**
 
-## Table of Contents
+[Getting Started](#-getting-started) · [Features](#-the-10-features) · [CLI Reference](#-cli-reference) · [Progress](#-completion-status)
 
-- [Architecture Overview](#architecture-overview)
-- [Technology Stack](#technology-stack)
-- [Feature Map — All 10 Phases](#feature-map--all-10-phases)
-  - [Phase 1 — The Foundation (Silicon Sentinel)](#phase-1--the-foundation-silicon-sentinel)
-  - [Phase 2 — The Ghost Protocol (Invisibility & Persistence)](#phase-2--the-ghost-protocol-invisibility--persistence)
-  - [Phase 3 — The Local Guard (Kernel-Level Enforcement)](#phase-3--the-local-guard-kernel-level-enforcement)
-  - [Phase 4 — The Network Proxy (Air Traffic Controller)](#phase-4--the-network-proxy-air-traffic-controller)
-  - [Phase 5 — The Policy Engine (The Constitution)](#phase-5--the-policy-engine-the-constitution)
-  - [Phase 6 — Shadow AI Discovery (The Sonar)](#phase-6--shadow-ai-discovery-the-sonar)
-  - [Phase 7 — Data Loss Prevention (The Content Filter)](#phase-7--data-loss-prevention-the-content-filter)
-  - [Phase 8 — The Trust Score (FICO Score for AI)](#phase-8--the-trust-score-fico-score-for-ai)
-  - [Phase 9 — The Audit Ledger (The Flight Recorder)](#phase-9--the-audit-ledger-the-flight-recorder)
-  - [Phase 10 — The Unified Dashboard (God Mode)](#phase-10--the-unified-dashboard-god-mode)
-- [Source File Map](#source-file-map)
-- [CLI Reference](#cli-reference)
-- [Installation](#installation)
-- [Build From Source](#build-from-source)
-- [Completion Checklist — Where We Are](#completion-checklist--where-we-are)
+</div>
 
 ---
 
-## Architecture Overview
+## 🧬 What Is Raypher?
+
+Raypher is an **invisible, unkillable security service** that monitors, controls, and governs autonomous AI agents at the hardware and OS level. It runs as a background system service, binds its identity to the physical **TPM 2.0** chip, and sits between AI agents and the outside world — intercepting, auditing, and enforcing policy on every action.
+
+> 💡 **Think of it as:** An operating system layer between your AI agents and everything they touch — files, networks, APIs, databases. The agent never sees Raypher. Raypher sees everything.
+
+### The Problem
+
+| Without Raypher | With Raypher |
+|:---|:---|
+| API keys hardcoded in `.env` files | 🔐 Keys sealed in TPM silicon — never on disk |
+| No visibility into what agents are doing | 👁️ Every action audited to immutable ledger |
+| Agents can access any file, any server | 🚧 Kernel-level policies block dangerous actions |
+| No way to kill a rogue agent instantly | ⚡ Panic Protocol: sub-millisecond recursive kill |
+| Updates require manual intervention | 🔄 Self-updating with 5-minute auto-rollback |
+
+---
+
+## 🏗️ Architecture
+
+```mermaid
+graph TB
+    subgraph AGENTS["🤖 AI Agent Layer"]
+        A1["python agent.py"]
+        A2["OpenClaw"]
+        A3["LangChain / CrewAI"]
+    end
+
+    subgraph PROXY["🛡️ Raypher Proxy — localhost:8888"]
+        P1["PID Resolver"]
+        P2["EXE Hash Verifier"]
+        P3["Secret Injector"]
+        P4["Audit Logger"]
+    end
+
+    subgraph ENGINE["⚙️ Raypher Core Engine"]
+        E1["Scanner"]
+        E2["Heuristics"]
+        E3["Terminator"]
+        E4["Watchdog"]
+        E5["Identity — TPM 2.0"]
+        E6["Secrets Vault"]
+        E7["Database — SQLite"]
+        E8["Auto-Updater"]
+        E9["Config — TOML"]
+    end
+
+    subgraph HW["🔒 Hardware Layer"]
+        T1["TPM 2.0 Chip — Machine DNA"]
+    end
+
+    subgraph API["🌐 External APIs"]
+        X1["api.openai.com"]
+        X2["api.anthropic.com"]
+    end
+
+    A1 & A2 & A3 -->|"HTTP request"| PROXY
+    PROXY -->|"Real API key injected"| X1 & X2
+    ENGINE --> PROXY
+    E5 --- T1
+    E6 --- T1
+
+    style AGENTS fill:#1a1a2e,stroke:#e94560,color:#fff
+    style PROXY fill:#16213e,stroke:#0f3460,color:#fff
+    style ENGINE fill:#0f3460,stroke:#533483,color:#fff
+    style HW fill:#533483,stroke:#e94560,color:#fff
+    style API fill:#1a1a2e,stroke:#0f3460,color:#fff
+```
+
+---
+
+## ✨ The 10 Features
+
+Raypher is built in **10 phases**, each adding a layer of security. Phases 1 & 2 are complete.
+
+### 🟢 Phase 1 — The Foundation *(Silicon Sentinel)* `COMPLETE`
+
+> Build the engine that sees, identifies, judges, and kills rogue AI processes.
+
+| Module | File | What It Does |
+|:---|:---|:---|
+| 🔍 **Scanner** | `scanner.rs` | Enumerates every running process with risk scoring |
+| 🧠 **Heuristics** | `heuristics.rs` | 3-level AI detection: binary name → arguments → environment |
+| 🧬 **Identity** | `identity.rs` | Reads TPM 2.0 Endorsement Key → SHA-256 machine fingerprint |
+| ☠️ **Terminator** | `terminator.rs` | Recursive process tree kill (children-first, bottom-up) |
+| 🛑 **Safety** | `safety.rs` | Hard whitelist protects `csrss.exe`, `systemd`, etc. |
+| 🚨 **Panic** | `panic.rs` | Dead Man's Switch: emergency kill with forensic snapshot |
+| 🗼 **Watchtower** | `watchtower.rs` | Efficient monitoring loop (< 1% CPU) with graceful Ctrl+C |
+
+<details>
+<summary><b>🔎 Risk Scoring Detail</b></summary>
 
 ```
-┌─────────────────────────────────────────────────────────────────┐
-│                    USER / AI AGENT LAYER                         │
-│    python agent.py  ·  OpenClaw  ·  LangChain  ·  CrewAI        │
-└──────────────────────────┬──────────────────────────────────────┘
-                           │ HTTP to localhost:8888
-┌──────────────────────────▼──────────────────────────────────────┐
-│                     RAYPHER PROXY LAYER                          │
-│  ┌──────────┐ ┌──────────────┐ ┌──────────┐ ┌───────────────┐  │
-│  │ PID      │ │ EXE Hash     │ │ Secret   │ │ Audit Logger  │  │
-│  │ Resolver │ │ Verification │ │ Injector │ │ (DB Ledger)   │  │
-│  └──────────┘ └──────────────┘ └──────────┘ └───────────────┘  │
-└──────────────────────────┬──────────────────────────────────────┘
-                           │ HTTPS (real API key injected)
-┌──────────────────────────▼──────────────────────────────────────┐
-│                  EXTERNAL API PROVIDERS                          │
-│    api.openai.com  ·  api.anthropic.com  ·  huggingface.co      │
-└─────────────────────────────────────────────────────────────────┘
+Level 1 — Binary Name Match
+   ollama, uvicorn, torchserve, llama.cpp → MEDIUM
 
-┌─────────────────────────────────────────────────────────────────┐
-│                    RAYPHER CORE ENGINE                           │
-│  ┌──────────┐ ┌────────────┐ ┌──────────┐ ┌─────────────────┐  │
-│  │ Scanner  │ │ Heuristics │ │ Killer / │ │ Watchdog        │  │
-│  │ (sysinfo)│ │ (3-Level)  │ │ Terminat.│ │ (Auto-Restart)  │  │
-│  └──────────┘ └────────────┘ └──────────┘ └─────────────────┘  │
-│  ┌──────────┐ ┌────────────┐ ┌──────────┐ ┌─────────────────┐  │
-│  │ Identity │ │ Secrets    │ │ Database │ │ Watchtower      │  │
-│  │ (TPM 2.0)│ │ (Vault)    │ │ (SQLite) │ │ (Monitor Loop)  │  │
-│  └──────────┘ └────────────┘ └──────────┘ └─────────────────┘  │
-│  ┌──────────┐ ┌────────────┐ ┌──────────┐ ┌─────────────────┐  │
-│  │ Updater  │ │ Config     │ │ Safety   │ │ Panic Protocol  │  │
-│  │ (GitHub) │ │ (TOML)     │ │ (Filter) │ │ (Dead Man's SW) │  │
-│  └──────────┘ └────────────┘ └──────────┘ └─────────────────┘  │
-│  ┌──────────────────────────────────────────────────────────┐   │
-│  │          Windows Service (SCM) / Linux Daemon (systemd)  │   │
-│  └──────────────────────────────────────────────────────────┘   │
-└─────────────────────────────────────────────────────────────────┘
+Level 2 — Argument Analysis
+   python + langchain/openai/autogpt/crewai → HIGH
 
-┌─────────────────────────────────────────────────────────────────┐
-│                    HARDWARE LAYER                                │
-│  ┌──────────────────────────────────────────────────────────┐   │
-│  │  TPM 2.0 Chip — Endorsement Key (EK) — Machine DNA      │   │
-│  │  SHA-256 Fingerprint · Seal/Unseal · Hardware Binding    │   │
-│  └──────────────────────────────────────────────────────────┘   │
-└─────────────────────────────────────────────────────────────────┘
+Level 3 — Environment Inspection
+   OPENAI_API_KEY, ANTHROPIC_API_KEY present → CRITICAL
 ```
 
----
-
-## Technology Stack
-
-| Component | Technology | Purpose |
-|---|---|---|
-| **Language** | Rust | Memory-safe, zero-cost abstractions, native binary |
-| **Process Discovery** | `sysinfo` crate | Cross-platform process enumeration |
-| **Hardware Identity** | Windows CNG / `tss-esapi` | TPM 2.0 chip communication |
-| **CLI Framework** | `clap` (derive) | Structured CLI parsing |
-| **Serialization** | `serde` + `serde_json` + `toml` | JSON output, TOML config |
-| **Logging** | `tracing` + `tracing-subscriber` + `tracing-appender` | Structured, production-grade logging |
-| **HTTP Server** | `axum` (async) | High-speed localhost proxy |
-| **HTTP Client** | `reqwest` (rustls) | Forwards proxied API calls |
-| **Database** | `rusqlite` (bundled SQLite) | Local secrets, policies, audit events |
-| **Windows Service** | `windows-service` crate | SCM integration, auto-start on boot |
-| **Linux Daemon** | `systemd` unit file | Auto-start, restart on failure |
-| **Installer** | `cargo-wix` (WiX MSI) | Professional Windows installer |
-| **CI/CD** | GitHub Actions | Automated cross-platform releases |
-| **TLS** | `rustls` (pure Rust) | No OpenSSL "DLL Hell" |
-| **Auto-Update** | `self_update` crate | Binary hot-swap from GitHub Releases |
-| **Cross-Compile** | `cross` crate | Docker-based cross-compilation |
-| **Async Runtime** | `tokio` (full) | Async I/O for proxy and service |
-| **Hashing** | `sha2` + `hex` | SHA-256 for fingerprints and integrity |
+</details>
 
 ---
 
-## Feature Map — All 10 Phases
+### 🟢 Phase 2 — The Ghost Protocol *(Invisibility & Persistence)* `COMPLETE`
 
-### Phase 1 — The Foundation (Silicon Sentinel)
+> Transform the CLI into an invisible, unkillable System Service with self-update and API key management.
 
-> **Goal:** Build the Rust engine that sees, identifies, judges, and kills rogue AI processes. Bind the binary to physical silicon so it cannot be cloned.
+| Module | File | What It Does |
+|:---|:---|:---|
+| 👻 **Service** | `service.rs` | Windows Service (SCM) running as `LocalSystem` |
+| 🔌 **Proxy** | `proxy.rs` | Localhost proxy on `:8888` with PID verification + key injection |
+| 🔑 **Secrets** | `secrets.rs` | TPM-sealed API key storage (seal/unseal/allow commands) |
+| 🗄️ **Database** | `database.rs` | SQLite audit ledger: events, secrets, scan results |
+| 🔄 **Updater** | `updater.rs` | Auto-update from GitHub Releases + 5-min rollback safety |
+| 🐕 **Watchdog** | `watchdog.rs` | OS-level crash recovery (restart on every failure) |
+| ⚙️ **Config** | `config.rs` | TOML configuration with sensible defaults |
+| 📦 **Installer** | `wix/main.wxs` | Windows MSI installer via WiX Toolset |
+| 🚀 **CI/CD** | `release.yml` | GitHub Actions automated cross-platform builds |
 
-#### 1.1 — Process Scanner (`scanner.rs`)
+<details>
+<summary><b>🔐 The Vault Flow — How API Keys Stay Safe</b></summary>
 
-The **Hunter**. Enumerates every running process using `sysinfo`:
+```
+1. Agent sends request → localhost:8888
+2. Raypher resolves the calling PID from TCP socket
+3. Scans PID → gets exe path → computes SHA-256 hash
+4. Checks hash against Allow List in database
+   ✅ Match  → Decrypts real API key from TPM vault
+             → Injects into Authorization header
+             → Forwards to api.openai.com
+   ❌ No match → Connection dropped. Agent sees "Connection Reset"
+5. Everything logged to audit ledger
+```
 
-- `ProcessData` struct capturing: PID, name, command-line args, memory, CPU usage, parent PID, exe path, confidence level, risk level, risk reason, scan timestamp
-- `DataConfidence` enum: `Full` / `Partial` / `Low` — degrades gracefully when OS denies access to process details
-- Outputs structured JSON via `serde_json` for downstream consumption
-- Handles elevated process visibility (System processes return empty command lines → falls back to process name with `Low` confidence)
+</details>
 
-#### 1.2 — Heuristic Risk Engine (`heuristics.rs`)
+<details>
+<summary><b>🔄 Auto-Rollback Safety Net</b></summary>
 
-The **Judge**. Three-level escalating risk analysis:
+```
+Update applied → marker file written with timestamp
+  └─ Service restarts within 5 minutes?
+     ├─ YES → New binary is bad → Restore .old binary → Rollback!
+     └─ NO  → Update is stable → Clean up .old and .failed binaries
+```
 
-| Level | Method | Trigger → Risk |
-|---|---|---|
-| **Level 1** | Binary Name Match | `ollama`, `uvicorn`, `torchserve`, `llama.cpp` → **MEDIUM** |
-| **Level 2** | Argument Analysis | `python` + args containing `langchain`, `openai`, `autogpt`, `crewai`, `--model`, `--api-key` → **HIGH** |
-| **Level 3** | Environment Inspection | `OPENAI_API_KEY`, `ANTHROPIC_API_KEY`, `HUGGINGFACE_TOKEN` present → **CRITICAL** |
-
-#### 1.3 — Silicon-Bound Identity (`identity.rs`)
-
-The **Passport**. Binds the binary to the physical TPM 2.0 chip:
-
-- Reads the Endorsement Key (EK) public portion from the TPM
-- Computes SHA-256 hash → **Machine Fingerprint** (persistent across reboots)
-- Fingerprint stored in database for hardware verification
-- **Cloning defense:** Stolen database files are useless on different hardware — the TPM EK is different, decryption fails
-
-**Windows Implementation:** Uses Windows CNG (`Win32_Security_Cryptography`) to access TPM via the platform crypto provider.
-
-#### 1.4 — Process Terminator (`terminator.rs` + `killer.rs`)
-
-The **Executioner**. Recursive process tree kill:
-
-1. Discovers all child processes using `parent_pid` mapping
-2. Builds a full process tree (children → grandchildren → ...)
-3. Kills **bottom-up** (leaves first, trunk last) to prevent orphan zombies
-4. Multi-stage kill chain: Freeze (SIGSTOP) → Tree Hunt (PGID) → Resource Sever (close file descriptors + sockets)
-
-#### 1.5 — Safety Filter (`safety.rs`)
-
-The **Guardrail**. Hard whitelist prevents accidental system kills:
-
-- PIDs < 100 are protected (system processes)
-- Suicide check (won't kill its own PID)
-- Critical process whitelist: `explorer.exe`, `csrss.exe`, `svchost.exe`, `systemd`, `kernel_task`, `launchd`
-
-#### 1.6 — Panic Protocol (`panic.rs`)
-
-The **Dead Man's Switch**. Emergency shutdown when an agent goes rogue:
-
-- Forensic snapshot of the last 60 seconds of activity
-- Context dump: what the agent was doing when Panic triggered
-- Immutable audit log entry with timestamp
-- Triggered via CLI: `raypher panic --pid <PID>`
-
-#### 1.7 — Watchtower (`watchtower.rs`)
-
-The **Sentry**. Efficient continuous monitoring loop:
-
-- Initializes `System` once, calls `refresh_processes()` incrementally (not `new_all()`)
-- 2-second scan interval → < 1% CPU usage
-- Graceful `Ctrl+C` handling via `AtomicBool` shutdown flag
-- Runs via: `raypher monitor`
+</details>
 
 ---
 
-### Phase 2 — The Ghost Protocol (Invisibility & Persistence)
+### 🔴 Phase 3 — The Local Guard *(Kernel-Level Enforcement)* `PLANNED`
 
-> **Goal:** Transform `raypher-core.exe` from a CLI tool into an invisible, unkillable System Service that runs on boot, self-updates, and manages API keys through a localhost proxy.
+> eBPF probes (Linux) + WFP filters (Windows) that block dangerous syscalls *before* they execute.
 
-#### 2.1 — Windows Service (`service.rs` + `main.rs`)
-
-The **Split Brain**. Single binary with two personalities:
-
-- **CLI Mode:** Triggered by user (`raypher scan`, `raypher seal`). Prints to console, exits when done.
-- **Service Mode:** Triggered by Windows SCM. No console. Reports status within 30 seconds or OS kills it.
-- Runs as `LocalSystem` (higher than Admin) — can kill malware, access TPM, bind to ports without firewall popups
-- Graceful stop handling via SCM event callbacks
-- Service event loop integrates: Watchtower scanning, auto-update checks, watchdog heartbeat
-
-#### 2.2 — Linux Daemon (`deploy/install-linux.sh`)
-
-Systemd unit file with:
-- `Restart=always` — instant restart on crash
-- `User=root` — permission to kill other processes
-- `StartLimitIntervalSec=60` — prevents restart-loop CPU burn
-
-#### 2.3 — Localhost Proxy (`proxy.rs`)
-
-The **Vault Flow**. Man-in-the-middle for API key injection:
-
-1. `axum` HTTP server on `127.0.0.1:8888`
-2. Accepts requests to `/v1/chat/completions` (OpenAI-compatible)
-3. **The Intercept Chain:**
-   - Resolves the calling **PID** from the TCP socket metadata
-   - Scans the PID using `sysinfo` → gets exe path
-   - Computes **SHA-256 hash** of the calling binary
-   - Checks the hash against the **Allow List** in `data.db`
-   - ✅ **Match:** Decrypts the real API key from TPM vault, injects `Authorization: Bearer sk-REAL-KEY`, forwards to real API
-   - ❌ **No Match:** Drops the connection. Agent gets "Connection Reset"
-4. Supports multiple providers: OpenAI, Anthropic, and custom endpoints
-5. Connection pooling via `reqwest` Keep-Alive for low latency
-
-#### 2.4 — Secret Manager (`secrets.rs`)
-
-The **Vault**. Hardware-bound secret storage:
-
-- `raypher seal --provider openai` — prompts for API key, encrypts with TPM public key, stores encrypted blob in SQLite `secrets` table
-- `raypher unseal --provider openai` — decrypts and displays (only works on same hardware)
-- `raypher allow --exe-path <path>` — adds a binary's SHA-256 hash to the proxy allow list
-- Secrets never exist in plaintext on disk — TPM-sealed at rest, decrypted only in memory during proxy forwarding
-
-#### 2.5 — Database & Audit Ledger (`database.rs`)
-
-The **Black Box**. SQLite database with structured schema:
-
-- **Tables:** `machine_info`, `secrets`, `allowed_exes`, `events`, `scan_results`
-- **Event logging:** Every significant action logged with: timestamp, event_type, details_json, severity
-- **Event types:** `MACHINE_REGISTERED`, `SECRET_STORED`, `EXE_ALLOWED`, `SCAN_COMPLETE`, `AUTO_UPDATE`, `UPDATE_ERROR`, `PROCESS_KILLED`
-- Auto-initialization: database and tables created on first run
-
-#### 2.6 — Windows Installer (`wix/main.wxs`)
-
-Professional MSI installer via WiX Toolset:
-- Service Name: `RaypherService`
-- Start Type: `Automatic` (starts on boot)
-- Custom Actions: register service with SCM, start immediately after install
-- Auto-updating ProductCode UUID for clean upgrades
-
-#### 2.7 — CI/CD Pipeline (`.github/workflows/release.yml`)
-
-GitHub Actions release workflow:
-- Triggers on tag push (`v*`)
-- Builds Linux binary (`x86_64-unknown-linux-gnu`)
-- Builds Windows binary
-- Creates GitHub Release with downloadable artifacts
-
-#### 2.8 — Auto-Updater (`updater.rs`)
-
-The **Immortal**. Self-updating binary:
-
-- Checks GitHub Releases for newer version tags
-- Downloads new binary in background
-- **Binary swap:** Renames current exe → `.old`, moves new binary into place, restarts service
-- **5-minute auto-rollback safety net:**
-  - After update, writes a timestamped marker file
-  - If service restarts within 5 minutes → assumes new binary is bad → restores `.old` binary
-  - If service runs > 5 minutes → update deemed stable → cleans up `.old` and `.failed` binaries
-- All update events (success, error, stability) logged to DB audit ledger
-
-#### 2.9 — Watchdog (`watchdog.rs`)
-
-The **Guardian**. Unkillable service protection:
-
-- Windows Service Recovery Actions: Restart on every failure (1st, 2nd, subsequent)
-- 1-second restart delay
-- 24-hour crash counter reset
-- OS-level restart (fresh memory) > code-level loop (panic kills everything)
-
-#### 2.10 — TOML Configuration (`config.rs` + `config/raypher.toml`)
-
-The **Brain**. Flexible configuration system:
-
-- Loads settings from `~/.raypher/config.toml`
-- Falls back to compiled defaults if file missing
-- **Sections:** Service (name, display_name, description), Proxy (host, port, timeout), Watchtower (scan_interval, auto_kill), Updater (enabled, check_interval, repo), Logging (level, file, max_size)
-- `write_defaults()` generates a commented default config file
+| Attack | Hook | Outcome |
+|:---|:---|:---|
+| Agent deletes `production.db` | `sys_unlink` | ❌ File deletion blocked |
+| Agent spawns `/bin/bash` piped to network | `sys_execve` + `sys_socket` | ❌ Process killed before connection opens |
+| Agent uploads customer data to `pastebin.com` | `sys_connect` | ❌ Connection reset, data never leaves |
 
 ---
 
-### Phase 3 — The Local Guard (Kernel-Level Enforcement)
+### 🔴 Phase 4 — The Network Proxy *(Air Traffic Controller)* `PLANNED`
 
-> **Goal:** Kernel-level interception that blocks dangerous actions *before* they execute.
+> Transparent MITM with TLS termination. Zero code changes from the developer.
 
-- **Linux:** eBPF probes (KProbes) attached to system calls: `sys_execve`, `sys_connect`, `sys_unlink`, `sys_open`
-- **Windows:** Kernel Callback Drivers (`PsSetCreateProcessNotifyRoutine`) + WFP (Windows Filtering Platform)
-- **Cross-platform abstraction:** Developer writes one policy → compiled to eBPF bytecode (Linux) or WFP filter (Windows)
-- Identity-aware: Maps Hardware Identity (TPM) to Kernel Enforcement
-
-**Attack Prevention:**
-
-| Scenario | Attack | Hook | Outcome |
-|---|---|---|---|
-| Sleepy Developer | Agent deletes `production.db` | `sys_unlink` | Deletion blocked |
-| Reverse Shell | Agent spawns `/bin/bash` piped to network | `sys_socket` + `sys_execve` | Process killed before connection opens |
-| Data Exfiltration | Agent uploads `customer_emails.txt` to `pastebin.com` | `sys_connect` | Connection reset, data never leaves |
+| Defense Layer | What It Blocks |
+|:---|:---|
+| 🛡️ **SSRF Prevention** | All private IP ranges (`10.0.0.0/8`, `169.254.x.x`) |
+| 🏰 **Domain Whitelisting** | Only whitelisted domains pass (e.g., `api.openai.com`) |
+| 🔍 **DLP Scanning** | Credit cards, SSNs, API keys detected via regex |
+| 💰 **Budget Enforcement** | Daily cost cap per agent (e.g., $50/day) |
 
 ---
 
-### Phase 4 — The Network Proxy (Air Traffic Controller)
+### 🔴 Phase 5 — The Policy Engine *(The Constitution)* `PLANNED`
 
-> **Goal:** Transparent local proxy with TLS termination. No code changes required from the developer.
+> Policy as Code. YAML/JSON rules version-controlled in Git.
 
-- **Local MITM:** Generates a unique Root CA on install, installs into OS Trust Store
-- **TLS Termination:** Raypher presents certificates signed by its local CA → decrypts traffic → inspects → re-encrypts → forwards
-- **Zero code changes:** Catches traffic at OS level (`iptables` / WFP), not via `base_url` changes
+**Four Pillars:** Operational (file/process access) · Financial (cost limits) · Network (domain control) · Temporal (time-fencing)
 
-**Four Defense Layers:**
-
-| Layer | Defense | Mechanism |
-|---|---|---|
-| **SSRF Prevention** | Block all private IP ranges (`10.0.0.0/8`, `192.168.x.x`, `169.254.x.x`) | Prevents AWS metadata access |
-| **Domain Whitelisting** | Policy: "Finance Agent ONLY talks to `api.openai.com` + `stripe.com`" | Any other domain → dropped |
-| **Data Loss Prevention** | Regex scan on body payload (Visa cards, API keys, SSNs) | Match → BLOCK, request never leaves |
-| **Budget Enforcement** | Track token usage + cost per agent. Daily limit = $50.00 | At $50.01 → return `429 Too Many Requests` |
+**Hierarchy:** Global (CISO) → Team (Manager) → Local (Developer). Most restrictive wins.
 
 ---
 
-### Phase 5 — The Policy Engine (The Constitution)
+### 🔴 Phase 6 — Shadow AI Discovery *(The Sonar)* `PLANNED`
 
-> **Goal:** Transform vague business intent into binary machine logic. Policy as Code.
+> Find every AI model, agent, and vector database running in the dark.
 
-**The Four Pillars:**
-
-| Pillar | What It Controls | Example |
-|---|---|---|
-| **Operational** | File system, process spawning, hardware access | `Block Write: /system/*`, `Block Spawn: /bin/bash` |
-| **Financial** | Cost limits, model restrictions | `Daily Limit: $20`, `Block: gpt-4-32k unless Senior Engineer` |
-| **Network** | Domain allowlists, DLP rules | `Allow: *.openai.com`, `Block if body contains sk-...` |
-| **Temporal** | Time-fencing | `Allow: Mon-Fri 09:00-18:00`, `Block: Weekends` |
-
-**Cascading Hierarchy:**
-1. **Global Policy (CISO)** → Cannot be overridden
-2. **Team Policy (Manager)** → "Backend can access AWS. Frontend cannot."
-3. **Local Policy (Developer)** → "Stop if agent spends > $5."
-
-Conflict resolution: **Most Restrictive** rule always wins.
-
-**Dynamic Trust-Based Policies:** Rules adapt based on Trust Score:
-- Score > 900 → Allow file deletion (auto)
-- Score 700-899 → Require human approval (pop-up)
-- Score < 700 → Block file deletion
+**Layers:** Process scanning · Port monitoring (11434, 8000, 6333) · Network inspection · mDNS discovery
 
 ---
 
-### Phase 6 — Shadow AI Discovery (The Sonar)
+### 🔴 Phase 7 — Data Loss Prevention *(The Content Filter)* `PLANNED`
 
-> **Goal:** Find every AI model, agent process, and vector database running in the dark — before you install a policy.
+> Automatic redaction of secrets and PII before data leaves the device.
 
-**Multi-Layer Reconnaissance:**
+**Engine:** High-speed Rust regex + contextual NER + Microsoft Presidio integration
 
-| Layer | Method | What It Finds |
-|---|---|---|
-| **Process Scanning** | Binary names + args + loaded DLLs | `ollama`, `python (running langchain)`, GPU-accelerated AI even if renamed |
-| **Port Listening** | Monitor known AI ports | 11434 (Ollama), 8000 (ChromaDB), 6333 (Qdrant), 5000 (Flask) |
-| **Network Inspection** | DNS cache + payload shape analysis | API calls to `api.anthropic.com`, LLM chat completion protocol patterns |
-| **mDNS Discovery** | Multicast DNS queries | `_ollama._tcp.local`, rogue AI servers on same network |
+**Compliance:** GDPR · HIPAA · PCI-DSS
 
 ---
 
-### Phase 7 — Data Loss Prevention (The Content Filter)
+### 🔴 Phase 8 — The Trust Score *(FICO Score for AI)* `PLANNED`
 
-> **Goal:** Automatic redaction engine scanning every byte of outbound data. Sanitize at the source.
-
-**Hybrid Inspection Engine:**
-
-| Layer | Speed | Technology | Coverage |
-|---|---|---|---|
-| **Regex Engine** | Microseconds | Optimized Rust (ripgrep-style) | Credit cards, SSNs, API keys (OpenAI, GitHub PAT, AWS), crypto wallets, emails |
-| **Contextual NER** | Milliseconds | Local Named Entity Recognition | Names, addresses, phone numbers, proprietary code |
-| **Presidio Integration** | — | Microsoft Presidio | Industry-standard PII detection (trusted by banks) |
-
-**Actions:** Redact (sanitize in-flight: SSN → `[REDACTED]`) or Block (HTTP 403, quarantine).
-
-**Compliance:** GDPR (PII stays on device), HIPAA (patient IDs blocked), PCI-DSS (card numbers never transmitted).
-
----
-
-### Phase 8 — The Trust Score (FICO Score for AI)
-
-> **Goal:** Dynamic, real-time reputation system. Score 0-1000 governing agent privileges.
+> Dynamic reputation system (0-1000) governing agent privileges.
 
 | Score | Status | Privileges |
-|---|---|---|
-| **900+** | Autonomous | Deploy code, move money |
-| **700-899** | Probationary | Human approval for sensitive actions |
-| **< 500** | Restricted | Read-only, sandboxed |
+|:---|:---|:---|
+| **900+** | 🟢 Autonomous | Deploy code, move money |
+| **700-899** | 🟡 Probationary | Needs human approval for sensitive actions |
+| **< 500** | 🔴 Restricted | Read-only, sandboxed |
 
-**The Algorithm — Three Pillars:**
-
-| Pillar | Weight | Factors |
-|---|---|---|
-| **Behavioral History** | 60% | Violation rate (-50/violation), crash rate (-10/crash), cost efficiency, hallucination rate |
-| **Identity & Provenance** | 20% | TPM binding (+100), code signature verification, developer reputation tier |
-| **Community Intelligence** | 20% | Global blocklist (500+ blocks → toxic), CVE vulnerability alerts (-200 until patched) |
-
-**Score decay:** Idle for 30 days → score drops (halflife). Agent must "prove" itself again.
+**Algorithm:** Behavioral History (60%) + Identity & Provenance (20%) + Community Intelligence (20%)
 
 ---
 
-### Phase 9 — The Audit Ledger (The Flight Recorder)
+### 🔴 Phase 9 — The Audit Ledger *(The Flight Recorder)* `PLANNED`
 
-> **Goal:** Cryptographically signed, immutable record of every agent action. Legally admissible chain of custody.
+> Cryptographically signed, immutable record. Legally admissible chain of custody.
 
-**Merkle Chain (Blockchain-Lite):**
+**Technology:** SHA-256 Merkle hash chain (Blockchain-Lite). Each entry links to the previous. Broken chain → `CORRUPTED` flag → CISO alert.
 
-1. **Atomic Entry:** Actor (Agent_ID + TPM Signature), Action (syscall + target), Policy (ID + result), Context (Trust Score), Timestamp (NTP atomic clock)
-2. **SHA-256 Hash:** Each entry hashed → tamper detection
-3. **Chain Link:** Each entry includes previous entry's hash → breaking the chain flags `CORRUPTED` → alerts CISO
-
-**Tiered Storage:**
-
-| Layer | Location | Retention | Purpose |
-|---|---|---|---|
-| **Local Buffer** | Developer's laptop (encrypted) | 24 hours (Free) | Instant debugging |
-| **Cloud Sync** | Raypher Cloud (S3 Immutable) | 30 days (Team) | Centralized reporting |
-| **Cold Storage** | Customer's own archive (Glacier/Splunk) | **7 years** (Enterprise) | Legal defense |
+**Storage:** Local encrypted buffer (24h) → Cloud sync (30 days) → Cold archive (7 years)
 
 ---
 
-### Phase 10 — The Unified Dashboard (God Mode)
+### 🔴 Phase 10 — The Unified Dashboard *(God Mode)* `PLANNED`
 
-> **Goal:** Single visual interface where all features converge. The reason CISOs sign the $100,000 check.
+> Single pane of glass for enterprise AI governance.
 
-**Three "God Mode" Views:**
+**Views:** API Watchtower (live connections) · Database X-Ray (data flow visualization) · Trust Leaderboard (risk ranking)
 
-| View | Question It Answers | Key Feature |
-|---|---|---|
-| **API Watchtower** | "Who is using our OpenAI key right now?" | Live streaming connections + "Kill Connection" button |
-| **Database X-Ray** | "Which agents touch the customer DB?" | Visualized data flow lines, `DROP TABLE` → RED alert |
-| **Trust Leaderboard** | "Which of my 5,000 agents is about to go rogue?" | Ranked by risk, CISO focuses on Bottom 10 |
-
-**Control Plane:**
-- **Global Policy Push:** CISO creates rule → clicks "Deploy Global" → all agents receive in < 2 seconds
-- **Global Freeze:** Zero-day in LangChain → "Freeze" → all 2,000 agents suspended in RAM instantly
-- **Compliance Report Generator:** SOC2 / ISO 27001 PDF with inventory, access control proof, incident log, cryptographic integrity proofs
-
-**Architecture:** gRPC heartbeats (edge → cloud), WebSocket dashboard (live, no page refresh), Rust/Go ingestor (millions of events/second).
+**Controls:** Global Policy Push (< 2 sec) · Global Freeze ("Panic Center") · SOC2/ISO 27001 Report Generator
 
 ---
 
-## Source File Map
-
-| File | Lines | Size | Purpose |
-|---|---|---|---|
-| `main.rs` | ~500 | 18 KB | CLI entry point (`clap`), Windows Service dispatcher, module wiring |
-| `scanner.rs` | ~280 | 9 KB | Process discovery via `sysinfo`, `ProcessData` struct, JSON output |
-| `heuristics.rs` | ~250 | 9 KB | 3-level risk scoring engine (binary name → args → env vars) |
-| `identity.rs` | ~180 | 6 KB | TPM 2.0 identity: EK reading, SHA-256 fingerprint, hardware binding |
-| `terminator.rs` | ~110 | 4 KB | Recursive process tree kill (bottom-up) |
-| `killer.rs` | ~160 | 6 KB | Process kill orchestration, multi-stage kill chain |
-| `safety.rs` | ~40 | 1 KB | Hard whitelist: critical process protection |
-| `panic.rs` | ~40 | 1 KB | Dead Man's Switch: forensic snapshot + emergency shutdown |
-| `watchtower.rs` | ~150 | 5 KB | Efficient monitoring loop, incremental refresh, Ctrl+C handling |
-| `proxy.rs` | ~440 | 15 KB | Localhost proxy (axum), PID resolution, secret injection, API forwarding |
-| `secrets.rs` | ~170 | 6 KB | TPM-sealed secret storage, seal/unseal commands, allow list management |
-| `database.rs` | ~330 | 11 KB | SQLite schema, event logging, CRUD for secrets/allowed exes/scan results |
-| `service.rs` | ~400 | 14 KB | Windows Service implementation, SCM integration, main service event loop |
-| `watchdog.rs` | ~140 | 5 KB | Service recovery configuration, unkillable service setup |
-| `updater.rs` | ~330 | 11 KB | GitHub Releases auto-update, binary swap, 5-min rollback safety net |
-| `config.rs` | ~240 | 9 KB | TOML configuration loader, defaults, config file generation |
-| `monitor.rs` | ~150 | 5 KB | Real-time monitoring display, process tracking |
-
-**Total: 17 source files · ~3,900 lines · ~135 KB of Rust**
-
----
-
-## CLI Reference
+## 💻 CLI Reference
 
 ```
 raypher-core — Silicon-native sovereign security for AI agents
 
-USAGE:
-    raypher-core <COMMAND>
-
 COMMANDS:
-    scan           Scan all running processes and score AI risk levels
-    monitor        Run the Watchtower continuous monitoring loop
-    seal           Encrypt and store an API key in the TPM-bound vault
-    unseal         Decrypt and display a stored API key (same hardware only)
-    allow          Add a binary's SHA-256 hash to the proxy allow list
-    proxy          Start the localhost API proxy on 127.0.0.1:8888
-    kill           Kill a process and its entire child tree
-    panic          Emergency shutdown: kill + forensic snapshot
-    identity       Display the machine's TPM fingerprint
-    update         Check for and apply binary updates from GitHub Releases
-    install        Install as a Windows Service (LocalSystem)
-    service        Run in Windows Service mode (called by SCM only)
-    query          Query the local database (events, scan results, secrets)
-    status         Display service status and health
+  scan       🔍  Scan all processes and score AI risk levels
+  monitor    🗼  Run the Watchtower continuous monitoring loop
+  seal       🔐  Encrypt and store an API key in the TPM vault
+  unseal     🔓  Decrypt and display a stored key (same hardware only)
+  allow      ✅  Add a binary's SHA-256 hash to the proxy allow list
+  proxy      🔌  Start the localhost API proxy on 127.0.0.1:8888
+  kill       ☠️   Kill a process and its entire child tree
+  panic      🚨  Emergency shutdown with forensic snapshot
+  identity   🧬  Display the machine's TPM fingerprint
+  update     🔄  Check for binary updates from GitHub Releases
+  install    📦  Install as a Windows Service
+  service    👻  Run in Windows Service mode (SCM only)
+  query      🗄️  Query the local database
+  status     📊  Display service health
 ```
 
 ---
 
-## Installation
+## 🚀 Getting Started
 
-### Windows (MSI Installer)
-```powershell
-# Download the MSI from GitHub Releases
-# Double-click → Next → Next → Finish
-# Raypher is now running as a Windows Service (invisible)
-```
+### Quick Install (Windows)
 
-### Windows (Manual)
 ```powershell
-# Build from source
+# 1. Build from source
 cargo build --release
 
-# Install as Windows Service
-.\target\release\raypher-core.exe install
-
-# Seal your API key
+# 2. Seal your OpenAI API key into the TPM vault
 .\target\release\raypher-core.exe seal --provider openai
 
-# Allow your Python runtime
+# 3. Allow your Python runtime through the proxy
 .\target\release\raypher-core.exe allow --exe-path "C:\Python312\python.exe"
 
-# Start the proxy
+# 4. Start the invisible proxy
 .\target\release\raypher-core.exe proxy
+
+# 5. Point your agent to localhost:8888 — Raypher handles the rest
 ```
 
-### Linux (systemd)
+### Quick Install (Linux)
+
 ```bash
-curl -fsSL https://github.com/kidigapeet/Raypher-core/releases/latest/download/raypher-linux-amd64 -o /usr/local/bin/raypher
-chmod +x /usr/local/bin/raypher
-sudo ./deploy/install-linux.sh
+curl -fsSL https://github.com/kidigapeet/Raypher-core/releases/latest/download/raypher-linux-amd64 \
+  -o /usr/local/bin/raypher && chmod +x /usr/local/bin/raypher
+sudo raypher install
 ```
 
----
-
-## Build From Source
-
-**Prerequisites:** Rust 1.75+ (with `cargo`), Git
+### Build From Source
 
 ```bash
 git clone https://github.com/kidigapeet/Raypher-core.git
@@ -547,160 +319,175 @@ cd Raypher-core
 cargo build --release
 ```
 
-**Cross-Compilation:**
-```bash
-# Install cross
-cargo install cross
+---
 
-# Build for Linux from Windows (or vice versa)
-cross build --target x86_64-unknown-linux-gnu --release
+## 🧩 Source Files
+
 ```
+src/
+├── main.rs          ← CLI + Windows Service dispatcher (18 KB)
+├── scanner.rs       ← Process discovery via sysinfo (9 KB)
+├── heuristics.rs    ← 3-level AI risk scoring (9 KB)
+├── identity.rs      ← TPM 2.0 machine fingerprint (6 KB)
+├── terminator.rs    ← Recursive process tree kill (4 KB)
+├── killer.rs        ← Kill chain orchestration (6 KB)
+├── safety.rs        ← Critical process whitelist (1 KB)
+├── panic.rs         ← Dead Man's Switch (1 KB)
+├── watchtower.rs    ← Monitoring loop (5 KB)
+├── proxy.rs         ← Localhost API proxy (15 KB)
+├── secrets.rs       ← TPM-sealed secret storage (6 KB)
+├── database.rs      ← SQLite audit ledger (11 KB)
+├── service.rs       ← Windows Service (SCM) (14 KB)
+├── watchdog.rs      ← Crash recovery (5 KB)
+├── updater.rs       ← Auto-update + rollback (11 KB)
+├── config.rs        ← TOML configuration (9 KB)
+└── monitor.rs       ← Real-time display (5 KB)
 
-**Release Profile:** LTO enabled, debug symbols stripped, single codegen unit for maximum optimization.
+17 files · ~3,900 lines of Rust · single native binary
+```
 
 ---
 
-## Completion Checklist — Where We Are
+## 📊 Completion Status
 
-### ✅ Phase 1 — The Foundation (Silicon Sentinel) — **100% COMPLETE**
+```
+Phase 1   ████████████████████  100%   The Foundation
+Phase 2   ████████████████████  100%   The Ghost Protocol
+Phase 3   ░░░░░░░░░░░░░░░░░░░░    0%   The Local Guard
+Phase 4   ░░░░░░░░░░░░░░░░░░░░    0%   The Network Proxy
+Phase 5   ░░░░░░░░░░░░░░░░░░░░    0%   The Policy Engine
+Phase 6   ░░░░░░░░░░░░░░░░░░░░    0%   Shadow AI Discovery
+Phase 7   ░░░░░░░░░░░░░░░░░░░░    0%   Data Loss Prevention
+Phase 8   ░░░░░░░░░░░░░░░░░░░░    0%   The Trust Score
+Phase 9   ░░░░░░░░░░░░░░░░░░░░    0%   The Audit Ledger
+Phase 10  ░░░░░░░░░░░░░░░░░░░░    0%   The Dashboard
+──────────────────────────────────────
+Overall   ████░░░░░░░░░░░░░░░░   20%   2 of 10 phases
+```
 
-- [x] Process scanner with `ProcessData`, `DataConfidence`, `RiskLevel` enums (`scanner.rs`)
+<details>
+<summary><b>📋 Detailed Checklist — Phase 1 (13/13 ✅)</b></summary>
+
+- [x] Process scanner with `ProcessData`, `DataConfidence`, `RiskLevel` enums
 - [x] Graceful fallback when OS denies access to process details
-- [x] 3-level heuristic risk engine: binary name → arguments → environment (`heuristics.rs`)
-- [x] TPM 2.0 identity: EK reading, SHA-256 machine fingerprint (`identity.rs`)
-- [x] Recursive process tree kill (bottom-up, children-first) (`terminator.rs`, `killer.rs`)
-- [x] Critical process safety whitelist (`safety.rs`)
-- [x] Panic Protocol: emergency shutdown + forensic snapshot (`panic.rs`)
-- [x] Watchtower: efficient monitoring loop with < 1% CPU (`watchtower.rs`)
-- [x] CLI entry point with `clap` subcommands (`main.rs`)
+- [x] 3-level heuristic risk engine: binary name → arguments → environment
+- [x] TPM 2.0 identity: EK reading, SHA-256 machine fingerprint
+- [x] Recursive process tree kill (bottom-up, children-first)
+- [x] Critical process safety whitelist
+- [x] Panic Protocol: emergency shutdown + forensic snapshot
+- [x] Watchtower: efficient monitoring loop (< 1% CPU)
+- [x] CLI entry point with `clap` subcommands
 - [x] Structured JSON output via `serde_json`
 - [x] `tracing` structured logging
 - [x] Cross-compilation support via `cross` crate
 - [x] Release profile: LTO, stripped, single codegen unit
 
-### ✅ Phase 2 — The Ghost Protocol (Invisibility & Persistence) — **100% COMPLETE**
+</details>
 
-- [x] Windows Service implementation with SCM handshake (`service.rs`, `main.rs`)
+<details>
+<summary><b>📋 Detailed Checklist — Phase 2 (15/15 ✅)</b></summary>
+
+- [x] Windows Service implementation with SCM handshake
 - [x] Service runs as `LocalSystem` (higher than Admin)
-- [x] Linux daemon systemd unit file (`deploy/install-linux.sh`)
-- [x] Localhost proxy on `127.0.0.1:8888` with PID resolution + EXE hash verification (`proxy.rs`)
-- [x] Secret injection: TPM-decrypted API key injected into `Authorization` header
-- [x] Secret Manager: `seal`, `unseal`, `allow` commands (`secrets.rs`)
-- [x] SQLite database with events, secrets, allowed_exes, scan_results tables (`database.rs`)
-- [x] Audit event logging: `MACHINE_REGISTERED`, `SECRET_STORED`, `EXE_ALLOWED`, `AUTO_UPDATE`, `UPDATE_ERROR`
-- [x] Windows MSI installer via WiX Toolset (`wix/main.wxs`)
-- [x] GitHub Actions CI/CD pipeline (`.github/workflows/release.yml`)
-- [x] Auto-updater from GitHub Releases with binary swap (`updater.rs`)
-- [x] 5-minute auto-rollback safety net with marker file system (`updater.rs`)
-- [x] Watchdog: OS-level service recovery on crash (`watchdog.rs`)
-- [x] TOML configuration system with defaults (`config.rs`, `config/raypher.toml`)
-- [x] All update events (success, error, stability) logged to DB audit ledger
+- [x] Linux daemon systemd unit file
+- [x] Localhost proxy on `:8888` with PID resolution + EXE hash verification
+- [x] Secret injection: TPM-decrypted API key into `Authorization` header
+- [x] Secret Manager: `seal`, `unseal`, `allow` commands
+- [x] SQLite database with events, secrets, allowed_exes, scan_results tables
+- [x] Audit event logging: `AUTO_UPDATE`, `UPDATE_ERROR`, etc.
+- [x] Windows MSI installer via WiX Toolset
+- [x] GitHub Actions CI/CD pipeline
+- [x] Auto-updater from GitHub Releases with binary swap
+- [x] 5-minute auto-rollback safety net with marker file system
+- [x] Watchdog: OS-level service recovery on crash
+- [x] TOML configuration system with defaults
+- [x] All update events logged to DB audit ledger
 
-### ⬜ Phase 3 — The Local Guard (Kernel-Level Enforcement) — **NOT STARTED**
+</details>
 
-- [ ] eBPF probes attached to `sys_execve`, `sys_connect`, `sys_unlink`, `sys_open` on Linux
-- [ ] WFP (Windows Filtering Platform) filters functional on Windows
-- [ ] Identity-aware interception: maps TPM identity to kernel enforcement
-- [ ] Policy checks return correct ALLOW/DENY verdicts
-- [ ] No false positives on critical system processes
-- [ ] Blocked actions logged with full context to audit ledger
+<details>
+<summary><b>📋 Future Phases (3-10) — Full Checklist</b></summary>
 
-### ⬜ Phase 4 — The Network Proxy (Air Traffic Controller) — **NOT STARTED**
+**Phase 3 — The Local Guard**
+- [ ] eBPF probes: `sys_execve`, `sys_connect`, `sys_unlink`, `sys_open`
+- [ ] WFP filters functional on Windows
+- [ ] Identity-aware interception (TPM → kernel enforcement)
+- [ ] Policy checks: ALLOW/DENY verdicts
+- [ ] No false positives on system processes
 
-- [ ] Local Root CA certificate generated and installed in OS Trust Store
+**Phase 4 — The Network Proxy**
+- [ ] Local Root CA certificate generation + OS Trust Store install
 - [ ] Transparent TLS termination and re-encryption
-- [ ] SSRF blocking for all private IP ranges (`10.0.0.0/8`, `192.168.x.x`, `169.254.x.x`)
-- [ ] Domain whitelisting enforcement
-- [ ] Regex-based DLP scanning on outbound payload bodies
-- [ ] Budget tracking and enforcement per agent (daily cost cap)
-- [ ] Zero code changes required from the developer (OS-level intercept)
+- [ ] SSRF blocking for private IP ranges
+- [ ] Domain whitelisting
+- [ ] Regex-based DLP on payload bodies
+- [ ] Budget tracking per agent
 
-### ⬜ Phase 5 — The Policy Engine (The Constitution) — **NOT STARTED**
+**Phase 5 — The Policy Engine**
+- [ ] YAML/JSON policy file format
+- [ ] Operational, Financial, Network, Temporal pillars
+- [ ] Cascading hierarchy (Most Restrictive Wins)
+- [ ] Dynamic Trust-Based policies
+- [ ] Policy hot-reload
+- [ ] Global Push in < 2 seconds
 
-- [ ] Policy file format defined (YAML/JSON schema)
-- [ ] All four pillars: Operational, Financial, Network, Temporal
-- [ ] Cascading hierarchy with "Most Restrictive Wins" conflict resolution
-- [ ] Dynamic Trust-Based policies linked to Trust Score
-- [ ] Policy hot-reload (no service restart required)
-- [ ] Policies external to code (CISO can update without developer involvement)
-- [ ] Global Policy Push to all endpoints in < 2 seconds
+**Phase 6 — Shadow AI Discovery**
+- [ ] Process + DLL/library scanning
+- [ ] Port monitoring (11434, 8000, 6333, 5000)
+- [ ] Network inspection for LLM patterns
+- [ ] mDNS discovery for neighboring AI services
 
-### ⬜ Phase 6 — Shadow AI Discovery (The Sonar) — **NOT STARTED**
+**Phase 7 — Data Loss Prevention**
+- [ ] High-speed regex engine (API keys, CC, SSN, etc.)
+- [ ] Local NER model for contextual PII
+- [ ] Presidio integration
+- [ ] Redact mode + Block mode
 
-- [ ] Process scanning detects known AI binaries and runtimes
-- [ ] Library/DLL analysis detects GPU-accelerated AI (even if binary is renamed)
-- [ ] Port monitoring for all known AI service ports
-- [ ] Network inspection for LLM API patterns
-- [ ] mDNS network discovery for neighboring AI services
-- [ ] Discovery Dashboard displays live asset inventory
-- [ ] "Silent Mode" (discovery-only, no blocking) for POC deployments
+**Phase 8 — The Trust Score**
+- [ ] Real-time score API (0-1000)
+- [ ] 3-pillar algorithm (Behavioral/Identity/Community)
+- [ ] Score decay over inactivity
+- [ ] CVE vulnerability alerts
 
-### ⬜ Phase 7 — Data Loss Prevention (The Content Filter) — **NOT STARTED**
+**Phase 9 — The Audit Ledger**
+- [ ] SHA-256 Merkle hash chain
+- [ ] Tamper detection (CORRUPTED flag)
+- [ ] Local buffer → Cloud sync → Cold storage
+- [ ] TPM-signed entries
 
-- [ ] High-speed Regex engine scanning all outbound payloads
-- [ ] All major secret patterns covered (API keys, CC numbers, SSN, crypto wallets, emails)
-- [ ] NER model running locally for contextual PII detection
-- [ ] Microsoft Presidio integration functional
-- [ ] Redaction mode: modify payload in-flight without breaking agent workflow
-- [ ] Block mode: return HTTP 403 with clear explanation + audit log
-- [ ] Sub-millisecond latency impact on API calls
+**Phase 10 — The Dashboard**
+- [ ] API Watchtower (live streaming)
+- [ ] Database X-Ray (data flow visualization)
+- [ ] Trust Score Leaderboard
+- [ ] Global Policy Push + Global Freeze
+- [ ] SOC2/ISO 27001 report generator
 
-### ⬜ Phase 8 — The Trust Score (FICO Score for AI) — **NOT STARTED**
-
-- [ ] Trust Score API endpoint returning real-time scores (0-1000)
-- [ ] All three pillars contributing: Behavioral (60%), Identity (20%), Community (20%)
-- [ ] Score decay over inactivity periods (halflife)
-- [ ] Policy Engine consuming Trust Score for dynamic decisions
-- [ ] Global Blocklist fed by Free Tier telemetry
-- [ ] Vulnerability alert integration (CVE feeds)
-- [ ] Score change events logged to Audit Ledger
-
-### ⬜ Phase 9 — The Audit Ledger (The Flight Recorder) — **NOT STARTED**
-
-- [ ] Atomic log entries: Actor (TPM-signed), Action, Policy, Context, Timestamp
-- [ ] SHA-256 hash chain linking every entry (Merkle Chain)
-- [ ] Tamper detection: broken chain → CORRUPTED flag → CISO alert
-- [ ] Local buffer with encryption at rest
-- [ ] Cloud sync to immutable object storage (S3 Object Lock)
-- [ ] Cold storage export (JSON + cryptographic proofs) for 7-year retention
-- [ ] TPM-signed entries (cannot be forged)
-
-### ⬜ Phase 10 — The Unified Dashboard (God Mode) — **NOT STARTED**
-
-- [ ] API Watchtower view with live connection streaming
-- [ ] Database X-Ray: visualized agent-to-database data flows
-- [ ] Trust Score Leaderboard with ranked risk display
-- [ ] Global Policy Push with < 2 second propagation
-- [ ] Global Freeze ("Panic Center") for library-specific agent suspension
-- [ ] gRPC heartbeat architecture (edge → cloud)
-- [ ] WebSocket-powered live dashboard (no page refresh)
-- [ ] SOC2 / ISO 27001 Compliance Report generator (PDF)
-- [ ] Platform agnostic: Azure, AWS, local laptop agents side-by-side
+</details>
 
 ---
 
-## Overall Progress
+## 🧰 Tech Stack
 
-```
-Phase 1  ████████████████████ 100%  The Foundation (Silicon Sentinel)
-Phase 2  ████████████████████ 100%  The Ghost Protocol (Invisibility & Persistence)
-Phase 3  ░░░░░░░░░░░░░░░░░░░░   0%  The Local Guard (Kernel-Level Enforcement)
-Phase 4  ░░░░░░░░░░░░░░░░░░░░   0%  The Network Proxy (Air Traffic Controller)
-Phase 5  ░░░░░░░░░░░░░░░░░░░░   0%  The Policy Engine (The Constitution)
-Phase 6  ░░░░░░░░░░░░░░░░░░░░   0%  Shadow AI Discovery (The Sonar)
-Phase 7  ░░░░░░░░░░░░░░░░░░░░   0%  Data Loss Prevention (The Content Filter)
-Phase 8  ░░░░░░░░░░░░░░░░░░░░   0%  The Trust Score (FICO Score for AI)
-Phase 9  ░░░░░░░░░░░░░░░░░░░░   0%  The Audit Ledger (The Flight Recorder)
-Phase 10 ░░░░░░░░░░░░░░░░░░░░   0%  The Unified Dashboard (God Mode)
-─────────────────────────────────
-Overall  ████░░░░░░░░░░░░░░░░  20%  (2 of 10 phases complete)
-```
-
-**Current Binary:** 17 source files · ~3,900 lines of Rust · Compiles to single native executable
-**Current Status:** Phases 1 & 2 are production-ready. The ENGINE + GHOST are built. Next: The GUARD.
+| | Technology | Purpose |
+|:---|:---|:---|
+| 🦀 | **Rust** | Memory-safe, zero-cost abstractions |
+| 🔐 | **Windows CNG / tss-esapi** | TPM 2.0 hardware identity |
+| ⚡ | **Tokio + Axum** | Async runtime + HTTP proxy |
+| 🌐 | **Reqwest (rustls)** | HTTPS forwarding (no OpenSSL) |
+| 🗄️ | **Rusqlite** | Embedded SQLite database |
+| 📦 | **self_update** | Auto-update from GitHub Releases |
+| 🖥️ | **windows-service** | Windows SCM integration |
+| ⚙️ | **Clap** | CLI framework |
+| 📝 | **Tracing** | Structured logging |
+| 🔧 | **Serde + TOML** | Serialization + configuration |
 
 ---
 
-*Built by Raypher Labs · Powered by Rust · Anchored to Silicon*
+<div align="center">
+
+**Built by Raypher Labs · Powered by Rust · Anchored to Silicon**
+
 *Last updated: 2026-02-14*
+
+</div>
 ]]>
