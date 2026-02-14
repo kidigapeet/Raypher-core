@@ -238,6 +238,16 @@ fn run_service_inner(_arguments: Vec<OsString>) -> Result<(), Box<dyn std::error
                 }
                 crate::updater::UpdateResult::Error(e) => {
                     warn!("Update check failed: {}", e);
+                    if let Some(ref db) = db {
+                        let event = Event {
+                            event_type: "UPDATE_ERROR".to_string(),
+                            details_json: serde_json::json!({
+                                "error": e,
+                            }).to_string(),
+                            severity: Severity::Warning,
+                        };
+                        let _ = db.log_event(&event);
+                    }
                 }
             }
             last_update_check = std::time::Instant::now();

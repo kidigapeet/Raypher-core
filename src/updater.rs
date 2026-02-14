@@ -147,9 +147,12 @@ pub fn apply_update() {
             println!("  ✅ Already on the latest version (v{}). No update needed.", v);
         }
         UpdateResult::Updated { from, to } => {
+            // Write the update marker for rollback detection
+            write_update_marker(&from, &to);
             println!("  ✅ Updated: v{} → v{}", from, to);
             println!("  🔁 Restart the service to complete the update:");
             println!("     sc stop RaypherService && sc start RaypherService");
+            println!("  ↩️  Rollback safety: .old binary preserved for 5 minutes.");
         }
         UpdateResult::Error(e) => {
             println!("  ❌ {}", e);
@@ -157,3 +160,144 @@ pub fn apply_update() {
     }
     println!();
 }
+
+// ── Rollback Safety Net ────────────────────────────────────────
+
+/// Marker file path — written after a successful update.
+/// Contains the timestamp of the update for crash-window detection.
+fn update_marker_path() -> std::path::PathBuf {
+    let home = dirs_next::home_dir()
+        .unwrap_or_else(|| std::path::PathBuf::from("."));
+    home.join(".raypher").join(".update_marker")
+}
+
+/// Write a marker file after a successful update.
+/// The service reads this at startup to detect if it should rollback.
+fn write_update_marker(from_version: &str, to_version: &str) {
+    let marker = update_marker_path();
+    if let Some(parent) = marker.parent() {
+        let _ = std::fs::create_dir_all(parent);
+    }
+    let content = format!(
+        "{}\n{}\n{}",
+        chrono::Utc::now().to_rfc3339(),
+        from_version,
+        to_version,
+    );
+    let _ = std::fs::write(&marker, content);
+}
+
+/// Check if a rollback is needed on service startup.
+///
+/// Logic:
+/// - If the update marker exists and was written < 5 minutes ago,
+///   and we're starting up (implying the previous run crashed),
+///   then rollback to the `.old` binary.
+/// - If the marker is > 5 minutes old, the update is stable — clean up.
+/// - If no marker exists, this is a normal startup.
+///
+/// Returns true if a rollback was performed.
+pub fn check_rollback_needed() -> bool {
+    let marker = update_marker_path();
+    if !marker.exists() {
+        return false;
+    }
+
+    // Read marker contents
+    let content = match std::fs::read_to_string(&marker) {
+        Ok(c) => c,
+        Err(_) => {
+            let _ = std::fs::remove_file(&marker);
+            return false;
+        }
+    };
+
+    let lines: Vec<&str> = content.lines().collect();
+    if lines.is_empty() {
+        let _ = std::fs::remove_file(&marker);
+        return false;
+    }
+
+    // Parse the timestamp
+    let update_time = match chrono::DateTime::parse_from_rfc3339(lines[0]) {
+        Ok(t) => t,
+        Err(_) => {
+            let _ = std::fs::remove_file(&marker);
+            return false;
+        }
+    };
+
+    let elapsed = chrono::Utc::now().signed_duration_since(update_time);
+    let rollback_window = chrono::Duration::minutes(5);
+
+    if elapsed < rollback_window {
+        // We restarted within 5 minutes of an update — the new binary may be bad.
+        tracing::warn!(
+            "⚠️  Service restarted within {} seconds of update. Attempting rollback...",
+            elapsed.num_seconds()
+        );
+
+        if rollback_to_old() {
+            let _ = std::fs::remove_file(&marker);
+            return true;
+        } else {
+            tracing::error!("Rollback failed: no .old binary found.");
+            return false;
+        }
+    } else {
+        // Update has been running > 5 minutes — it's stable. Clean up.
+        tracing::info!("Update stable (running {} minutes). Cleaning up .old binary.", elapsed.num_minutes());
+        cleanup_old_binary();
+        let _ = std::fs::remove_file(&marker);
+        false
+    }
+}
+
+/// Rollback: rename current binary to .failed, restore .old to current.
+fn rollback_to_old() -> bool {
+    let current_exe = match std::env::current_exe() {
+        Ok(p) => p,
+        Err(_) => return false,
+    };
+
+    let old_exe = current_exe.with_extension("exe.old");
+
+    if !old_exe.exists() {
+        return false;
+    }
+
+    let failed_exe = current_exe.with_extension("exe.failed");
+
+    // Swap: current → .failed, .old → current
+    if std::fs::rename(&current_exe, &failed_exe).is_ok() {
+        if std::fs::rename(&old_exe, &current_exe).is_ok() {
+            tracing::info!("✅ Rollback successful. Restored previous binary.");
+            return true;
+        } else {
+            // Restore the current binary if .old rename failed
+            let _ = std::fs::rename(&failed_exe, &current_exe);
+        }
+    }
+    false
+}
+
+/// Clean up the .old binary after a stable update (>5 min uptime).
+fn cleanup_old_binary() {
+    let current_exe = match std::env::current_exe() {
+        Ok(p) => p,
+        Err(_) => return,
+    };
+
+    let old_exe = current_exe.with_extension("exe.old");
+    if old_exe.exists() {
+        let _ = std::fs::remove_file(&old_exe);
+        tracing::info!("Cleaned up old binary: {}", old_exe.display());
+    }
+
+    // Also clean up any .failed binaries from previous rollbacks
+    let failed_exe = current_exe.with_extension("exe.failed");
+    if failed_exe.exists() {
+        let _ = std::fs::remove_file(&failed_exe);
+    }
+}
+

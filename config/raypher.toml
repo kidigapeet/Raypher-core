@@ -1,0 +1,46 @@
+# ──────────────────────────────────────────────────────────────
+#  Raypher Configuration File
+#  Location: ~/.raypher/config.toml
+#  All values below are the compiled defaults.
+#  Uncomment and modify any setting to override.
+# ──────────────────────────────────────────────────────────────
+
+[service]
+# Windows service name (must match MSI installer)
+name = "RaypherService"
+display_name = "Raypher AI Safety Agent"
+
+[proxy]
+# Localhost proxy settings — NEVER bind to 0.0.0.0
+listen_addr = "127.0.0.1"
+listen_port = 8888
+# Default upstream API
+default_upstream = "https://api.openai.com"
+# Max requests per PID per minute
+rate_limit = 100
+# Connection pool settings
+pool_idle_timeout_secs = 90
+pool_max_idle_per_host = 10
+
+[watchtower]
+# Scan interval in seconds
+scan_interval_secs = 5
+# Minimum risk level to alert on: None, Low, Medium, High, Critical
+alert_threshold = "Medium"
+# Show verbose output
+verbose = false
+
+[updater]
+# Auto-update settings
+enabled = true
+check_interval_hours = 6
+repo_owner = "kidigapeet"
+repo_name = "Raypher-core"
+
+[logging]
+# Log level: trace, debug, info, warn, error
+level = "info"
+# Log directory (relative to ~/.raypher/)
+log_dir = "logs"
+# Number of days to keep log files
+retention_days = 7

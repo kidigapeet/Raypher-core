@@ -14,6 +14,7 @@ mod service;
 mod updater;
 mod watchdog;
 mod watchtower;
+mod config;
 
 use clap::{Parser, Subcommand};
 use database::{Database, Event, Severity};
