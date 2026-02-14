@@ -7,7 +7,7 @@
 
 use std::net::SocketAddr;
 use std::sync::{Arc, Mutex};
-use std::time::Duration;
+use std::time::{Duration, Instant};
 
 use axum::{
     body::Body,
@@ -32,6 +32,8 @@ pub struct ProxyState {
     pub target_base_url: String,
     /// Database for audit logging and allow-list checks (Mutex for thread safety)
     pub db: Option<Mutex<Database>>,
+    /// Service start time for uptime tracking
+    pub start_time: Instant,
 }
 
 /// Default proxy listen address — NEVER bind to 0.0.0.0
@@ -67,12 +69,18 @@ pub async fn start_proxy() -> Result<(), Box<dyn std::error::Error>> {
         http_client,
         target_base_url: "https://api.openai.com".to_string(),
         db,
+        start_time: Instant::now(),
     });
 
     // Build the router
     let app = Router::new()
         .route("/health", get(handle_health))
-        .route("/v1/{*path}", any(handle_proxy))
+        .route("/dashboard", get(crate::dashboard::handle_dashboard))
+        .route("/api/status", get(crate::dashboard::handle_api_status))
+        .route("/api/events", get(crate::dashboard::handle_api_events))
+        .route("/api/secrets", get(crate::dashboard::handle_api_secrets))
+        .route("/api/allowlist", get(crate::dashboard::handle_api_allowlist))
+        .route("/v1/*path", any(handle_proxy))
         .with_state(state)
         .into_make_service_with_connect_info::<SocketAddr>();
 

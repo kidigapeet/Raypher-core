@@ -156,6 +156,15 @@ impl Database {
         Ok(())
     }
 
+    /// Get the stored machine fingerprint.
+    pub fn get_fingerprint(&self) -> SqlResult<String> {
+        self.conn.query_row(
+            "SELECT fingerprint_hash FROM identity LIMIT 1",
+            [],
+            |row| row.get(0),
+        )
+    }
+
     /// Query recent events. Returns the last `limit` events.
     pub fn recent_events(&self, limit: u32) -> SqlResult<Vec<(i64, String, String, String, String)>> {
         let mut stmt = self.conn.prepare(
