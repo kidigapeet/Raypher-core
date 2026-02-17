@@ -1,4 +1,4 @@
-use sysinfo::{Pid};
+// ── Safety Checks ─────────────────────────────────────────────
 use tracing::warn;
 
 /// Determines if a process is safe to terminate.

@@ -101,6 +101,21 @@ impl Database {
                 added_by        TEXT NOT NULL DEFAULT 'manual'
             );
 
+            CREATE TABLE IF NOT EXISTS policy (
+                key             TEXT PRIMARY KEY,
+                value           TEXT NOT NULL,
+                updated_at      TEXT NOT NULL
+            );
+
+            CREATE TABLE IF NOT EXISTS spend_log (
+                id              INTEGER PRIMARY KEY AUTOINCREMENT,
+                timestamp       TEXT NOT NULL,
+                provider        TEXT NOT NULL,
+                model           TEXT,
+                cost_usd        REAL NOT NULL,
+                tokens_used     INTEGER
+            );
+
             CREATE INDEX IF NOT EXISTS idx_events_timestamp
                 ON events (timestamp);
 
@@ -112,10 +127,32 @@ impl Database {
 
             CREATE INDEX IF NOT EXISTS idx_allow_list_hash
                 ON allow_list (exe_hash);
+
+            CREATE INDEX IF NOT EXISTS idx_spend_log_timestamp
+                ON spend_log (timestamp);
+
+            CREATE TABLE IF NOT EXISTS dlp_findings (
+                id              INTEGER PRIMARY KEY AUTOINCREMENT,
+                timestamp       TEXT NOT NULL,
+                direction       TEXT NOT NULL,
+                category        TEXT NOT NULL,
+                pattern_name    TEXT NOT NULL,
+                action_taken    TEXT NOT NULL,
+                snippet         TEXT,
+                provider        TEXT
+            );
+
+            CREATE INDEX IF NOT EXISTS idx_dlp_findings_timestamp
+                ON dlp_findings (timestamp);
+
+            CREATE INDEX IF NOT EXISTS idx_dlp_findings_category
+                ON dlp_findings (category);
             ",
         )?;
 
-        Ok(Database { conn })
+        let db = Database { conn };
+        db.migrate_vault_schema()?;
+        Ok(db)
     }
 
     /// Get the path to the database file.
@@ -196,13 +233,13 @@ impl Database {
     // ── Secrets Methods ────────────────────────────────────────
 
     /// Store an encrypted secret for a provider (insert or update).
-    pub fn store_secret(&self, provider: &str, encrypted_blob: &[u8]) -> SqlResult<()> {
+    pub fn store_secret(&self, provider: &str, secret_type: &str, label: Option<&str>, encrypted_blob: &[u8]) -> SqlResult<()> {
         let now = chrono::Utc::now().to_rfc3339();
         self.conn.execute(
-            "INSERT INTO secrets (provider, encrypted_blob, created_at, updated_at)
-             VALUES (?1, ?2, ?3, ?3)
-             ON CONFLICT(provider) DO UPDATE SET encrypted_blob = ?2, updated_at = ?3",
-            params![provider, encrypted_blob, now],
+            "INSERT INTO secrets (provider, secret_type, label, encrypted_blob, created_at, updated_at)
+             VALUES (?1, ?2, ?3, ?4, ?5, ?5)
+             ON CONFLICT(provider) DO UPDATE SET encrypted_blob = ?4, secret_type = ?2, label = ?3, updated_at = ?5",
+            params![provider, secret_type, label, encrypted_blob, now],
         )?;
         Ok(())
     }
@@ -222,13 +259,13 @@ impl Database {
         }
     }
 
-    /// List all providers with their creation dates.
-    pub fn list_secrets(&self) -> SqlResult<Vec<(String, String)>> {
+    /// List all providers with their creation dates, types, and labels.
+    pub fn list_secrets(&self) -> SqlResult<Vec<(String, String, String, Option<String>)>> {
         let mut stmt = self.conn.prepare(
-            "SELECT provider, created_at FROM secrets ORDER BY provider"
+            "SELECT provider, created_at, secret_type, label FROM secrets ORDER BY provider"
         )?;
         let rows = stmt.query_map([], |row| {
-            Ok((row.get(0)?, row.get(1)?))
+            Ok((row.get(0)?, row.get(1)?, row.get(2)?, row.get(3)?))
         })?;
         rows.collect()
     }
@@ -283,6 +320,188 @@ impl Database {
             params![exe_hash],
         )?;
         Ok(())
+    }
+
+    // ── Policy Methods ─────────────────────────────────────────
+
+    /// Store a policy value by key (insert or update).
+    pub fn store_policy(&self, key: &str, value: &str) -> SqlResult<()> {
+        let now = chrono::Utc::now().to_rfc3339();
+        self.conn.execute(
+            "INSERT INTO policy (key, value, updated_at)
+             VALUES (?1, ?2, ?3)
+             ON CONFLICT(key) DO UPDATE SET value = ?2, updated_at = ?3",
+            params![key, value, now],
+        )?;
+        Ok(())
+    }
+
+    /// Get a policy value by key.
+    pub fn get_policy(&self, key: &str) -> SqlResult<Option<String>> {
+        let mut stmt = self.conn.prepare(
+            "SELECT value FROM policy WHERE key = ?1"
+        )?;
+        let mut rows = stmt.query_map(params![key], |row| {
+            row.get::<_, String>(0)
+        })?;
+        match rows.next() {
+            Some(Ok(val)) => Ok(Some(val)),
+            Some(Err(e)) => Err(e),
+            None => Ok(None),
+        }
+    }
+
+    // ── Spend Tracking ─────────────────────────────────────────
+
+    /// Log a spend event (API call cost).
+    pub fn log_spend(&self, provider: &str, model: Option<&str>, cost_usd: f64, tokens: Option<i64>) -> SqlResult<()> {
+        let now = chrono::Utc::now().to_rfc3339();
+        self.conn.execute(
+            "INSERT INTO spend_log (timestamp, provider, model, cost_usd, tokens_used)
+             VALUES (?1, ?2, ?3, ?4, ?5)",
+            params![now, provider, model, cost_usd, tokens],
+        )?;
+        Ok(())
+    }
+
+    /// Get total spend for today (UTC).
+    pub fn get_daily_spend(&self) -> SqlResult<f64> {
+        let today = chrono::Utc::now().format("%Y-%m-%d").to_string();
+        self.conn.query_row(
+            "SELECT COALESCE(SUM(cost_usd), 0.0) FROM spend_log WHERE timestamp LIKE ?1",
+            params![format!("{}%", today)],
+            |row| row.get(0),
+        )
+    }
+
+    /// Get hourly spend breakdown for today.
+    pub fn get_hourly_spend(&self) -> SqlResult<Vec<(String, f64)>> {
+        let today = chrono::Utc::now().format("%Y-%m-%d").to_string();
+        let mut stmt = self.conn.prepare(
+            "SELECT substr(timestamp, 12, 2) as hour, COALESCE(SUM(cost_usd), 0.0)
+             FROM spend_log WHERE timestamp LIKE ?1
+             GROUP BY hour ORDER BY hour"
+        )?;
+        let rows = stmt.query_map(params![format!("{}%", today)], |row| {
+            Ok((row.get::<_, String>(0)?, row.get::<_, f64>(1)?))
+        })?;
+        rows.collect()
+    }
+
+    /// Get daily spend for the last 7 days.
+    pub fn get_weekly_spend(&self) -> SqlResult<Vec<(String, f64)>> {
+        let mut stmt = self.conn.prepare(
+            "SELECT substr(timestamp, 1, 10) as day, COALESCE(SUM(cost_usd), 0.0)
+             FROM spend_log
+             WHERE timestamp >= datetime('now', '-7 days')
+             GROUP BY day ORDER BY day"
+        )?;
+        let rows = stmt.query_map([], |row| {
+            Ok((row.get::<_, String>(0)?, row.get::<_, f64>(1)?))
+        })?;
+        rows.collect()
+    }
+
+    /// Get total spend by provider.
+    pub fn get_provider_spend(&self) -> SqlResult<Vec<(String, f64)>> {
+        let mut stmt = self.conn.prepare(
+            "SELECT provider, COALESCE(SUM(cost_usd), 0.0)
+             FROM spend_log GROUP BY provider ORDER BY SUM(cost_usd) DESC"
+        )?;
+        let rows = stmt.query_map([], |row| {
+            Ok((row.get::<_, String>(0)?, row.get::<_, f64>(1)?))
+        })?;
+        rows.collect()
+    }
+    // ── DLP Findings ──────────────────────────────────────────
+
+    /// Log a DLP finding to the database.
+    pub fn log_dlp_finding(
+        &self,
+        direction: &str,
+        category: &str,
+        pattern_name: &str,
+        action_taken: &str,
+        snippet: Option<&str>,
+        provider: Option<&str>,
+    ) -> SqlResult<()> {
+        let now = chrono::Utc::now().to_rfc3339();
+        self.conn.execute(
+            "INSERT INTO dlp_findings (timestamp, direction, category, pattern_name, action_taken, snippet, provider)
+             VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7)",
+            rusqlite::params![now, direction, category, pattern_name, action_taken, snippet, provider],
+        )?;
+        Ok(())
+    }
+
+    /// Get recent DLP findings (most recent first).
+    pub fn get_recent_dlp_findings(&self, limit: usize) -> SqlResult<Vec<(String, String, String, String, String, Option<String>, Option<String>)>> {
+        let mut stmt = self.conn.prepare(
+            "SELECT timestamp, direction, category, pattern_name, action_taken, snippet, provider
+             FROM dlp_findings ORDER BY id DESC LIMIT ?1"
+        )?;
+        let rows = stmt.query_map([limit], |row| {
+            Ok((
+                row.get::<_, String>(0)?,
+                row.get::<_, String>(1)?,
+                row.get::<_, String>(2)?,
+                row.get::<_, String>(3)?,
+                row.get::<_, String>(4)?,
+                row.get::<_, Option<String>>(5)?,
+                row.get::<_, Option<String>>(6)?,
+            ))
+        })?;
+        rows.collect()
+    }
+
+    /// Get DLP stats: count by category.
+    pub fn get_dlp_stats(&self) -> SqlResult<Vec<(String, i64)>> {
+        let mut stmt = self.conn.prepare(
+            "SELECT category, COUNT(*) as cnt FROM dlp_findings GROUP BY category ORDER BY cnt DESC"
+        )?;
+        let rows = stmt.query_map([], |row| {
+            Ok((row.get::<_, String>(0)?, row.get::<_, i64>(1)?))
+        })?;
+        rows.collect()
+    }
+
+    // ── Vault Schema Migration ────────────────────────────────
+
+    /// Run vault schema migrations (add secret_type and label columns).
+    pub fn migrate_vault_schema(&self) -> SqlResult<()> {
+        // Check if column exists by trying to query it
+        let has_type = self.conn.execute("SELECT secret_type FROM secrets LIMIT 0", []);
+        if has_type.is_err() {
+            self.conn.execute_batch(
+                "ALTER TABLE secrets ADD COLUMN secret_type TEXT NOT NULL DEFAULT 'api_key';
+                 ALTER TABLE secrets ADD COLUMN label TEXT;"
+            )?;
+        }
+        Ok(())
+    }
+
+    // ── Stats Queries (for Intel tab) ──────────────────────────
+
+    /// Count events by severity for the analytics dashboard.
+    pub fn get_threat_counts(&self) -> SqlResult<Vec<(String, i64)>> {
+        let mut stmt = self.conn.prepare(
+            "SELECT severity, COUNT(*) FROM events GROUP BY severity ORDER BY severity"
+        )?;
+        let rows = stmt.query_map([], |row| {
+            Ok((row.get(0)?, row.get(1)?))
+        })?;
+        rows.collect()
+    }
+
+    /// Count events by event_type for the threat matrix.
+    pub fn get_events_by_type(&self) -> SqlResult<Vec<(String, i64)>> {
+        let mut stmt = self.conn.prepare(
+            "SELECT event_type, COUNT(*) FROM events GROUP BY event_type ORDER BY COUNT(*) DESC LIMIT 10"
+        )?;
+        let rows = stmt.query_map([], |row| {
+            Ok((row.get(0)?, row.get(1)?))
+        })?;
+        rows.collect()
     }
 }
 

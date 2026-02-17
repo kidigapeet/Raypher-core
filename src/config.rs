@@ -4,14 +4,14 @@
 //  Enterprise-ready: every parameter is configurable without recompilation.
 // ──────────────────────────────────────────────────────────────
 
-use serde::Deserialize;
+use serde::{Deserialize, Serialize};
 use std::path::PathBuf;
 use tracing::{info, warn};
 
 // ── Top-Level Config ───────────────────────────────────────────
 
 /// Root configuration structure. Maps 1:1 to config.toml sections.
-#[derive(Debug, Deserialize)]
+#[derive(Debug, Deserialize, Serialize)]
 pub struct RaypherConfig {
     #[serde(default)]
     pub service: ServiceConfig,
@@ -27,7 +27,7 @@ pub struct RaypherConfig {
 
 // ── Section: Service ───────────────────────────────────────────
 
-#[derive(Debug, Deserialize)]
+#[derive(Debug, Deserialize, Serialize)]
 pub struct ServiceConfig {
     /// Windows service name (must match MSI installer)
     #[serde(default = "default_service_name")]
@@ -51,7 +51,7 @@ impl Default for ServiceConfig {
 
 // ── Section: Proxy ─────────────────────────────────────────────
 
-#[derive(Debug, Deserialize)]
+#[derive(Debug, Deserialize, Serialize)]
 pub struct ProxyConfig {
     /// Address to bind the proxy (NEVER 0.0.0.0)
     #[serde(default = "default_listen_addr")]
@@ -95,7 +95,7 @@ impl Default for ProxyConfig {
 
 // ── Section: Watchtower ────────────────────────────────────────
 
-#[derive(Debug, Deserialize)]
+#[derive(Debug, Deserialize, Serialize)]
 pub struct WatchtowerConfig {
     /// Scan interval in seconds
     #[serde(default = "default_scan_interval")]
@@ -123,7 +123,7 @@ impl Default for WatchtowerConfig {
 
 // ── Section: Updater ───────────────────────────────────────────
 
-#[derive(Debug, Deserialize)]
+#[derive(Debug, Deserialize, Serialize)]
 pub struct UpdaterConfig {
     /// Enable auto-update checks
     #[serde(default = "default_enabled")]
@@ -157,7 +157,7 @@ impl Default for UpdaterConfig {
 
 // ── Section: Logging ───────────────────────────────────────────
 
-#[derive(Debug, Deserialize)]
+#[derive(Debug, Deserialize, Serialize)]
 pub struct LoggingConfig {
     /// Log level: trace, debug, info, warn, error
     #[serde(default = "default_log_level")]

@@ -14,7 +14,7 @@ use crate::database::Database;
 /// Seal (encrypt) an API key and store it in the database.
 /// On Windows, this uses NCrypt/TPM encryption.
 /// Fallback: XOR-based obfuscation with the Silicon ID as the key.
-pub fn seal_key(db: &Database, provider: &str, plaintext_key: &str) -> Result<(), String> {
+pub fn seal_key(db: &Database, provider: &str, secret_type: &str, label: Option<&str>, plaintext_key: &str) -> Result<(), String> {
     if plaintext_key.is_empty() {
         return Err("API key cannot be empty.".to_string());
     }
@@ -23,7 +23,7 @@ pub fn seal_key(db: &Database, provider: &str, plaintext_key: &str) -> Result<()
     let encrypted = encrypt_with_identity(plaintext_key);
 
     // Store in database
-    db.store_secret(provider, &encrypted)
+    db.store_secret(provider, secret_type, label, &encrypted)
         .map_err(|e| format!("Failed to store secret: {}", e))?;
 
     info!(provider = provider, "API key sealed successfully.");
@@ -44,8 +44,8 @@ pub fn unseal_key(db: &Database, provider: &str) -> Result<String, String> {
     Ok(plaintext)
 }
 
-/// List all sealed provider names (NOT the keys themselves).
-pub fn list_providers(db: &Database) -> Result<Vec<(String, String)>, String> {
+/// List all sealed provider names and their metadata.
+pub fn list_providers(db: &Database) -> Result<Vec<(String, String, String, Option<String>)>, String> {
     db.list_secrets()
         .map_err(|e| format!("Failed to list secrets: {}", e))
 }

@@ -1,0 +1,304 @@
+   Compiling raypher-core v0.3.0 (C:\Users\rayki\OneDrive\Desktop\Empire\Ideas\Raypher .exe\raypher-phase1-complete-master)
+warning: unused import: `warn`
+ --> src\secrets.rs:8:21
+  |
+8 | use tracing::{info, warn};
+  |                     ^^^^
+  |
+  = note: `#[warn(unused_imports)]` (part of `#[warn(unused)]`) on by default
+
+warning: unused import: `debug`
+ --> src\watchtower.rs:4:27
+  |
+4 | use tracing::{info, warn, debug};
+  |                           ^^^^^
+
+warning: unused import: `Serialize`
+  --> src\dashboard.rs:13:26
+   |
+13 | use serde::{Deserialize, Serialize};
+   |                          ^^^^^^^^^
+
+warning: unused import: `Mutex`
+  --> src\dashboard.rs:14:22
+   |
+14 | use std::sync::{Arc, Mutex};
+   |                      ^^^^^
+
+warning: unused import: `crate::database::Database`
+  --> src\dashboard.rs:16:5
+   |
+16 | use crate::database::Database;
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: method `log_dlp_finding` is never used
+   --> src\database.rs:419:12
+    |
+ 50 | impl Database {
+    | ------------- method in this implementation
+...
+419 |     pub fn log_dlp_finding(
+    |            ^^^^^^^^^^^^^^^
+    |
+    = note: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
+
+warning: function `refresh_system` is never used
+   --> src\scanner.rs:130:8
+    |
+130 | pub fn refresh_system(system: &mut System) {
+    |        ^^^^^^^^^^^^^^
+
+warning: function `fingerprint_process` is never used
+   --> src\scanner.rs:184:8
+    |
+184 | pub fn fingerprint_process(proc: &ProcessData) -> String {
+    |        ^^^^^^^^^^^^^^^^^^^
+
+warning: struct `ScanReport` is never constructed
+   --> src\scanner.rs:202:12
+    |
+202 | pub struct ScanReport {
+    |            ^^^^^^^^^^
+
+warning: function `generate_report` is never used
+   --> src\scanner.rs:212:8
+    |
+212 | pub fn generate_report(processes: &[ProcessData], duration_ms: u128) -> ScanReport {
+    |        ^^^^^^^^^^^^^^^
+
+warning: struct `HeuristicResult` is never constructed
+ --> src\heuristics.rs:6:12
+  |
+6 | pub struct HeuristicResult {
+  |            ^^^^^^^^^^^^^^^
+
+warning: function `analyze_level1_binary_name` is never used
+  --> src\heuristics.rs:18:8
+   |
+18 | pub fn analyze_level1_binary_name(proc: &ProcessData) -> Option<HeuristicResult> {
+   |        ^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: function `analyze_level2_arguments` is never used
+  --> src\heuristics.rs:79:8
+   |
+79 | pub fn analyze_level2_arguments(proc: &ProcessData) -> Option<HeuristicResult> {
+   |        ^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: function `analyze_level3_environment` is never used
+   --> src\heuristics.rs:161:8
+    |
+161 | pub fn analyze_level3_environment(_proc: &ProcessData) -> Option<HeuristicResult> {
+    |        ^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: function `analyze_process` is never used
+   --> src\heuristics.rs:169:8
+    |
+169 | pub fn analyze_process(proc: &mut ProcessData) {
+    |        ^^^^^^^^^^^^^^^
+
+warning: function `analyze_all` is never used
+   --> src\heuristics.rs:213:8
+    |
+213 | pub fn analyze_all(processes: &mut [ProcessData]) {
+    |        ^^^^^^^^^^^
+
+warning: struct `ProcessNode` is never constructed
+ --> src\terminator.rs:8:12
+  |
+8 | pub struct ProcessNode {
+  |            ^^^^^^^^^^^
+
+warning: function `build_parent_child_map` is never used
+  --> src\terminator.rs:18:8
+   |
+18 | pub fn build_parent_child_map(system: &System) -> HashMap<u32, Vec<u32>> {
+   |        ^^^^^^^^^^^^^^^^^^^^^^
+
+warning: function `collect_process_tree` is never used
+  --> src\terminator.rs:42:8
+   |
+42 | pub fn collect_process_tree(
+   |        ^^^^^^^^^^^^^^^^^^^^
+
+warning: function `collect_recursive` is never used
+  --> src\terminator.rs:62:4
+   |
+62 | fn collect_recursive(
+   |    ^^^^^^^^^^^^^^^^^
+
+warning: function `print_process_tree` is never used
+  --> src\terminator.rs:99:8
+   |
+99 | pub fn print_process_tree(tree: &[ProcessNode], target_pid: u32) {
+   |        ^^^^^^^^^^^^^^^^^^
+
+warning: function `terminate_tree` is never used
+   --> src\terminator.rs:121:8
+    |
+121 | pub fn terminate_tree(tree: &[ProcessNode], system: &System) {
+    |        ^^^^^^^^^^^^^^
+
+warning: function `is_safe_to_kill` is never used
+ --> src\safety.rs:8:8
+  |
+8 | pub fn is_safe_to_kill(pid: u32, name: &str) -> bool {
+  |        ^^^^^^^^^^^^^^^
+
+warning: function `trigger_panic` is never used
+  --> src\panic.rs:11:8
+   |
+11 | pub fn trigger_panic(system: &mut System) {
+   |        ^^^^^^^^^^^^^
+
+warning: function `zeroize` is never used
+  --> src\panic.rs:38:8
+   |
+38 | pub fn zeroize() {
+   |        ^^^^^^^
+
+warning: fields `target_base_url` and `tls_manager` are never read
+  --> src\proxy.rs:35:9
+   |
+31 | pub struct ProxyState {
+   |            ---------- fields in this struct
+...
+35 |     pub target_base_url: String,
+   |         ^^^^^^^^^^^^^^^
+...
+43 |     pub tls_manager: Option<Arc<crate::tls::TlsManager>>,
+   |         ^^^^^^^^^^^
+
+warning: function `delete_key` is never used
+  --> src\secrets.rs:54:8
+   |
+54 | pub fn delete_key(db: &Database, provider: &str) -> Result<(), String> {
+   |        ^^^^^^^^^^
+
+warning: function `list_allowed` is never used
+  --> src\secrets.rs:91:8
+   |
+91 | pub fn list_allowed(db: &Database) -> Result<Vec<(String, String, String)>, String> {
+   |        ^^^^^^^^^^^^
+
+warning: function `revoke_process` is never used
+  --> src\secrets.rs:97:8
+   |
+97 | pub fn revoke_process(db: &Database, exe_path: &str) -> Result<(), String> {
+   |        ^^^^^^^^^^^^^^
+
+warning: function `check_rollback_needed` is never used
+   --> src\updater.rs:200:8
+    |
+200 | pub fn check_rollback_needed() -> bool {
+    |        ^^^^^^^^^^^^^^^^^^^^^
+
+warning: function `rollback_to_old` is never used
+   --> src\updater.rs:257:4
+    |
+257 | fn rollback_to_old() -> bool {
+    |    ^^^^^^^^^^^^^^^
+
+warning: function `cleanup_old_binary` is never used
+   --> src\updater.rs:285:4
+    |
+285 | fn cleanup_old_binary() {
+    |    ^^^^^^^^^^^^^^^^^^
+
+warning: struct `WatchtowerConfig` is never constructed
+  --> src\watchtower.rs:12:12
+   |
+12 | pub struct WatchtowerConfig {
+   |            ^^^^^^^^^^^^^^^^
+
+warning: struct `WatchtowerState` is never constructed
+  --> src\watchtower.rs:35:8
+   |
+35 | struct WatchtowerState {
+   |        ^^^^^^^^^^^^^^^
+
+warning: function `run_watchtower` is never used
+  --> src\watchtower.rs:45:8
+   |
+45 | pub fn run_watchtower(
+   |        ^^^^^^^^^^^^^^
+
+warning: associated function `write_defaults` is never used
+   --> src\config.rs:235:12
+    |
+201 | impl RaypherConfig {
+    | ------------------ associated function in this implementation
+...
+235 |     pub fn write_defaults() -> std::io::Result<PathBuf> {
+    |            ^^^^^^^^^^^^^^
+
+warning: associated items `as_str` and `from_str` are never used
+  --> src\policy.rs:35:12
+   |
+34 | impl Zone {
+   | --------- associated items in this implementation
+35 |     pub fn as_str(&self) -> &'static str {
+   |            ^^^^^^
+...
+43 |     pub fn from_str(s: &str) -> Self {
+   |            ^^^^^^^^
+
+warning: function `check_domain` is never used
+   --> src\policy.rs:449:8
+    |
+449 | pub fn check_domain(policy: &PolicyConfig, domain: &str) -> bool {
+    |        ^^^^^^^^^^^^
+
+warning: function `is_capability_allowed` is never used
+   --> src\policy.rs:469:8
+    |
+469 | pub fn is_capability_allowed(policy: &PolicyConfig, capability_id: &str) -> bool {
+    |        ^^^^^^^^^^^^^^^^^^^^^
+
+warning: fields `daily_spent` and `daily_limit` are never read
+   --> src\policy.rs:502:10
+    |
+502 |     Ok { daily_spent: f64, daily_limit: f64 },
+    |     --   ^^^^^^^^^^^       ^^^^^^^^^^^
+    |     |
+    |     fields in this variant
+    |
+    = note: `BudgetStatus` has a derived impl for the trait `Debug`, but this is intentionally ignored during dead code analysis
+
+warning: fields `spent` and `limit` are never read
+   --> src\policy.rs:503:21
+    |
+503 |     DailyExceeded { spent: f64, limit: f64 },
+    |     -------------   ^^^^^       ^^^^^
+    |     |
+    |     fields in this variant
+    |
+    = note: `BudgetStatus` has a derived impl for the trait `Debug`, but this is intentionally ignored during dead code analysis
+
+warning: fields `spent` and `limit` are never read
+   --> src\policy.rs:504:22
+    |
+504 |     HourlyExceeded { spent: f64, limit: f64 },
+    |     --------------   ^^^^^       ^^^^^
+    |     |
+    |     fields in this variant
+    |
+    = note: `BudgetStatus` has a derived impl for the trait `Debug`, but this is intentionally ignored during dead code analysis
+
+warning: method `install_ca` is never used
+  --> src\tls.rs:83:12
+   |
+36 | impl TlsManager {
+   | --------------- method in this implementation
+...
+83 |     pub fn install_ca(&self) -> Result<(), Box<dyn std::error::Error>> {
+   |            ^^^^^^^^^^
+
+warning: function `install_ca_to_trust_store` is never used
+   --> src\tls.rs:209:8
+    |
+209 | pub fn install_ca_to_trust_store(cert_pem: &str) -> Result<(), Box<dyn std::error::Error>> {
+    |        ^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: `raypher-core` (bin "raypher-core") generated 44 warnings (run `cargo fix --bin "raypher-core" -p raypher-core` to apply 5 suggestions)
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 13.80s
+     Running `target\debug\raypher-core.exe proxy`

@@ -15,7 +15,11 @@ mod updater;
 mod watchdog;
 mod watchtower;
 mod config;
+mod policy;
 mod dashboard;
+mod installer;
+mod dlp;
+mod tls;
 
 use clap::{Parser, Subcommand};
 use database::{Database, Event, Severity};
@@ -99,9 +103,20 @@ enum Commands {
         #[arg(long)]
         apply: bool,
     },
+
+    /// Zero-touch setup — configure env vars and auto-allow runtimes
+    Setup,
+
+    /// Reverse the setup — restore original env vars and remove CA
+    Uninstall,
 }
 
 fn main() {
+    // Initialize tracing subscriber with INFO level
+    tracing_subscriber::fmt()
+        .with_env_filter("raypher_core=info,raypher=info")
+        .init();
+
     // ── Split Brain Detection ──────────────────────────────────
     // If launched with --service flag, enter Service Mode (no console).
     // This is how the SCM (Service Control Manager) starts us.
@@ -129,6 +144,8 @@ fn main() {
         Commands::Allow { exe_path } => handle_allow(&exe_path),
         Commands::Proxy => handle_proxy(),
         Commands::Update { apply } => handle_update(apply),
+        Commands::Setup => handle_setup(),
+        Commands::Uninstall => handle_uninstall(),
     }
 }
 
@@ -412,7 +429,7 @@ fn handle_seal(provider: &str, key_arg: Option<String>) {
         process::exit(1);
     });
 
-    match secrets::seal_key(&db, provider, key.trim()) {
+    match secrets::seal_key(&db, provider, "api_key", None, key.trim()) {
         Ok(()) => {
             println!("  ✅ Key sealed for provider '{}'.", provider);
             println!("  🔒 Stored in TPM-bound vault. No plaintext on disk.");
@@ -469,8 +486,9 @@ fn handle_secrets() {
             println!("  (none) — Use `raypher seal --provider <name>` to add one.");
         }
         Ok(providers) => {
-            for (name, created) in &providers {
-                println!("  • {}  (sealed: {})", name, &created[..10]);
+            for (name, created, secret_type, label) in &providers {
+                let lbl = label.as_deref().unwrap_or(name);
+                println!("  • {:<15} | {:<10} | Sealed: {} ({})", lbl, secret_type, &created[..10], name);
             }
             println!();
             println!("  Total: {} provider(s)", providers.len());
@@ -530,4 +548,71 @@ fn handle_update(apply: bool) {
     } else {
         updater::print_update_status();
     }
+}
+
+// ── Phase 3 Handlers ───────────────────────────────────────────
+
+fn handle_setup() {
+    println!();
+    println!("  ╔══════════════════════════════════════════╗");
+    println!("  ║   Raypher — Zero-Touch Setup             ║");
+    println!("  ║   Phase 3: The Invisible Hand            ║");
+    println!("  ╚══════════════════════════════════════════╝");
+    println!();
+
+    let db = match Database::init() {
+        Ok(db) => db,
+        Err(e) => {
+            eprintln!("  ❌ Database error: {}", e);
+            std::process::exit(1);
+        }
+    };
+
+    let result = installer::run_setup(&db);
+
+    println!();
+    if result.errors.is_empty() {
+        println!("  ✅ Setup complete! All AI SDKs will now route through Raypher.");
+        println!("  ℹ️  Restart your terminal for env var changes to take effect.");
+    } else {
+        println!("  ⚠️  Setup completed with {} error(s).", result.errors.len());
+        for err in &result.errors {
+            println!("     • {}", err);
+        }
+    }
+    println!();
+}
+
+fn handle_uninstall() {
+    println!();
+    println!("  ╔══════════════════════════════════════════╗");
+    println!("  ║   Raypher — Uninstall                    ║");
+    println!("  ║   Restoring Original Configuration       ║");
+    println!("  ╚══════════════════════════════════════════╝");
+    println!();
+
+    let db = match Database::init() {
+        Ok(db) => db,
+        Err(e) => {
+            eprintln!("  ❌ Database error: {}", e);
+            std::process::exit(1);
+        }
+    };
+
+    // Restore env vars
+    if let Err(e) = installer::run_uninstall(&db) {
+        eprintln!("  ❌ Uninstall error: {}", e);
+        std::process::exit(1);
+    }
+
+    // Remove CA from trust store
+    let tls_mgr = tls::TlsManager::new(&db, "uninstall");
+    if let Err(e) = tls_mgr.uninstall_ca() {
+        eprintln!("  ⚠️  CA removal warning: {}", e);
+    }
+
+    println!();
+    println!("  ✅ Uninstall complete. System restored to original state.");
+    println!("  ℹ️  Restart your terminal for env var changes to take effect.");
+    println!();
 }

@@ -1,6 +1,6 @@
 [package]
 name = "raypher-core"
-version = "0.2.0"
+version = "0.3.0"
 edition = "2021"
 description = "Silicon-native sovereign security for AI agents"
 authors = ["Raypher Labs"]
@@ -25,10 +25,23 @@ toml = "0.8"
 tokio = { version = "1", features = ["full"] }
 axum = "0.7"
 reqwest = { version = "0.12", default-features = false, features = ["rustls-tls", "json"] }
-hyper-util = { version = "0.1", features = ["tokio"] }
+hyper-util = { version = "0.1", features = ["tokio", "server-auto", "http1", "http2"] }
+hyper = { version = "1", features = ["server", "http1"] }
+tower = { version = "0.5", features = ["util"] }
 rpassword = "7.3"
 self_update = { version = "0.41", default-features = false, features = ["rustls"] }
 dirs-next = "2.0"
+
+# ── Phase 3 additions ──
+serde_yaml = "0.9"                      # YAML policy file parsing
+notify = "6.1"                           # File watcher for policy hot-reload
+rcgen = "0.13"                           # Local CA certificate generation
+tokio-rustls = "0.26"                    # TLS acceptor for HTTPS listener
+rustls = { version = "0.23", features = ["ring"] }           # TLS primitives
+rustls-pemfile = "2.1"                   # PEM certificate parsing
+regex = "1.10"                           # DLP regex pattern matching
+rand = "0.8"                             # Random generation utilities
+url = "2.5"                              # URL parsing for provider detection
 
 [features]
 default = ["tpm"]

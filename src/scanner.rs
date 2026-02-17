@@ -1,6 +1,6 @@
 use serde::{Serialize, Deserialize};
 use chrono::{DateTime, Utc};
-use sysinfo::{System, ProcessRefreshKind};
+use sysinfo::System;
 use tracing::{info, warn};
 
 /// Confidence level for process data accuracy.
@@ -256,31 +256,61 @@ pub struct AiProcess {
     pub cmd: Vec<String>,
     pub risk_level: RiskLevel,
     pub risk_reason: String,
+    /// Number of processes grouped under this name (1 = ungrouped)
+    pub process_count: u32,
+    /// All PIDs in this group
+    pub child_pids: Vec<u32>,
 }
 
-/// Scan the system and return only AI-related processes.
+/// Scan the system and return only AI-related processes, grouped by name.
+/// Deduplicates same-name processes so the dashboard shows one tile per agent type.
 pub fn scan_for_ai() -> Vec<AiProcess> {
-    let mut sys = create_system();
+    let sys = create_system();
     let processes = scan_with_system_awareness(&sys);
 
-    let mut results: Vec<AiProcess> = Vec::new();
+    let mut raw: Vec<AiProcess> = Vec::new();
 
     for p in processes.into_iter() {
         let name_lower = p.name.to_lowercase();
         let is_ai = AI_PROCESS_NAMES.iter().any(|&kw| name_lower.contains(kw) || p.cmd.iter().any(|c| c.to_lowercase().contains(kw)));
         if is_ai {
-            results.push(AiProcess {
+            raw.push(AiProcess {
                 pid: p.pid,
                 name: p.name,
                 memory_usage: p.memory,
                 cmd: p.cmd,
                 risk_level: p.risk_level,
                 risk_reason: p.risk_reason,
+                process_count: 1,
+                child_pids: vec![p.pid],
             });
         }
     }
 
-    results
+    // Group by process name
+    let mut groups: std::collections::HashMap<String, AiProcess> = std::collections::HashMap::new();
+    for p in raw {
+        let entry = groups.entry(p.name.clone()).or_insert_with(|| AiProcess {
+            pid: p.pid,
+            name: p.name.clone(),
+            memory_usage: 0,
+            cmd: p.cmd.clone(),
+            risk_level: RiskLevel::None,
+            risk_reason: String::new(),
+            process_count: 0,
+            child_pids: Vec::new(),
+        });
+        entry.memory_usage += p.memory_usage;
+        entry.process_count += 1;
+        entry.child_pids.push(p.pid);
+        // Keep the highest risk level
+        if p.risk_level > entry.risk_level {
+            entry.risk_level = p.risk_level;
+            entry.risk_reason = p.risk_reason;
+        }
+    }
+
+    groups.into_values().collect()
 }
 
 /// Print a simple table of scan results for CLI usage.
@@ -290,8 +320,8 @@ pub fn print_scan_results(results: &Vec<AiProcess>) {
         return;
     }
 
-    println!("  🔎 Found {} AI-related process(es):\n", results.len());
+    println!("  🔎 Found {} AI-related agent(s):\n", results.len());
     for p in results {
-        println!("  PID {:<8} | {:<20} | Mem: {:>8} KB | Cmd: {}", p.pid, p.name, p.memory_usage / 1024, p.cmd.join(" "));
+        println!("  {:<20} | ×{:<4} | Mem: {:>8} KB | PIDs: {:?}", p.name, p.process_count, p.memory_usage / 1024, p.child_pids);
     }
 }

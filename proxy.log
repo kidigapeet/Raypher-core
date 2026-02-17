@@ -1,0 +1,28 @@
+
+  🌐 Starting Raypher Proxy (CLI test mode)
+  Press Ctrl+C to stop.
+
+[2m2026-02-17T17:49:08.606467Z[0m [32m INFO[0m [2mraypher_core::proxy[0m[2m:[0m Starting Raypher proxy on 127.0.0.1:8888
+[2m2026-02-17T17:49:08.620155Z[0m [32m INFO[0m [2mraypher_core::proxy[0m[2m:[0m Proxy database connection established.
+[2m2026-02-17T17:49:08.624233Z[0m [32m INFO[0m [2mraypher_core::policy[0m[2m:[0m Loaded policy from YAML: C:\Users\rayki\.raypher\policy.yaml
+[2m2026-02-17T17:49:08.625160Z[0m [32m INFO[0m [2mraypher_core::policy[0m[2m:[0m Policy file watcher started on: C:\Users\rayki\.raypher
+[2m2026-02-17T17:49:08.625968Z[0m [32m INFO[0m [2mraypher_core::tls[0m[2m:[0m Loaded existing CA certificate from database
+[2m2026-02-17T17:49:08.626120Z[0m [32m INFO[0m [2mraypher_core::tls[0m[2m:[0m TLS CA loaded successfully
+[2m2026-02-17T17:49:08.628221Z[0m [32m INFO[0m [2mraypher_core::proxy[0m[2m:[0m ✅ Raypher HTTP proxy listening on 127.0.0.1:8888
+[2m2026-02-17T17:49:08.628476Z[0m [32m INFO[0m [2mraypher_core::tls[0m[2m:[0m Loaded existing CA certificate from database
+[2m2026-02-17T17:49:08.628576Z[0m [32m INFO[0m [2mraypher_core::tls[0m[2m:[0m TLS CA loaded successfully
+[2m2026-02-17T17:49:08.630536Z[0m [32m INFO[0m [2mraypher_core::proxy[0m[2m:[0m 🔒 Raypher HTTPS proxy listening on 127.0.0.1:8889
+[2m2026-02-17T17:49:11.845236Z[0m [32m INFO[0m [2mraypher_core::proxy[0m[2m:[0m Proxy request received [3mclient[0m[2m=[0m127.0.0.1:57422 [3mpid[0m[2m=[0mSome(5920) [3mpath[0m[2m=[0m"/v1/chat/completions"
+[2m2026-02-17T17:49:11.877193Z[0m [32m INFO[0m [2mraypher_core::proxy[0m[2m:[0m Provider detected [3mprovider[0m[2m=[0m"mock" [3mtarget[0m[2m=[0m"http://localhost:9000"
+[2m2026-02-17T17:49:11.900473Z[0m [33m WARN[0m [2mraypher_core::dlp[0m[2m:[0m DLP scan detected sensitive content [3mfindings[0m[2m=[0m1 [3maction[0m[2m=[0mRedact
+[2m2026-02-17T17:49:11.900939Z[0m [32m INFO[0m [2mraypher_core::proxy[0m[2m:[0m DLP: Sensitive data detected in request [3mfindings[0m[2m=[0m1 [3mstrictest_action[0m[2m=[0mRedact
+[2m2026-02-17T17:49:12.221201Z[0m [32m INFO[0m [2mraypher_core::proxy[0m[2m:[0m Proxy request completed [3mpath[0m[2m=[0m"/v1/chat/completions" [3mstatus[0m[2m=[0m200 [3mlatency_ms[0m[2m=[0m397 [3mpid[0m[2m=[0mSome(5920)
+[2m2026-02-17T17:49:12.249645Z[0m [33m WARN[0m [2mraypher_core::dlp[0m[2m:[0m DLP scan detected sensitive content [3mfindings[0m[2m=[0m1 [3maction[0m[2m=[0mRedact
+[2m2026-02-17T17:49:12.250184Z[0m [32m INFO[0m [2mraypher_core::proxy[0m[2m:[0m DLP: Sensitive data detected in response [3mfindings[0m[2m=[0m1
+[2m2026-02-17T17:49:16.385034Z[0m [32m INFO[0m [2mraypher_core::proxy[0m[2m:[0m Proxy request received [3mclient[0m[2m=[0m127.0.0.1:64614 [3mpid[0m[2m=[0mSome(5920) [3mpath[0m[2m=[0m"/v1/chat/completions"
+[2m2026-02-17T17:49:16.408636Z[0m [32m INFO[0m [2mraypher_core::proxy[0m[2m:[0m Provider detected [3mprovider[0m[2m=[0m"mock" [3mtarget[0m[2m=[0m"http://localhost:9000"
+[2m2026-02-17T17:49:16.409037Z[0m [33m WARN[0m [2mraypher_core::proxy[0m[2m:[0m Budget exceeded: DailyExceeded { spent: 0.0145, limit: 0.01 }
+[2m2026-02-17T17:49:18.445323Z[0m [32m INFO[0m [2mraypher_core::proxy[0m[2m:[0m Proxy request received [3mclient[0m[2m=[0m127.0.0.1:56477 [3mpid[0m[2m=[0mSome(5920) [3mpath[0m[2m=[0m"/v1/chat/completions"
+[2m2026-02-17T17:49:18.469221Z[0m [32m INFO[0m [2mraypher_core::proxy[0m[2m:[0m Provider detected [3mprovider[0m[2m=[0m"mock" [3mtarget[0m[2m=[0m"http://localhost:9000"
+[2m2026-02-17T17:49:18.469608Z[0m [33m WARN[0m [2mraypher_core::proxy[0m[2m:[0m Budget exceeded: DailyExceeded { spent: 0.0145, limit: 0.01 }
+[2m2026-02-17T17:49:20.499923Z[0m [32m INFO[0m [2mraypher_core::policy[0m[2m:[0m Loaded policy from YAML: C:\Users\rayki\.raypher\policy.yaml
