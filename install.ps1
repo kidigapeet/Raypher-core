@@ -12,7 +12,7 @@ $BinaryPath = Join-Path $RaypherDir $BinaryName
 $ApiUrl = "https://api.github.com/repos/kidigapeet/Raypher-core/releases/latest"
 $UserAgent = "RaypherInstaller/1.0 (Windows; PowerShell)"
 
-Write-Host "[Raypher] Installing Alpha - v0.5.0-Harden-3"
+Write-Host "[Raypher] Installing Alpha - v0.5.0-Harden-4"
 
 # 1. Ensure Admin Privileges
 $currentPrincipal = New-Object Security.Principal.WindowsPrincipal([Security.Principal.WindowsIdentity]::GetCurrent())
@@ -27,22 +27,25 @@ if (-not (Test-Path $RaypherDir)) {
 }
 
 Write-Host "Releasing file locks for raypher-core.exe..."
-# 1. Stop service using both SCM and net
-if (Get-Service -Name "RaypherService" -ErrorAction SilentlyContinue) {
-    Write-Host "  Stopping RaypherService..."
-    # We use ErrorAction SilentlyContinue to ignore "already stopped" errors
-    Stop-Service -Name "RaypherService" -Force -ErrorAction SilentlyContinue
-    try {
-        & net stop RaypherService 2>$null
+# 1. Stop service gracefully
+$svc = Get-Service -Name "RaypherService" -ErrorAction SilentlyContinue
+if ($svc) {
+    if ($svc.Status -ne 'Stopped') {
+        Write-Host "  Stopping RaypherService..."
+        Stop-Service -Name "RaypherService" -Force -ErrorAction SilentlyContinue
+        # Fallback for stubborn services
+        if ((Get-Service -Name "RaypherService").Status -ne 'Stopped') {
+            & sc.exe stop RaypherService >$null 2>&1
+        }
     }
-    catch {
-        # Ignore "service not started" errors from net stop
+    else {
+        Write-Host "  RaypherService is already stopped."
     }
 }
 
-# 2. Kill all instances of the process tree
-Write-Host "  Killing any active raypher-core processes..."
-& taskkill /F /IM "raypher-core.exe" /T 2>$null
+# 2. Kill all instances of the process tree (Force release locks)
+Write-Host "  Ensuring no raypher-core processes are active..."
+& taskkill /F /IM "raypher-core.exe" /T >$null 2>&1
 Get-Process -Name "raypher-core" -ErrorAction SilentlyContinue | Stop-Process -Force -ErrorAction SilentlyContinue
 
 # Give Windows a moment to release handles
