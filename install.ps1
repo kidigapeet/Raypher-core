@@ -30,8 +30,14 @@ Write-Host "Releasing file locks for raypher-core.exe..."
 # 1. Stop service using both SCM and net
 if (Get-Service -Name "RaypherService" -ErrorAction SilentlyContinue) {
     Write-Host "  Stopping RaypherService..."
+    # We use ErrorAction SilentlyContinue to ignore "already stopped" errors
     Stop-Service -Name "RaypherService" -Force -ErrorAction SilentlyContinue
-    & net stop RaypherService 2>$null
+    try {
+        & net stop RaypherService 2>$null
+    }
+    catch {
+        # Ignore "service not started" errors from net stop
+    }
 }
 
 # 2. Kill all instances of the process tree
