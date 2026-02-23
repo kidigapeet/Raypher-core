@@ -12,7 +12,7 @@ $BinaryPath = Join-Path $RaypherDir $BinaryName
 $ApiUrl = "https://api.github.com/repos/kidigapeet/Raypher-core/releases/latest"
 $UserAgent = "RaypherInstaller/1.0 (Windows; PowerShell)"
 
-Write-Host "[Raypher] Installing Alpha - v0.5.0-Harden-4"
+Write-Host "[Raypher] Installing Alpha - v0.5.0-Harden-5"
 
 # 1. Ensure Admin Privileges
 $currentPrincipal = New-Object Security.Principal.WindowsPrincipal([Security.Principal.WindowsIdentity]::GetCurrent())
@@ -33,19 +33,15 @@ if ($svc) {
     if ($svc.Status -ne 'Stopped') {
         Write-Host "  Stopping RaypherService..."
         Stop-Service -Name "RaypherService" -Force -ErrorAction SilentlyContinue
-        # Fallback for stubborn services
-        if ((Get-Service -Name "RaypherService").Status -ne 'Stopped') {
-            & sc.exe stop RaypherService >$null 2>&1
-        }
     }
     else {
         Write-Host "  RaypherService is already stopped."
     }
 }
 
-# 2. Kill all instances of the process tree (Force release locks)
+# 2. Kill all instances of the process (Force release locks)
 Write-Host "  Ensuring no raypher-core processes are active..."
-& taskkill /F /IM "raypher-core.exe" /T >$null 2>&1
+# Use PowerShell native Stop-Process which handles missing processes gracefully with ErrorAction
 Get-Process -Name "raypher-core" -ErrorAction SilentlyContinue | Stop-Process -Force -ErrorAction SilentlyContinue
 
 # Give Windows a moment to release handles
