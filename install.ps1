@@ -20,10 +20,20 @@ if (-not $currentPrincipal.IsInRole([Security.Principal.WindowsBuiltInRole]::Adm
     Write-Error "Please run this script as Administrator."
 }
 
-# 2. Create Directory
+# 2. Create and Verify Directory
 if (-not (Test-Path $RaypherDir)) {
     Write-Host "Creating installation directory: $RaypherDir"
     New-Item -ItemType Directory -Force -Path $RaypherDir | Out-Null
+}
+
+# Verify we can write to the directory
+try {
+    $testFile = Join-Path $RaypherDir "peretest.tmp"
+    "test" | Out-File $testFile
+    Remove-Item $testFile
+}
+catch {
+    throw "Cannot write to $RaypherDir. Please ensure you are running as Administrator and no security software is blocking access."
 }
 
 # 3. Download Latest Binary
@@ -37,7 +47,14 @@ try {
     }
 
     Write-Host "Downloading $($Asset.name)..."
-    Invoke-WebRequest -Uri $Asset.browser_download_url -OutFile $BinaryPath -UseBasicParsing
+    try {
+        Invoke-WebRequest -Uri $Asset.browser_download_url -OutFile $BinaryPath -UseBasicParsing
+    }
+    catch {
+        Write-Host "Primary download method failed. Retrying with WebClient..." -ForegroundColor Yellow
+        $WebClient = New-Object System.Net.WebClient
+        $WebClient.DownloadFile($Asset.browser_download_url, $BinaryPath)
+    }
 }
 catch {
     Write-Host "Failed to download from GitHub. Error: $($_.Exception.Message)" -ForegroundColor Red
