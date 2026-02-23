@@ -18,7 +18,8 @@ pub struct DlpFinding {
     pub category: String,
     pub pattern_name: String,
     pub severity: DlpSeverity,
-    pub matched_text: String,   // Truncated for safety — never log full secrets
+    pub full_match: String,      // Internal use for redaction
+    pub matched_text: String,   // Truncated for safety — for logging/UI
     pub position: usize,
 }
 
@@ -45,6 +46,7 @@ pub struct DlpScanResult {
 pub struct CustomPattern {
     pub name: String,
     pub pattern: String,
+    pub severity: DlpSeverity,
     pub redact_to: Option<String>,
 }
 
@@ -146,7 +148,7 @@ fn build_builtin_patterns() -> Vec<CompiledPattern> {
             severity: DlpSeverity::Medium,
             regex: Regex::new(r"\b(?:\+1[-.\s]?)?\(?\d{3}\)?[-.\s]?\d{3}[-.\s]?\d{4}\b").unwrap(),
             redact_to: "[REDACTED-PHONE]",
-            validator: None,
+            validator: Some(phone_validator),
         },
 
         // ── Cryptographic Material ──
@@ -175,6 +177,7 @@ pub fn scan(
     action: &DlpAction,
     custom_patterns: &[CustomPattern],
     exclusions: &[String],
+    entropy_threshold: f64,
 ) -> DlpScanResult {
     let patterns = build_builtin_patterns();
     let mut findings = Vec::new();
@@ -203,6 +206,7 @@ pub fn scan(
                 category: pattern.category.to_string(),
                 pattern_name: pattern.name.to_string(),
                 severity: pattern.severity.clone(),
+                full_match: matched.to_string(),
                 matched_text: truncate_match(matched),
                 position: mat.start(),
             });
@@ -228,7 +232,8 @@ pub fn scan(
                 findings.push(DlpFinding {
                     category: "custom".to_string(),
                     pattern_name: custom.name.clone(),
-                    severity: DlpSeverity::Medium,
+                    severity: custom.severity.clone(),
+                    full_match: matched.to_string(),
                     matched_text: truncate_match(matched),
                     position: mat.start(),
                 });
@@ -246,7 +251,7 @@ pub fn scan(
 
     // ── Shannon Entropy Check ──
     // Scan for high-entropy strings that might be unknown tokens/passwords
-    let entropy_findings = scan_high_entropy(payload, exclusions);
+    let entropy_findings = scan_high_entropy(payload, exclusions, entropy_threshold);
     for ef in entropy_findings {
         // Only add if not already caught by regex patterns
         let already_found = findings.iter().any(|f| {
@@ -254,7 +259,7 @@ pub fn scan(
         });
         if !already_found {
             if *action == DlpAction::Redact {
-                clean = clean.replace(&ef.matched_text, "[REDACTED-HIGH-ENTROPY]");
+                clean = clean.replace(&ef.full_match, "[REDACTED-HIGH-ENTROPY]");
                 was_modified = true;
             }
             findings.push(ef);
@@ -301,7 +306,7 @@ fn shannon_entropy(s: &str) -> f64 {
 }
 
 /// Scan for high-entropy substrings that might be unknown secrets.
-fn scan_high_entropy(payload: &str, exclusions: &[String]) -> Vec<DlpFinding> {
+fn scan_high_entropy(payload: &str, exclusions: &[String], threshold: f64) -> Vec<DlpFinding> {
     let mut findings = Vec::new();
 
     // Look for long alphanumeric strings (potential tokens)
@@ -317,12 +322,13 @@ fn scan_high_entropy(payload: &str, exclusions: &[String]) -> Vec<DlpFinding> {
 
         let entropy = shannon_entropy(candidate);
 
-        // High entropy threshold: > 4.0 bits per character
-        if entropy > 4.0 {
+        // High entropy threshold: default 4.5 bits per character (configurable)
+        if entropy > threshold {
             findings.push(DlpFinding {
                 category: "entropy".to_string(),
                 pattern_name: "High-Entropy String".to_string(),
                 severity: DlpSeverity::High,
+                full_match: candidate.to_string(),
                 matched_text: truncate_match(candidate),
                 position: mat.start(),
             });
@@ -384,6 +390,24 @@ fn ssn_validator(ssn: &str) -> bool {
     }
     if serial == "0000" {
         return false;
+    }
+
+    true
+}
+
+/// Validate US Phone Number (exclude common false positives).
+fn phone_validator(phone: &str) -> bool {
+    let digits: String = phone.chars().filter(|c| c.is_ascii_digit()).collect();
+    
+    // Ignore common internal IDs that look like phone numbers
+    // (e.g. starting with 1703 - common AWS Northern Virginia prefix)
+    if digits.starts_with("1703") || digits.starts_with("703") {
+        return false;
+    }
+    
+    // Most phone numbers don't start with 0 or 1 (at the area code level)
+    if digits.len() == 10 && (digits.starts_with("0") || digits.starts_with("1")) {
+        return false; 
     }
 
     true
@@ -475,6 +499,7 @@ mod tests {
         let custom = vec![CustomPattern {
             name: "Internal Project".to_string(),
             pattern: r"(?i)\bproject[_\s]?phoenix\b".to_string(),
+            severity: DlpSeverity::Medium,
             redact_to: Some("[REDACTED-INTERNAL]".to_string()),
         }];
         let result = scan(payload, &DlpAction::Redact, &custom, &[]);

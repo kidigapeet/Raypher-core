@@ -21,10 +21,53 @@ pub const PROXY_ENV_VARS: &[(&str, &str)] = &[
     ("ANTHROPIC_BASE_URL",      "http://127.0.0.1:8888/v1"),
     // Google Generative AI
     ("GOOGLE_API_BASE",         "http://127.0.0.1:8888/v1"),
+    ("GOOGLE_GENAI_API_BASE",   "http://127.0.0.1:8888/v1"),
+    ("VERTEX_API_BASE",         "http://127.0.0.1:8888/v1"),
+    ("GEMINI_API_BASE",         "http://127.0.0.1:8888/v1"),
+    // Mistral AI
+    ("MISTRAL_API_BASE",        "http://127.0.0.1:8888/v1"),
+    // Together AI
+    ("TOGETHER_API_BASE",       "http://127.0.0.1:8888/v1"),
+    // Perplexity
+    ("PERPLEXITY_API_BASE",     "http://127.0.0.1:8888/v1"),
+    // Groq
+    ("GROQ_API_BASE",           "http://127.0.0.1:8888/v1"),
+    // DeepSeek
+    ("DEEPSEEK_API_BASE",       "http://127.0.0.1:8888/v1"),
+    // Cohere
+    ("COHERE_BASE_URL",         "http://127.0.0.1:8888/v1"),
+    // Voyage AI
+    ("VOYAGE_API_BASE",         "http://127.0.0.1:8888/v1"),
+    // Fireworks AI
+    ("FIREWORKS_API_BASE",      "http://127.0.0.1:8888/v1"),
+    // OpenRouter
+    ("OPENROUTER_BASE_URL",     "http://127.0.0.1:8888/v1"),
     // HuggingFace Inference
     ("HF_INFERENCE_ENDPOINT",   "http://127.0.0.1:8888/v1"),
     // Generic / LangChain
     ("LLM_BASE_URL",            "http://127.0.0.1:8888/v1"),
+    // xAI
+    ("XAI_API_BASE",             "http://127.0.0.1:8888/v1"),
+];
+
+/// All environment variables that popular AI SDKs check for API keys.
+/// These are intercepted to allow Raypher to manage API keys.
+pub const PROXY_API_KEY_ENV_VARS: &[&str] = &[
+    "OPENAI_API_KEY",
+    "ANTHROPIC_API_KEY",
+    "GOOGLE_API_KEY",
+    "AZURE_OPENAI_API_KEY",
+    "MISTRAL_API_KEY",
+    "TOGETHER_API_KEY",
+    "PERPLEXITY_API_KEY",
+    "GROQ_API_KEY",
+    "DEEPSEEK_API_KEY",
+    "COHERE_API_KEY",
+    "VOYAGE_API_KEY",
+    "FIREWORKS_API_KEY",
+    "OPENROUTER_API_KEY",
+    "XAI_API_KEY",
+    "RAYPHER_TOKEN",
 ];
 
 /// Known safe runtimes that should be auto-added to the allow list.
@@ -79,6 +122,66 @@ pub const PROVIDERS: &[ProviderRoute] = &[
         auth_prefix: "",
     },
     ProviderRoute {
+        name: "mistral",
+        base_url: "https://api.mistral.ai",
+        auth_header: "Authorization",
+        auth_prefix: "Bearer ",
+    },
+    ProviderRoute {
+        name: "together",
+        base_url: "https://api.together.xyz",
+        auth_header: "Authorization",
+        auth_prefix: "Bearer ",
+    },
+    ProviderRoute {
+        name: "perplexity",
+        base_url: "https://api.perplexity.ai",
+        auth_header: "Authorization",
+        auth_prefix: "Bearer ",
+    },
+    ProviderRoute {
+        name: "groq",
+        base_url: "https://api.groq.com/openai",
+        auth_header: "Authorization",
+        auth_prefix: "Bearer ",
+    },
+    ProviderRoute {
+        name: "deepseek",
+        base_url: "https://api.deepseek.com",
+        auth_header: "Authorization",
+        auth_prefix: "Bearer ",
+    },
+    ProviderRoute {
+        name: "cohere",
+        base_url: "https://api.cohere.ai",
+        auth_header: "Authorization",
+        auth_prefix: "Bearer ",
+    },
+    ProviderRoute {
+        name: "voyage",
+        base_url: "https://api.voyageai.com",
+        auth_header: "Authorization",
+        auth_prefix: "Bearer ",
+    },
+    ProviderRoute {
+        name: "fireworks",
+        base_url: "https://api.fireworks.ai",
+        auth_header: "Authorization",
+        auth_prefix: "Bearer ",
+    },
+    ProviderRoute {
+        name: "openrouter",
+        base_url: "https://openrouter.ai/api",
+        auth_header: "Authorization",
+        auth_prefix: "Bearer ",
+    },
+    ProviderRoute {
+        name: "azure",
+        base_url: "https://{resource}.openai.azure.com", // Placeholder, usually overridden or handled specially
+        auth_header: "api-key",
+        auth_prefix: "",
+    },
+    ProviderRoute {
         name: "huggingface",
         base_url: "https://api-inference.huggingface.co",
         auth_header: "Authorization",
@@ -87,6 +190,12 @@ pub const PROVIDERS: &[ProviderRoute] = &[
     ProviderRoute {
         name: "mock",
         base_url: "http://127.0.0.1:9000",
+        auth_header: "Authorization",
+        auth_prefix: "Bearer ",
+    },
+    ProviderRoute {
+        name: "xai",
+        base_url: "https://api.x.ai",
         auth_header: "Authorization",
         auth_prefix: "Bearer ",
     },
@@ -256,8 +365,41 @@ pub fn detect_provider(
         if host_lower.contains("googleapis") || host_lower.contains("google") {
             return "google";
         }
+        if host_lower.contains("mistral") {
+            return "mistral";
+        }
+        if host_lower.contains("together") {
+            return "together";
+        }
+        if host_lower.contains("perplexity") {
+            return "perplexity";
+        }
+        if host_lower.contains("groq") {
+            return "groq";
+        }
+        if host_lower.contains("deepseek") {
+            return "deepseek";
+        }
+        if host_lower.contains("cohere") {
+            return "cohere";
+        }
+        if host_lower.contains("voyageai") {
+            return "voyage";
+        }
+        if host_lower.contains("fireworks") {
+            return "fireworks";
+        }
+        if host_lower.contains("openrouter") {
+            return "openrouter";
+        }
+        if host_lower.contains("azure") {
+            return "azure";
+        }
         if host_lower.contains("huggingface") || host_lower.contains("hf.co") {
             return "huggingface";
+        }
+        if host_lower.contains("x.ai") {
+            return "xai";
         }
     }
 
@@ -273,6 +415,22 @@ pub fn detect_provider(
             }
             if model_lower.starts_with("gemini") || model_lower.starts_with("models/") {
                 return "google";
+            }
+            if model_lower.starts_with("mistral") || model_lower.starts_with("pixtral") {
+                return "mistral";
+            }
+            if model_lower.starts_with("llama") {
+                // Could be Meta, but many providers serve Llama. 
+                // We'll leave it for host/header detection or default.
+            }
+            if model_lower.starts_with("deepseek") {
+                return "deepseek";
+            }
+            if model_lower.contains("command") {
+                return "cohere";
+            }
+            if model_lower.starts_with("grok") {
+                return "xai";
             }
         }
     }

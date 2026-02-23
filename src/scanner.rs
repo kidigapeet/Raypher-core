@@ -42,6 +42,8 @@ pub struct ProcessData {
     pub parent_pid: Option<u32>,
     /// Executable path on disk
     pub exe_path: Option<String>,
+    /// Environment variables (KEY=VALUE)
+    pub environ: Vec<String>,
     /// Data accuracy level
     pub confidence: DataConfidence,
     /// Heuristic risk score (populated by heuristics engine)
@@ -95,6 +97,7 @@ pub fn scan_all_processes(system: &System) -> Vec<ProcessData> {
             cpu_usage: process.cpu_usage(),
             parent_pid,
             exe_path,
+            environ: process.environ().iter().map(|s| s.to_string_lossy().to_string()).collect(),
             confidence,
             risk_level: RiskLevel::None,  // Scored in heuristics pass
             risk_reason: String::new(),
@@ -248,10 +251,58 @@ const AI_PROCESS_NAMES: &[&str] = &[
     "copilot",
 ];
 
+/// Known agent signatures — maps command-line patterns to friendly display names.
+/// Checked against the full command-line string (case-insensitive).
+/// This is how OpenClaw shows as "OpenClaw.ai" instead of "node.exe".
+const AGENT_SIGNATURES: &[(&str, &str)] = &[
+    ("openclaw",    "OpenClaw.ai"),
+    ("aider",       "Aider"),
+    ("cursor",      "Cursor IDE"),
+    ("copilot",     "GitHub Copilot"),
+    ("continue",    "Continue.dev"),
+    ("cline",       "Cline"),
+    ("windsurf",    "Windsurf"),
+    ("devin",       "Devin"),
+    ("autogpt",     "AutoGPT"),
+    ("langchain",   "LangChain Agent"),
+    ("crewai",      "CrewAI"),
+    ("antigravity", "Antigravity"),
+    ("claude",      "Claude Desktop"),
+    ("chatgpt",     "ChatGPT Desktop"),
+    ("gemini",      "Gemini"),
+    ("llamafile",   "LlamaFile"),
+    ("ollama",      "Ollama"),
+    ("lmstudio",    "LM Studio"),
+    ("jan",         "Jan AI"),
+];
+
+/// Resolve a human-friendly agent name from a process name and its command-line arguments.
+///
+/// This is the key function that maps `node.exe` running an openclaw script
+/// to the display name "OpenClaw.ai" instead of just "node.exe".
+///
+/// Priority:
+/// 1. Check full command-line string for known agent signatures.
+/// 2. Check the process binary name itself.
+/// 3. Fall back to the raw binary name.
+pub fn resolve_agent_name(process_name: &str, cmd_args: &[String]) -> String {
+    let full_cmd = format!("{} {}", process_name, cmd_args.join(" ")).to_lowercase();
+    for (signature, friendly_name) in AGENT_SIGNATURES {
+        if full_cmd.contains(signature) {
+            return friendly_name.to_string();
+        }
+    }
+    // Fallback: capitalize the binary name (strip .exe on Windows)
+    let base = process_name.trim_end_matches(".exe").trim_end_matches(".EXE");
+    base.to_string()
+}
+
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct AiProcess {
     pub pid: u32,
     pub name: String,
+    /// Friendly name resolved from command-line (e.g., "OpenClaw.ai" not "node.exe")
+    pub friendly_name: String,
     pub memory_usage: u64,
     pub cmd: Vec<String>,
     pub risk_level: RiskLevel,
@@ -274,9 +325,11 @@ pub fn scan_for_ai() -> Vec<AiProcess> {
         let name_lower = p.name.to_lowercase();
         let is_ai = AI_PROCESS_NAMES.iter().any(|&kw| name_lower.contains(kw) || p.cmd.iter().any(|c| c.to_lowercase().contains(kw)));
         if is_ai {
+            let friendly = resolve_agent_name(&p.name, &p.cmd);
             raw.push(AiProcess {
                 pid: p.pid,
                 name: p.name,
+                friendly_name: friendly,
                 memory_usage: p.memory,
                 cmd: p.cmd,
                 risk_level: p.risk_level,
@@ -290,9 +343,10 @@ pub fn scan_for_ai() -> Vec<AiProcess> {
     // Group by process name
     let mut groups: std::collections::HashMap<String, AiProcess> = std::collections::HashMap::new();
     for p in raw {
-        let entry = groups.entry(p.name.clone()).or_insert_with(|| AiProcess {
+        let entry = groups.entry(p.friendly_name.clone()).or_insert_with(|| AiProcess {
             pid: p.pid,
             name: p.name.clone(),
+            friendly_name: p.friendly_name.clone(),
             memory_usage: 0,
             cmd: p.cmd.clone(),
             risk_level: RiskLevel::None,
@@ -323,5 +377,123 @@ pub fn print_scan_results(results: &Vec<AiProcess>) {
     println!("  🔎 Found {} AI-related agent(s):\n", results.len());
     for p in results {
         println!("  {:<20} | ×{:<4} | Mem: {:>8} KB | PIDs: {:?}", p.name, p.process_count, p.memory_usage / 1024, p.child_pids);
+    }
+}
+
+// ─── Phase 5: Child Process Spawn Detection ───────────────────────────────────
+
+/// Represents a detected child process spawn event.
+#[derive(Debug, Clone)]
+pub struct ChildSpawnAlert {
+    /// The parent AI agent's friendly name
+    pub agent_name: String,
+    /// The parent PID (known agent PID)
+    pub parent_pid: u32,
+    /// Newly detected child process PID
+    pub child_pid: u32,
+    /// Child process name (binary), if available
+    pub child_name: String,
+}
+
+/// Compare two agent scans and return alerts for any new child PIDs that
+/// appeared under a tracked agent process.
+///
+/// Usage: call this from the watchtower loop each scan cycle:
+/// ```ignore
+/// let prev = scan_for_ai();
+/// // ... wait scan_interval ...
+/// let curr = scan_for_ai();
+/// let alerts = detect_new_child_processes(&prev, &curr);
+/// for alert in alerts { /* log CHILD_SPAWN_ALERT event */ }
+/// ```
+pub fn detect_new_child_processes(
+    previous: &[AiProcess],
+    current: &[AiProcess],
+) -> Vec<ChildSpawnAlert> {
+    use std::collections::{HashMap, HashSet};
+
+    // Build map: friendly_name → set of PIDs from previous scan
+    let prev_pids: HashMap<&str, HashSet<u32>> = previous
+        .iter()
+        .map(|a| (a.friendly_name.as_str(), a.child_pids.iter().cloned().collect()))
+        .collect();
+
+    let mut alerts = Vec::new();
+
+    for agent in current {
+        if let Some(old_pids) = prev_pids.get(agent.friendly_name.as_str()) {
+            // Any PID in current that wasn't in previous is a new child spawn
+            for &pid in &agent.child_pids {
+                if !old_pids.contains(&pid) {
+                    // Try to get the child process name via sysinfo
+                    let child_name = get_process_name_for_pid(pid)
+                        .unwrap_or_else(|| format!("pid-{}", pid));
+
+                    alerts.push(ChildSpawnAlert {
+                        agent_name: agent.friendly_name.clone(),
+                        parent_pid: agent.pid,
+                        child_pid: pid,
+                        child_name,
+                    });
+                }
+            }
+        }
+    }
+
+    alerts
+}
+
+/// Get the process name for a given PID using sysinfo.
+/// Returns None if the process is not found or the name is empty.
+fn get_process_name_for_pid(pid: u32) -> Option<String> {
+    use sysinfo::{System, Pid};
+    let mut sys = System::new();
+    sys.refresh_processes(sysinfo::ProcessesToUpdate::All, true);
+    sys.process(Pid::from_u32(pid))
+        .map(|p| p.name().to_string_lossy().to_string())
+        .filter(|n| !n.is_empty())
+}
+
+#[cfg(test)]
+mod child_spawn_tests {
+    use super::*;
+
+    fn make_agent(name: &str, pids: Vec<u32>) -> AiProcess {
+        AiProcess {
+            pid: pids[0],
+            name: name.to_string(),
+            friendly_name: name.to_string(),
+            memory_usage: 0,
+            cmd: vec![],
+            risk_level: RiskLevel::None,
+            risk_reason: String::new(),
+            process_count: pids.len() as u32,
+            child_pids: pids,
+        }
+    }
+
+    #[test]
+    fn test_no_new_children() {
+        let prev = vec![make_agent("OpenClaw.ai", vec![1000, 1001])];
+        let curr = vec![make_agent("OpenClaw.ai", vec![1000, 1001])];
+        assert!(detect_new_child_processes(&prev, &curr).is_empty());
+    }
+
+    #[test]
+    fn test_detects_new_child() {
+        let prev = vec![make_agent("OpenClaw.ai", vec![1000])];
+        let curr = vec![make_agent("OpenClaw.ai", vec![1000, 1002])];
+        let alerts = detect_new_child_processes(&prev, &curr);
+        assert_eq!(alerts.len(), 1);
+        assert_eq!(alerts[0].child_pid, 1002);
+        assert_eq!(alerts[0].agent_name, "OpenClaw.ai");
+    }
+
+    #[test]
+    fn test_new_agent_not_flagged_as_spawn() {
+        // An entirely new agent (not in prev) should not produce alerts
+        let prev: Vec<AiProcess> = vec![];
+        let curr = vec![make_agent("NewAgent", vec![2000])];
+        assert!(detect_new_child_processes(&prev, &curr).is_empty());
     }
 }

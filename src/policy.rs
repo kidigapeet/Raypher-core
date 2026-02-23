@@ -96,10 +96,11 @@ impl DlpPolicy {
     /// Get the DLP action for a given category.
     pub fn action_for_category(&self, category: &str) -> &DlpAction {
         match category {
-            "api_keys" => &self.api_keys,
+            "api_key" | "api_keys" => &self.api_keys,
             "financial" => &self.financial,
             "pii" => &self.pii,
-            "crypto_material" => &self.crypto_material,
+            "crypto_material" | "crypto" => &self.crypto_material,
+            "entropy" => &self.default_action,
             _ => &self.default_action,
         }
     }
@@ -129,6 +130,9 @@ pub struct BudgetConfig {
     pub hourly_limit_usd: f64,
     pub per_request_limit_usd: f64,
     pub action_on_exceed: BudgetAction,
+    /// Maximum runtime for an agent session in minutes. 0 = unlimited.
+    #[serde(default)]
+    pub max_runtime_minutes: u64,
 }
 
 impl Default for BudgetConfig {
@@ -138,6 +142,7 @@ impl Default for BudgetConfig {
             hourly_limit_usd: 10.0,
             per_request_limit_usd: 5.0,
             action_on_exceed: BudgetAction::Downgrade,
+            max_runtime_minutes: 0,  // 0 = unlimited
         }
     }
 }
@@ -149,6 +154,66 @@ pub enum BudgetAction {
     Block,
     Downgrade,
     Alert,
+}
+
+// ── Phase 4 Config ─────────────────────────────────────────────
+
+/// Configuration for Phase 4 security features.
+/// All fields use `#[serde(default)]` for backward compatibility with
+/// existing policy.yaml files that don't have a [phase4] section.
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct Phase4Config {
+    /// Whether to run the SSRF shield. Default: true.
+    #[serde(default = "default_true")]
+    pub ssrf_shield_enabled: bool,
+    /// Whether to run the jailbreak / prompt injection filter. Default: true.
+    #[serde(default = "default_true")]
+    pub jailbreak_filter_enabled: bool,
+    /// Whether Medium-severity jailbreak patterns should block (in addition to Critical/High).
+    /// Default: false (Medium patterns log but don't block).
+    #[serde(default)]
+    pub block_medium_jailbreak: bool,
+    /// Custom DLP patterns (regex) from policy.yaml, applied on top of built-in patterns.
+    #[serde(default)]
+    pub custom_dlp_patterns: Vec<crate::dlp::CustomPattern>,
+    /// Enable shadow AI discovery background scan. Default: false.
+    #[serde(default)]
+    pub shadow_discovery_enabled: bool,
+    /// Interval in seconds between shadow AI discovery scans. Default: 300 (5 min).
+    #[serde(default = "default_discovery_interval")]
+    pub shadow_discovery_interval_secs: u64,
+    /// Enable Merkle-chained audit ledger. Default: true.
+    #[serde(default = "default_true")]
+    pub merkle_ledger_enabled: bool,
+    /// Path for the Merkle ledger NDJSON file. Default: ~/.raypher/audit.ndjson
+    #[serde(default = "default_merkle_path")]
+    pub merkle_ledger_path: String,
+}
+
+fn default_true() -> bool { true }
+fn default_discovery_interval() -> u64 { 300 }
+fn default_merkle_path() -> String {
+    dirs::home_dir()
+        .unwrap_or_default()
+        .join(".raypher")
+        .join("audit.ndjson")
+        .to_string_lossy()
+        .to_string()
+}
+
+impl Default for Phase4Config {
+    fn default() -> Self {
+        Self {
+            ssrf_shield_enabled: true,
+            jailbreak_filter_enabled: true,
+            block_medium_jailbreak: false,
+            custom_dlp_patterns: vec![],
+            shadow_discovery_enabled: false,
+            shadow_discovery_interval_secs: 300,
+            merkle_ledger_enabled: true,
+            merkle_ledger_path: default_merkle_path(),
+        }
+    }
 }
 
 /// The full policy configuration shown in the Mission Control tab.
@@ -163,6 +228,7 @@ pub struct PolicyConfig {
     pub file_read_paths: Vec<String>,
     pub file_write_paths: Vec<String>,
     pub capabilities: Vec<Capability>,
+    pub work_days: Vec<String>,
     // Phase 3 additions
     #[serde(default)]
     pub dlp: DlpPolicy,
@@ -170,6 +236,9 @@ pub struct PolicyConfig {
     pub budget: BudgetConfig,
     #[serde(default)]
     pub model_routes: Vec<ModelRoute>,
+    // Phase 4 additions
+    #[serde(default)]
+    pub phase4: Phase4Config,
 }
 
 // ── Defaults ───────────────────────────────────────────────────
@@ -193,9 +262,14 @@ impl Default for PolicyConfig {
             file_read_paths: vec![],
             file_write_paths: vec![],
             capabilities: default_capabilities(),
+            work_days: vec![
+                "Monday".to_string(), "Tuesday".to_string(), "Wednesday".to_string(),
+                "Thursday".to_string(), "Friday".to_string()
+            ],
             dlp: DlpPolicy::default(),
             budget: BudgetConfig::default(),
             model_routes: default_model_routes(),
+            phase4: Phase4Config::default(),
         }
     }
 }
@@ -330,19 +404,25 @@ pub fn save_policy_to_yaml(policy: &PolicyConfig) -> Result<(), String> {
 
 // ── Load / Save (Database + YAML) ──────────────────────────────
 
-/// Load the policy. Priority: YAML file > database > defaults.
+/// Load the policy. Priority: database > YAML file > defaults.
+/// The DB stores the authoritative runtime config (updated via dashboard/API).
+/// The YAML file is the initial seed / static operator override.
 pub fn load_policy(db: &Database) -> PolicyConfig {
-    // YAML file takes priority (operator override)
+    // DB takes priority — it stores the latest operator policy
+    match db.get_policy("policy_config") {
+        Ok(Some(json_str)) => {
+            if let Ok(p) = serde_json::from_str::<PolicyConfig>(&json_str) {
+                info!("Loaded policy from database");
+                return p;
+            }
+        }
+        _ => {}
+    }
+    // Fall back to YAML file (static initial seed)
     if let Some(yaml_policy) = load_policy_from_yaml() {
         return yaml_policy;
     }
-    // Fall back to database
-    match db.get_policy("policy_config") {
-        Ok(Some(json_str)) => {
-            serde_json::from_str(&json_str).unwrap_or_default()
-        }
-        _ => PolicyConfig::default(),
-    }
+    PolicyConfig::default()
 }
 
 /// Save the policy to both the database and YAML file.
@@ -385,6 +465,43 @@ impl PolicyHolder {
         *self.config.write().unwrap() = new_policy;
         info!("Policy hot-reloaded.");
     }
+}
+
+/// Check if a destination domain is allowed by the current policy.
+///
+/// Rules (evaluated in order):
+/// 1. If the domain is in `blocked_domains` → always deny.
+/// 2. If `allowed_domains` is non-empty → domain must be in (or a subdomain of) the list.
+/// 3. If `allowed_domains` is empty → allow by default (no whitelist configured).
+///
+/// Matching is suffix-based: `allowed_domains = ["openai.com"]` allows
+/// `api.openai.com` and `openai.com`, but NOT `evil-openai.com`.
+pub fn check_domain(policy: &PolicyConfig, host: &str) -> bool {
+    let host = host.trim().to_lowercase();
+
+    // Rule 1: Explicit block list has highest priority
+    for blocked in &policy.blocked_domains {
+        let blocked = blocked.trim().to_lowercase();
+        if host == blocked || host.ends_with(&format!(".{}", blocked)) {
+            tracing::warn!(domain = %host, "Domain denied: in blocked_domains");
+            return false;
+        }
+    }
+
+    // Rule 2: If a whitelist is configured, enforce it
+    if !policy.allowed_domains.is_empty() {
+        for allowed in &policy.allowed_domains {
+            let allowed = allowed.trim().to_lowercase();
+            if host == allowed || host.ends_with(&format!(".{}", allowed)) {
+                return true;
+            }
+        }
+        tracing::warn!(domain = %host, "Domain denied: not in allowed_domains whitelist");
+        return false;
+    }
+
+    // Rule 3: No whitelist — allow
+    true
 }
 
 /// Start a background file watcher that reloads the policy on file changes.
@@ -440,30 +557,18 @@ pub fn check_time_restriction(policy: &PolicyConfig) -> bool {
     }
 
     let now = chrono::Local::now();
-    let current_time = now.format("%H:%M").to_string();
-
-    current_time >= policy.work_hours_start && current_time <= policy.work_hours_end
-}
-
-/// Check if a domain is allowed by the policy.
-pub fn check_domain(policy: &PolicyConfig, domain: &str) -> bool {
-    // If explicitly blocked, deny
-    if policy.blocked_domains.iter().any(|d| domain.contains(d)) {
+    
+    // Day of week check
+    let day = now.format("%A").to_string();
+    if !policy.work_days.is_empty() && !policy.work_days.contains(&day) {
         return false;
     }
 
-    // Check if the "internet_any" capability is Allowed
-    let any_internet = policy.capabilities.iter()
-        .find(|c| c.id == "internet_any");
-    if let Some(cap) = any_internet {
-        if cap.zone == Zone::Allowed {
-            return true;
-        }
-    }
-
-    // Otherwise, must be in the whitelist
-    policy.allowed_domains.iter().any(|d| domain.contains(d))
+    let current_time = now.format("%H:%M").to_string();
+    current_time >= policy.work_hours_start && current_time <= policy.work_hours_end
 }
+
+// check_domain is defined above, near the PolicyHolder implementation.
 
 /// Check if a capability is in the Allowed zone.
 pub fn is_capability_allowed(policy: &PolicyConfig, capability_id: &str) -> bool {
@@ -477,14 +582,9 @@ pub fn is_capability_allowed(policy: &PolicyConfig, capability_id: &str) -> bool
 
 /// Check if the daily budget has been exceeded.
 pub fn check_budget(policy: &PolicyConfig, db: &Database) -> BudgetStatus {
-    let daily = db.get_daily_spend().unwrap_or(0.0);
-    let hourly_breakdown = db.get_hourly_spend().unwrap_or_default();
-    // Sum spending for the current hour
-    let current_hour = chrono::Utc::now().format("%H").to_string();
-    let hourly: f64 = hourly_breakdown.iter()
-        .filter(|(h, _)| h == &current_hour)
-        .map(|(_, v)| v)
-        .sum();
+    let daily = db.get_daily_spend_total().unwrap_or(0.0);
+    // For now, hourly check uses daily total as per simplified implementation in Database
+    let hourly = db.get_hourly_spend_v2("default").unwrap_or(0.0);
 
     if daily >= policy.budget.daily_limit_usd {
         return BudgetStatus::DailyExceeded { spent: daily, limit: policy.budget.daily_limit_usd };
@@ -531,6 +631,89 @@ pub fn route_model(policy: &PolicyConfig, requested_model: &str, budget_exceeded
         }
     }
     requested_model.to_string()
+}
+
+
+// ── Composite Policy Evaluation ────────────────────────────────
+
+/// The request context passed to composite policy evaluation.
+/// Contains all information needed to make allow/deny decisions.
+#[derive(Debug, Clone)]
+pub struct RequestContext {
+    /// The agent's process hash (SHA-256 of exe path)
+    pub agent_hash: String,
+    /// The agent's trust score (0–1000, from behavioral analysis)
+    pub trust_score: u32,
+    /// The requested model name (e.g., "gpt-4-turbo")
+    pub model: Option<String>,
+    /// The destination domain
+    pub destination: Option<String>,
+    /// Today's accumulated spend for this agent (in USD)
+    pub daily_spend: f64,
+    /// The action type (e.g., "chat", "completion", "embedding")
+    pub action_type: Option<String>,
+}
+
+/// Result of a composite policy evaluation.
+#[derive(Debug, Clone)]
+pub struct PolicyVerdict {
+    /// Whether the request is allowed through
+    pub allowed: bool,
+    /// Human-readable reason for the decision
+    pub reason: String,
+    /// If set, the proxy should use this model instead of the requested one
+    pub suggested_model: Option<String>,
+}
+
+/// Evaluate a full request context against all policy rules.
+///
+/// Order of evaluation:
+/// 1. Time restriction (work-hours / weekday check)
+/// 2. Domain whitelist / blocklist
+/// 3. Daily budget cap
+/// 4. Model routing (may downgrade but still allows the request)
+pub fn evaluate_request(policy: &PolicyConfig, ctx: &RequestContext) -> PolicyVerdict {
+    // 1. Time restriction
+    if !check_time_restriction(policy) {
+        return PolicyVerdict {
+            allowed: false,
+            reason: "Outside allowed time window".to_string(),
+            suggested_model: None,
+        };
+    }
+
+    // 2. Domain whitelist / blocklist
+    if let Some(ref domain) = ctx.destination {
+        if !check_domain(policy, domain) {
+            return PolicyVerdict {
+                allowed: false,
+                reason: format!("Domain '{}' not in policy whitelist", domain),
+                suggested_model: None,
+            };
+        }
+    }
+
+    // 3. Daily budget cap
+    if ctx.daily_spend > policy.budget.daily_limit_usd {
+        return PolicyVerdict {
+            allowed: false,
+            reason: format!(
+                "Daily budget exceeded: ${:.2} > ${:.2}",
+                ctx.daily_spend, policy.budget.daily_limit_usd
+            ),
+            suggested_model: None,
+        };
+    }
+
+    // 4. Model routing (allow, but potentially downgrade)
+    let budget_near_limit = ctx.daily_spend > policy.budget.daily_limit_usd * 0.8;
+    let suggested = ctx.model.as_ref().map(|m| route_model(policy, m, budget_near_limit));
+
+    PolicyVerdict {
+        allowed: true,
+        reason: "All policy checks passed".to_string(),
+        suggested_model: suggested,
+    }
 }
 
 // ── Tests ──────────────────────────────────────────────────────

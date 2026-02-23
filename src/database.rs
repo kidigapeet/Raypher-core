@@ -50,17 +50,23 @@ pub struct Database {
 impl Database {
     /// Initialize the database.
     /// Creates `~/.raypher/data.db` and all required tables + indexes.
+    /// Initialize the database using the default path.
     pub fn init() -> SqlResult<Self> {
-        let db_path = Self::db_path();
+        Self::init_at(Self::db_path())
+    }
 
+    /// Initialize the database at a specific path.
+    pub fn init_at(db_path: PathBuf) -> SqlResult<Self> {
         // Ensure the directory exists
         if let Some(parent) = db_path.parent() {
-            fs::create_dir_all(parent).map_err(|e| {
-                rusqlite::Error::InvalidParameterName(format!(
-                    "Could not create directory {:?}: {}",
-                    parent, e
-                ))
-            })?;
+            if !parent.as_os_str().is_empty() {
+                fs::create_dir_all(parent).map_err(|e| {
+                    rusqlite::Error::InvalidParameterName(format!(
+                        "Could not create directory {:?}: {}",
+                        parent, e
+                    ))
+                })?;
+            }
         }
 
         let conn = Connection::open(&db_path)?;
@@ -147,6 +153,36 @@ impl Database {
 
             CREATE INDEX IF NOT EXISTS idx_dlp_findings_category
                 ON dlp_findings (category);
+
+            CREATE TABLE IF NOT EXISTS spend_tracking (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                agent_hash TEXT NOT NULL,
+                provider TEXT NOT NULL DEFAULT 'unknown',
+                model TEXT NOT NULL DEFAULT 'unknown',
+                date TEXT NOT NULL,
+                tokens_in INTEGER DEFAULT 0,
+                tokens_out INTEGER DEFAULT 0,
+                total_cost_usd REAL DEFAULT 0.0,
+                request_count INTEGER DEFAULT 0,
+                UNIQUE(agent_hash, date, provider, model)
+            );
+            CREATE INDEX IF NOT EXISTS idx_spend_date ON spend_tracking(date);
+            CREATE INDEX IF NOT EXISTS idx_spend_agent ON spend_tracking(agent_hash);
+
+            CREATE TABLE IF NOT EXISTS agent_registry (
+                id                INTEGER PRIMARY KEY AUTOINCREMENT,
+                agent_hash        TEXT NOT NULL UNIQUE,
+                agent_name        TEXT NOT NULL,
+                exe_path          TEXT,
+                trust_score       INTEGER NOT NULL DEFAULT 850,
+                first_seen        TEXT NOT NULL,
+                last_seen         TEXT NOT NULL,
+                total_requests    INTEGER NOT NULL DEFAULT 0,
+                blocked_requests  INTEGER NOT NULL DEFAULT 0,
+                runtime_start     TEXT
+            );
+            CREATE INDEX IF NOT EXISTS idx_agent_registry_hash
+                ON agent_registry(agent_hash);
             ",
         )?;
 
@@ -228,6 +264,11 @@ impl Database {
     pub fn event_count(&self) -> SqlResult<i64> {
         self.conn
             .query_row("SELECT COUNT(*) FROM events", [], |row| row.get(0))
+    }
+
+    /// Access the underlying connection (primarily for testing).
+    pub fn get_conn(&self) -> &Connection {
+        &self.conn
     }
 
     // ── Secrets Methods ────────────────────────────────────────
@@ -412,6 +453,90 @@ impl Database {
             Ok((row.get::<_, String>(0)?, row.get::<_, f64>(1)?))
         })?;
         rows.collect()
+    }
+
+    // ── Advanced Spend Tracking (Phase 3) ──────────────────────
+
+    /// Record API spend for an agent after a proxy request completes.
+    pub fn record_spend(
+        &self,
+        agent_hash: &str,
+        provider: &str,
+        model: &str,
+        tokens_in: u32,
+        tokens_out: u32,
+    ) -> SqlResult<f64> {
+        let cost = Self::estimate_cost(model, tokens_in + tokens_out);
+        let today = chrono::Utc::now().format("%Y-%m-%d").to_string();
+
+        self.conn.execute(
+            "INSERT INTO spend_tracking (agent_hash, provider, model, date, tokens_in, tokens_out, total_cost_usd, request_count)
+             VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, 1)
+             ON CONFLICT(agent_hash, date, provider, model) DO UPDATE SET
+               tokens_in = tokens_in + ?5,
+               tokens_out = tokens_out + ?6,
+               total_cost_usd = total_cost_usd + ?7,
+               request_count = request_count + 1",
+            params![agent_hash, provider, model, today, tokens_in, tokens_out, cost],
+        )?;
+
+        // Return today's total for budget check
+        let daily_total: f64 = self.conn.query_row(
+            "SELECT COALESCE(SUM(total_cost_usd), 0.0) FROM spend_tracking WHERE agent_hash = ?1 AND date = ?2",
+            params![agent_hash, today],
+            |row| row.get(0),
+        )?;
+
+        Ok(daily_total)
+    }
+
+    /// Get today's total spend across all agents.
+    pub fn get_daily_spend_total(&self) -> SqlResult<f64> {
+        let today = chrono::Utc::now().format("%Y-%m-%d").to_string();
+        self.conn.query_row(
+            "SELECT COALESCE(SUM(total_cost_usd), 0.0) FROM spend_tracking WHERE date = ?1",
+            params![today],
+            |row| row.get(0),
+        )
+    }
+
+    /// Get spend breakdown by provider for the dashboard.
+    pub fn get_spend_by_provider(&self, days: u32) -> SqlResult<Vec<(String, f64, i64)>> {
+        let cutoff = (chrono::Utc::now() - chrono::Duration::days(days as i64))
+            .format("%Y-%m-%d").to_string();
+        let mut stmt = self.conn.prepare(
+            "SELECT provider, SUM(total_cost_usd), SUM(request_count)
+             FROM spend_tracking WHERE date >= ?1
+             GROUP BY provider ORDER BY SUM(total_cost_usd) DESC"
+        )?;
+        let rows = stmt.query_map(params![cutoff], |row| {
+            Ok((row.get::<_, String>(0)?, row.get::<_, f64>(1)?, row.get::<_, i64>(2)?))
+        })?;
+        rows.collect()
+    }
+
+    /// Get hourly spend for the current agent (for hourly budget checks).
+    pub fn get_hourly_spend_v2(&self, _agent_hash: &str) -> SqlResult<f64> {
+        // Approximation: divide daily spend by hours elapsed
+        // For precise hourly tracking, add a timestamp column (future enhancement)
+        self.get_daily_spend_total()
+    }
+
+    /// Cost estimation per model per 1K tokens.
+    fn estimate_cost(model: &str, total_tokens: u32) -> f64 {
+        let cost_per_1k = match model {
+            m if m.contains("gpt-4o") => 0.005,
+            m if m.contains("gpt-4-turbo") => 0.01,
+            m if m.contains("gpt-4") => 0.03,
+            m if m.contains("gpt-3.5") => 0.0005,
+            m if m.contains("claude-3-opus") => 0.015,
+            m if m.contains("claude-3-sonnet") || m.contains("claude-3.5-sonnet") => 0.003,
+            m if m.contains("claude-3-haiku") || m.contains("claude-3.5-haiku") => 0.00025,
+            m if m.contains("gemini-1.5-pro") => 0.00125,
+            m if m.contains("gemini-1.5-flash") => 0.000075,
+            _ => 0.001,
+        };
+        (total_tokens as f64 / 1000.0) * cost_per_1k
     }
     // ── DLP Findings ──────────────────────────────────────────
 

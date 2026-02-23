@@ -1544,6 +1544,10 @@
                 <div class="nav-icon">🔍</div>
                 <div class="nav-label">Agents</div>
             </div>
+            <div class="nav-item" data-panel="discovery" onclick="switchPanel('discovery')">
+                <div class="nav-icon">📡</div>
+                <div class="nav-label">Shadow AI</div>
+            </div>
             <div class="nav-item" data-panel="zones" onclick="switchPanel('zones')">
                 <div class="nav-icon">🎯</div>
                 <div class="nav-label">Zones</div>
@@ -1559,6 +1563,10 @@
             <div class="nav-item" data-panel="dlp" onclick="switchPanel('dlp')">
                 <div class="nav-icon">🛡️</div>
                 <div class="nav-label">DLP</div>
+            </div>
+            <div class="nav-item" data-panel="merkle" onclick="switchPanel('merkle')">
+                <div class="nav-icon">⛓️</div>
+                <div class="nav-label">Ledger</div>
             </div>
             <div class="nav-item" data-panel="settings" onclick="switchPanel('settings')">
                 <div class="nav-icon">⚙️</div>
@@ -1585,6 +1593,60 @@
                     <div class="agent-empty-state">
                         <p>Scanning for AI agents...</p>
                     </div>
+                </div>
+            </div>
+
+            <!-- PANEL: DISCOVERY -->
+            <div id="panel-discovery" class="panel">
+                <div class="panel-header">
+                    <div class="panel-title">📡 Shadow AI Discovery</div>
+                    <button class="btn-primary" onclick="loadDiscovery()">Refresh Scan</button>
+                </div>
+                <div class="card">
+                    <div class="card-title">🔍 Detected AI Infrastructure</div>
+                    <div id="discovery-list">
+                        <div class="empty-state">
+                            <p>Loading discovery data...</p>
+                        </div>
+                    </div>
+                    <div class="vault-banner" style="margin-top:20px">
+                        🕵️ Shadow AI Discovery identifies unauthorized AI services running on this machine or reachable
+                        over the network.
+                    </div>
+                </div>
+            </div>
+
+            <!-- PANEL: MERKLE LEDGER -->
+            <div id="panel-merkle" class="panel">
+                <div class="panel-header">
+                    <div class="panel-title">⛓️ Merkle-Chained Audit Ledger</div>
+                    <button class="btn-primary" onclick="loadMerkle()">Refresh</button>
+                </div>
+                <div class="card" style="margin-bottom:16px">
+                    <div class="card-title">Chain Integrity Status</div>
+                    <div id="merkle-status-bar" style="display:flex;align-items:center;gap:16px;padding:16px 0">
+                        <div style="font-size:36px" id="merkle-status-icon">⏳</div>
+                        <div>
+                            <div style="font-size:16px;font-weight:700" id="merkle-status-text">Loading...</div>
+                            <div style="font-size:12px;color:var(--text2);margin-top:4px" id="merkle-entry-count"></div>
+                            <div style="font-size:11px;color:var(--text3);margin-top:2px;font-family:'JetBrains Mono',monospace"
+                                id="merkle-ledger-path"></div>
+                        </div>
+                    </div>
+                    <div id="merkle-error-msg"
+                        style="display:none;padding:10px;background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.2);border-radius:8px;font-size:12px;color:var(--red);font-family:'JetBrains Mono',monospace">
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-title">Last Audit Entries</div>
+                    <div id="merkle-entries">
+                        <div class="empty-state">
+                            <p>Loading ledger entries...</p>
+                        </div>
+                    </div>
+                    <div class="vault-banner" style="margin-top:16px">🔐 Each entry is SHA-256 hashed and chained — any
+                        tampering is instantly detectable via the <code
+                            style="font-size:11px;color:var(--cyan)">raypher merkle-verify</code> command.</div>
                 </div>
             </div>
 
@@ -1748,6 +1810,26 @@
                     </div>
                 </div>
                 <div class="card">
+                    <div class="card-title">⏱️ Agent Runtime Controls</div>
+                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;align-items:end">
+                        <div>
+                            <div style="font-size:11px;color:var(--text3);margin-bottom:6px">Max Runtime per Session
+                                (minutes)</div>
+                            <div style="display:flex;align-items:center;gap:10px">
+                                <input type="number" id="b-max-runtime" class="field-input" min="0" max="480" value="0"
+                                    style="width:100px" placeholder="0 = unlimited" oninput="markRuntimeDirty()">
+                                <span style="font-size:11px;color:var(--text3)">0 = unlimited</span>
+                            </div>
+                            <div style="font-size:10px;color:var(--text3);margin-top:4px">Blocks agent API access after
+                                limit expires. Agent process is not killed.</div>
+                        </div>
+                        <div>
+                            <button class="btn-primary" style="font-size:12px;height:36px"
+                                onclick="saveRuntimeLimit()">Save Runtime Limit</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
                     <div class="card-title">🕐 Work Hours Restriction</div>
                     <div style="display:flex;align-items:center;gap:12px">
                         <label class="toggle"><input type="checkbox" id="workhours-toggle"
@@ -1778,6 +1860,16 @@
                                 <option value="openai">openai</option>
                                 <option value="anthropic">anthropic</option>
                                 <option value="google">google</option>
+                                <option value="azure">azure</option>
+                                <option value="mistral">mistral</option>
+                                <option value="together">together</option>
+                                <option value="perplexity">perplexity</option>
+                                <option value="groq">groq</option>
+                                <option value="deepseek">deepseek</option>
+                                <option value="cohere">cohere</option>
+                                <option value="voyage">voyage</option>
+                                <option value="fireworks">fireworks</option>
+                                <option value="openrouter">openrouter</option>
                                 <option value="aws">aws</option>
                                 <option value="github">github</option>
                                 <option value="custom">custom</option>
@@ -1912,6 +2004,8 @@
             if (name === 'budget') loadBudget();
             if (name === 'vault') loadSecrets();
             if (name === 'dlp') loadDlp();
+            if (name === 'discovery') loadDiscovery();
+            if (name === 'merkle') loadMerkle();
             if (name === 'settings') loadConfig();
         }
 
@@ -1968,14 +2062,23 @@
                 const label = r === 'None' ? '🟢 Protected' : r === 'Medium' ? '🟡 Warning' : '🔴 UNMANAGED';
                 const count = a.process_count || 1;
                 const countLabel = count > 1 ? ' <span style="font-size:10px;color:var(--cyan);font-weight:700">×' + count + '</span>' : '';
+                // Phase 5: Display friendly name and trust score
+                const displayName = a.friendly_name || a.name;
+                const trustScore = a.trust_score || 850;
+                const trustColor = a.trust_color || '#10b981';
+                const trustLabel = a.trust_label || 'High Trust';
                 html += '<div class="agent-tile" onclick="openAgentDetail(' + a.pid + ')">' +
                     '<div class="agent-tile-header">' +
                     '<div class="agent-dot ' + cls + '"></div>' +
-                    '<div class="agent-tile-name">' + a.name + countLabel + '</div>' +
+                    '<div class="agent-tile-name">' + displayName + countLabel + '</div>' +
                     '<div class="agent-tile-pid">PID: ' + a.pid + '</div>' +
                     '</div>' +
                     '<div class="agent-tile-meta"><span>💾 ' + (a.memory_mb || 0) + ' MB</span>' + (count > 1 ? '<span>🔗 ' + count + ' processes</span>' : '') + '</div>' +
                     '<div class="agent-tile-risk ' + cls + '">' + label + '</div>' +
+                    '<div style="padding:6px 12px;display:flex;align-items:center;justify-content:space-between;border-top:1px solid rgba(148,163,184,.07)">' +
+                    '<span style="font-size:10px;color:var(--text3)">Trust Score</span>' +
+                    '<span style="font-size:11px;font-weight:700;color:' + trustColor + '">' + trustScore + ' — ' + trustLabel + '</span>' +
+                    '</div>' +
                     '</div>';
             }
             grid.innerHTML = html;
@@ -1989,19 +2092,20 @@
             const r = String(agent.risk_level || 'None');
             const cls = r === 'High' || r === 'Critical' ? 'danger' : r === 'Medium' ? 'warn' : 'safe';
             const label = r === 'None' ? '🟢 Protected' : r === 'Medium' ? '🟡 Warning' : '🔴 UNMANAGED';
-            document.getElementById('detail-name').textContent = agent.name + ' (PID: ' + agent.pid + ')';
+            const displayName = agent.friendly_name || agent.name;
+            document.getElementById('detail-name').textContent = displayName + ' (PID: ' + agent.pid + ')';
             const badge = document.getElementById('detail-risk-badge');
             badge.textContent = label; badge.className = 'agent-tile-risk ' + cls;
             document.getElementById('detail-risk-reason').textContent = agent.risk_reason || '';
             document.getElementById('detail-pid').textContent = agent.pid;
             document.getElementById('detail-mem').textContent = (agent.memory_mb || 0) + ' MB';
             document.getElementById('detail-cmd').textContent = agent.cmd || '—';
-            // Trust score
-            let score = r === 'None' ? 850 : r === 'Medium' ? 500 : r === 'High' ? 250 : 100;
+            // Phase 5: Use real trust score from backend (not derived from risk level)
+            const score = agent.trust_score || (r === 'None' ? 850 : r === 'Medium' ? 500 : r === 'High' ? 250 : 100);
             const arc = Math.min(204, score / 1000 * 204);
             document.getElementById('detail-gauge-arc').setAttribute('stroke-dasharray', arc + ' 204');
             document.getElementById('detail-trust').textContent = score;
-            document.getElementById('detail-trust-lbl').textContent = score >= 700 ? 'High Trust' : score >= 300 ? 'Moderate' : 'Low Trust';
+            document.getElementById('detail-trust-lbl').textContent = agent.trust_label || (score >= 700 ? 'High Trust' : score >= 300 ? 'Moderate' : 'Low Trust');
             // Show panel
             document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
             document.getElementById('panel-agent-detail').classList.add('active');
@@ -2019,8 +2123,10 @@
             let html = '';
             for (const ev of d.events) {
                 const show = detailFilter === 'all' || ev.severity === detailFilter;
-                const ts = ev.timestamp ? (ev.timestamp.length > 19 ? ev.timestamp.substring(11, 19) : ev.timestamp) : '';
-                const detail = ev.details && ev.details.length > 120 ? ev.details.substring(0, 120) + '…' : (ev.details || '');
+                // Phase 5: Use formatted_time and description from backend
+                const ts = ev.formatted_time || (ev.timestamp ? (ev.timestamp.length > 19 ? ev.timestamp.substring(11, 19) : ev.timestamp) : '');
+                const description = ev.description || ev.details || '';
+                const shortDesc = description.length > 120 ? description.substring(0, 120) + '…' : description;
                 html += '<div class="event-row" style="display:' + (show ? 'block' : 'none') + '" data-severity="' + ev.severity + '" onclick="this.classList.toggle(\'expanded\')">' +
                     '<div class="event-dot ' + ev.severity + '"></div>' +
                     '<div class="event-header">' +
@@ -2028,7 +2134,7 @@
                     '<span class="event-badge ' + ev.severity + '">' + ev.severity + '</span>' +
                     '<span class="event-time">' + ts + '</span>' +
                     '</div>' +
-                    '<div class="event-detail">' + detail + '</div>' +
+                    '<div class="event-detail">' + shortDesc + '</div>' +
                     '<div class="event-expand">' + (ev.details || '') + '</div>' +
                     '</div>';
             }
@@ -2141,6 +2247,10 @@
 
             document.getElementById('b-monthly').textContent = '$' + (d.daily_spend * 30).toFixed(2);
             document.getElementById('b-slider').value = d.budget_limit;
+            // Phase 5: populate max runtime from policy
+            if (policyData && policyData.budget && policyData.budget.max_runtime_minutes !== undefined) {
+                document.getElementById('b-max-runtime').value = policyData.budget.max_runtime_minutes;
+            }
 
             // Hourly Chart (SVG)
             const hourlyChart = document.getElementById('b-hourly-chart');
@@ -2211,6 +2321,24 @@
             const on = document.getElementById('workhours-toggle').checked;
             document.getElementById('workhours-label').textContent = on ? '9:00 AM – 5:00 PM' : 'Off — agents run 24/7';
             if (policyData) { policyData.work_hours_only = on; savePolicy(); }
+        }
+
+        // Phase 5: Agent Runtime Controls helpers
+        function markRuntimeDirty() {
+            // Provides instant feedback that the input changed
+            const btn = document.querySelector('[onclick="saveRuntimeLimit()"]');
+            if (btn) btn.textContent = '💾 Save Runtime Limit*';
+        }
+
+        async function saveRuntimeLimit() {
+            const val = parseInt(document.getElementById('b-max-runtime').value, 10) || 0;
+            if (!policyData) { toast('Policy not loaded', 'warning'); return; }
+            policyData.budget = policyData.budget || {};
+            policyData.budget.max_runtime_minutes = val;
+            await savePolicy();
+            const btn = document.querySelector('[onclick="saveRuntimeLimit()"]');
+            if (btn) btn.textContent = 'Save Runtime Limit';
+            toast('✅ Runtime limit ' + (val === 0 ? 'disabled (unlimited)' : 'set to ' + val + ' min'));
         }
 
         // ── Vault ──
@@ -2412,7 +2540,7 @@
 
                 // Active patterns count from config
                 if (config && config.built_in_patterns) {
-                    document.getElementById('dlp-patterns').textContent = config.built_in_patterns;
+                    document.getElementById('dlp-patterns').textContent = config.built_in_patterns + (config.custom_patterns ? ' + ' + config.custom_patterns.length + ' custom' : '');
                 }
 
                 // Legend
@@ -2428,7 +2556,7 @@
                 }
             }
 
-            // — Config —
+            // — Config (built-in) —
             if (config) {
                 const grid = document.getElementById('dlp-config-grid');
                 const items = [
@@ -2447,6 +2575,37 @@
                 if (config.exclusions && config.exclusions.length > 0) {
                     grid.innerHTML += `<div class="dlp-config-item" style="grid-column:span 2"><span class="dlp-config-label">Exclusions</span><span class="dlp-config-value">${config.exclusions.join(', ')}</span></div>`;
                 }
+
+                // Phase 5: Custom Patterns CRUD
+                const customPatterns = config.custom_patterns || [];
+                const existingSection = document.getElementById('dlp-custom-patterns-section');
+                const section = existingSection || document.createElement('div');
+                if (!existingSection) {
+                    section.id = 'dlp-custom-patterns-section';
+                    section.className = 'card';
+                    document.getElementById('dlp-config-grid').closest('.card').after(section);
+                }
+                section.innerHTML = `<div class="card-title">🔍 Custom DLP Patterns
+                    <button class="btn-secondary" style="font-size:11px;padding:4px 10px;margin-left:auto" onclick="loadDlp()">Refresh</button>
+                </div>
+                <div style="margin-bottom:12px;display:grid;grid-template-columns:1fr 1fr auto auto;gap:8px;align-items:end">
+                    <div><div style="font-size:11px;color:var(--text3);margin-bottom:4px">Name</div><input id="dlp-new-name" class="field-input" type="text" placeholder="e.g., Internal API" style="width:100%"></div>
+                    <div><div style="font-size:11px;color:var(--text3);margin-bottom:4px">Regex Pattern</div><input id="dlp-new-pattern" class="field-input" type="text" placeholder="e.g., INTERNAL-[A-Z0-9]+" style="width:100%"></div>
+                    <div><div style="font-size:11px;color:var(--text3);margin-bottom:4px">Severity</div><select id="dlp-new-severity" class="field-select"><option>Medium</option><option>High</option><option>Critical</option><option>Low</option></select></div>
+                    <button class="btn-primary" style="font-size:12px;height:36px" onclick="addDlpPattern()">+ Add Pattern</button>
+                </div>
+                <div id="dlp-custom-list">
+                ${customPatterns.length === 0
+                        ? '<div style="color:var(--text3);font-size:12px;padding:8px 0">No custom patterns. Add one above.</div>'
+                        : customPatterns.map(p => `
+                        <div style="display:flex;align-items:center;gap:10px;padding:8px 10px;border-radius:8px;background:rgba(148,163,184,.04);margin-bottom:6px">
+                            <span style="font-weight:600;color:var(--text);min-width:120px">${p.name}</span>
+                            <span style="font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--cyan);flex:1">${p.pattern}</span>
+                            <span class="dlp-action-badge dlp-action-${(p.severity || 'medium').toLowerCase()}">${p.severity || 'Medium'}</span>
+                            <button class="secret-delete" onclick="deleteDlpPattern('${encodeURIComponent(p.name)}')">Delete</button>
+                        </div>`).join('')
+                    }
+                </div>`;
             }
 
             // — Findings feed —
@@ -2474,6 +2633,34 @@
             }
         }
 
+        async function addDlpPattern() {
+            const name = document.getElementById('dlp-new-name').value.trim();
+            const pattern = document.getElementById('dlp-new-pattern').value.trim();
+            const severity = document.getElementById('dlp-new-severity').value;
+            if (!name || !pattern) { toast('Name and pattern are required', 'warning'); return; }
+            const r = await api('/api/dlp/patterns', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ name, pattern, severity })
+            });
+            if (r && r.status === 'added') {
+                toast('✅ Pattern "' + name + '" added');
+                document.getElementById('dlp-new-name').value = '';
+                document.getElementById('dlp-new-pattern').value = '';
+                loadDlp();
+            } else {
+                toast(r?.error || 'Failed to add pattern', 'error');
+            }
+        }
+
+        async function deleteDlpPattern(encodedName) {
+            const name = decodeURIComponent(encodedName);
+            if (!confirm('Delete pattern "' + name + '"?')) return;
+            const r = await api('/api/dlp/patterns/' + encodedName, { method: 'DELETE' });
+            if (r && r.status === 'ok') { toast('Pattern deleted'); loadDlp(); }
+            else toast(r?.error || 'Delete failed', 'error');
+        }
+
         // ── Panic ──
         function showPanicModal() { document.getElementById('panic-modal').classList.add('active'); }
         function closePanicModal() { document.getElementById('panic-modal').classList.remove('active'); }
@@ -2482,6 +2669,83 @@
             if (agentPids.length === 0) { toast('No agents to freeze', 'warning'); return; }
             const r = await api('/api/panic', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ pids: agentPids }) });
             if (r) { toast('Frozen ' + (r.killed?.length || 0) + ' agent(s)', r.killed?.length > 0 ? 'success' : 'warning'); loadAgents(); }
+        }
+
+        // ── Discovery ──
+        async function loadDiscovery() {
+            const container = document.getElementById('discovery-list');
+            container.innerHTML = '<div class="empty-state"><p>📡 Running deep scan (Layer A-D)...</p></div>';
+
+            const d = await api('/api/discovery');
+            if (!d || !d.assets || d.assets.length === 0) {
+                container.innerHTML = '<div class="empty-state"><p>✅ No unmanaged AI services detected.</p></div>';
+                return;
+            }
+
+            let html = '<div class="dlp-finding-header dlp-finding-row" style="grid-template-columns: 120px 100px 1fr 120px 80px;">' +
+                '<span>Asset Name</span><span>Type</span><span>Detection Reason</span><span>Port / PID</span><span>Risk</span></div>';
+
+            for (const a of d.assets) {
+                const risk = a.risk_level >= 8 ? 'Critical' : a.risk_level >= 5 ? 'Medium' : 'Low';
+                const actionClass = 'dlp-action-' + (risk === 'Critical' ? 'block' : risk === 'Medium' ? 'redact' : 'allow');
+
+                html += `<div class="dlp-finding-row" style="grid-template-columns: 120px 100px 1fr 120px 80px;">
+                    <span style="font-weight:700;color:var(--text)">${a.name}</span>
+                    <span style="font-size:10px;text-transform:uppercase;color:var(--cyan)">${a.asset_type}</span>
+                    <span style="font-size:11px;color:var(--text2)">${a.description}</span>
+                    <span style="font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--text3)">${a.port ? 'Port: ' + a.port : 'PID: ' + (a.pid || 'N/A')}</span>
+                    <span class="dlp-action-badge ${actionClass}">${risk}</span>
+                </div>`;
+            }
+            container.innerHTML = html;
+        }
+
+        // ── Merkle Ledger ──
+        async function loadMerkle() {
+            const d = await api('/api/merkle/status');
+            if (!d) return;
+
+            const icon = d.valid ? (d.status === 'empty' ? '📭' : '✅') : '🚨';
+            const text = d.valid
+                ? (d.status === 'empty' ? 'No entries yet — ledger will populate as requests flow through the proxy.' : 'Chain integrity VERIFIED')
+                : 'CHAIN CORRUPTION DETECTED!';
+            const color = d.valid ? (d.status === 'empty' ? 'var(--text2)' : 'var(--green)') : 'var(--red)';
+
+            document.getElementById('merkle-status-icon').textContent = icon;
+            const statusEl = document.getElementById('merkle-status-text');
+            statusEl.textContent = text;
+            statusEl.style.color = color;
+            document.getElementById('merkle-entry-count').textContent = `${d.entry_count} chained entrie${d.entry_count !== 1 ? 's' : ''} recorded`;
+            document.getElementById('merkle-ledger-path').textContent = d.ledger_path || '';
+
+            const errEl = document.getElementById('merkle-error-msg');
+            if (d.error) { errEl.style.display = 'block'; errEl.textContent = 'Error: ' + d.error; }
+            else errEl.style.display = 'none';
+
+            const entries = d.last_entries || [];
+            const entriesEl = document.getElementById('merkle-entries');
+            if (entries.length === 0) {
+                entriesEl.innerHTML = '<div class="empty-state"><p>No entries in ledger yet.</p></div>';
+            } else {
+                let html = '<div style="font-family:\'JetBrains Mono\',monospace;font-size:11px">';
+                // Phase 5: Added Time and Description columns
+                html += '<div style="display:grid;grid-template-columns:40px 140px 1fr 90px 90px;gap:0;padding:6px 10px;color:var(--text3);font-size:10px;border-bottom:1px solid rgba(148,163,184,.1)">';
+                html += '<span>#</span><span>Time</span><span>Description</span><span>Event</span><span>Hash</span></div>';
+                for (const e of entries) {
+                    // Phase 5: Use formatted_time and description from backend
+                    const timeStr = e.formatted_time || (e.timestamp ? new Date(e.timestamp * 1000).toLocaleTimeString() : '—');
+                    const description = e.description || e.event || '—';
+                    html += `<div style="display:grid;grid-template-columns:40px 140px 1fr 90px 90px;gap:0;padding:8px 10px;border-bottom:1px solid rgba(148,163,184,.05);align-items:center">`;
+                    html += `<span style="color:var(--text3)">${e.seq}</span>`;
+                    html += `<span style="color:var(--text3);font-size:10px">${timeStr}</span>`;
+                    html += `<span style="color:var(--text2);font-size:11px">${description}</span>`;
+                    html += `<span style="color:var(--cyan);font-size:10px">${e.event || '—'}</span>`;
+                    html += `<span style="color:var(--purple)">${e.hash_short || '—'}…</span>`;
+                    html += '</div>';
+                }
+                html += '</div>';
+                entriesEl.innerHTML = html;
+            }
         }
 
         // ── Init ──
@@ -2493,6 +2757,7 @@
                 if (document.getElementById('panel-agents').classList.contains('active')) loadAgents();
                 if (document.getElementById('panel-dlp').classList.contains('active')) loadDlp();
                 if (document.getElementById('panel-budget').classList.contains('active')) loadBudget();
+                if (document.getElementById('panel-merkle').classList.contains('active')) loadMerkle();
             }, 5000);
         })();
     </script>

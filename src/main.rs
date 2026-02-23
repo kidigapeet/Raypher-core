@@ -1,29 +1,13 @@
-
-mod database;
-mod killer;
-mod monitor;
-mod scanner;
-mod heuristics;
-mod identity;
-mod terminator;
-mod safety;
-mod panic;
-mod proxy;
-mod secrets;
-mod service;
-mod updater;
-mod watchdog;
-mod watchtower;
-mod config;
-mod policy;
-mod dashboard;
-mod installer;
-mod dlp;
-mod tls;
-
+use raypher_core::{
+    database::{Database, Event, Severity},
+    killer, monitor, scanner, identity,
+    proxy, secrets, service, updater, installer,
+    tls,
+};
 use clap::{Parser, Subcommand};
-use database::{Database, Event, Severity};
 use std::process;
+use std::path::PathBuf;
+use std::time::Duration;
 
 #[derive(Parser, Debug)]
 #[command(
@@ -36,7 +20,11 @@ use std::process;
 )]
 struct Cli {
     #[command(subcommand)]
-    command: Commands,
+    command: Option<Commands>,
+
+    /// Run in Windows Service mode (hidden from CLI help)
+    #[arg(long, hide = true)]
+    service: bool,
 }
 
 #[derive(Subcommand, Debug)]
@@ -105,10 +93,34 @@ enum Commands {
     },
 
     /// Zero-touch setup — configure env vars and auto-allow runtimes
-    Setup,
+    Setup {
+        /// Run in silent/non-interactive mode (no prompts or banners).
+        /// Used by the MSI installer CustomAction.
+        #[arg(long)]
+        silent: bool,
+    },
 
     /// Reverse the setup — restore original env vars and remove CA
     Uninstall,
+
+    /// Launch the Raypher Command Center Dashboard
+    Dashboard,
+
+    /// Run a shadow AI discovery scan (detect unmanaged AI services)
+    ShadowScan,
+
+    /// Verify the integrity of the Merkle-chained audit ledger
+    MerkleVerify,
+
+    /// Install or remove OS-level transparent redirect rules (requires admin/root)
+    Intercept {
+        /// Remove rules instead of installing them
+        #[arg(long)]
+        remove: bool,
+    },
+
+    /// Launch the Raypher system tray icon
+    Tray,
 }
 
 fn main() {
@@ -117,10 +129,11 @@ fn main() {
         .with_env_filter("raypher_core=info,raypher=info")
         .init();
 
-    // ── Split Brain Detection ──────────────────────────────────
-    // If launched with --service flag, enter Service Mode (no console).
-    // This is how the SCM (Service Control Manager) starts us.
-    if std::env::args().any(|a| a == "--service") {
+    // ── CLI Mode ──────────────────────────────────────────────
+    let cli = Cli::parse();
+
+    // SCM Service mode check
+    if cli.service {
         if let Err(e) = service::run_service() {
             eprintln!("Service error: {}", e);
             std::process::exit(1);
@@ -128,24 +141,30 @@ fn main() {
         return;
     }
 
-    // ── CLI Mode ──────────────────────────────────────────────
-    let cli = Cli::parse();
-
     match cli.command {
-        Commands::Scan => handle_scan(),
-        Commands::Monitor => handle_monitor(),
-        Commands::Panic { pid } => handle_panic(pid),
-        Commands::Logs { limit } => handle_logs(limit),
-        Commands::Identity => handle_identity(),
-        Commands::Status => handle_status(),
-        Commands::Seal { provider, key } => handle_seal(&provider, key),
-        Commands::Unseal { provider } => handle_unseal(&provider),
-        Commands::Secrets => handle_secrets(),
-        Commands::Allow { exe_path } => handle_allow(&exe_path),
-        Commands::Proxy => handle_proxy(),
-        Commands::Update { apply } => handle_update(apply),
-        Commands::Setup => handle_setup(),
-        Commands::Uninstall => handle_uninstall(),
+        Some(Commands::Scan) => handle_scan(),
+        Some(Commands::Monitor) => handle_monitor(),
+        Some(Commands::Panic { pid }) => handle_panic(pid),
+        Some(Commands::Logs { limit }) => handle_logs(limit),
+        Some(Commands::Identity) => handle_identity(),
+        Some(Commands::Status) => handle_status(),
+        Some(Commands::Seal { provider, key }) => handle_seal(&provider, key),
+        Some(Commands::Unseal { provider }) => handle_unseal(&provider),
+        Some(Commands::Secrets) => handle_secrets(),
+        Some(Commands::Allow { exe_path }) => handle_allow(&exe_path),
+        Some(Commands::Proxy) => handle_proxy(),
+        Some(Commands::Update { apply }) => handle_update(apply),
+        Some(Commands::Setup { silent }) => handle_setup(silent),
+        Some(Commands::Uninstall) => handle_uninstall(),
+        Some(Commands::Dashboard) => handle_dashboard_command(),
+        Some(Commands::ShadowScan) => handle_shadow_scan(),
+        Some(Commands::MerkleVerify) => handle_merkle_verify(),
+        Some(Commands::Intercept { remove }) => handle_intercept(remove),
+        Some(Commands::Tray) => handle_tray(),
+        None => {
+            // Default to help if no command and not service mode
+            println!("Use --help for usage information.");
+        }
     }
 }
 
@@ -287,8 +306,9 @@ fn handle_logs(limit: u32) {
     println!("  ╚══════════════════════════════════════╝");
     println!();
 
+    use raypher_core::database::print_recent_events;
     match Database::init() {
-        Ok(db) => database::print_recent_events(&db, limit),
+        Ok(db) => print_recent_events(&db, limit),
         Err(e) => eprintln!("  ❌ Database error: {}", e),
     }
 
@@ -536,11 +556,21 @@ fn handle_proxy() {
 
     rt.block_on(async {
         if let Err(e) = proxy::start_proxy().await {
-            eprintln!("  ❌ Proxy error: {}", e);
-            process::exit(1);
+            let err_str = e.to_string();
+            if err_str.contains("os error 10048") || err_str.contains("Address already in use") {
+                eprintln!("  ⚠️  PROXY ALREADY RUNNING: Port 8888 is already in use.");
+                eprintln!("  ℹ️  Raypher is likely running as a service or in another window.");
+                eprintln!("  🔗 You can access the dashboard at: http://127.0.0.1:8888/dashboard");
+                // Don't exit with error 1 if it's already running, just exit cleanly
+                process::exit(0);
+            } else {
+                eprintln!("  ❌ Proxy error: {}", e);
+                process::exit(1);
+            }
         }
     });
 }
+
 
 fn handle_update(apply: bool) {
     if apply {
@@ -552,13 +582,15 @@ fn handle_update(apply: bool) {
 
 // ── Phase 3 Handlers ───────────────────────────────────────────
 
-fn handle_setup() {
-    println!();
-    println!("  ╔══════════════════════════════════════════╗");
-    println!("  ║   Raypher — Zero-Touch Setup             ║");
-    println!("  ║   Phase 3: The Invisible Hand            ║");
-    println!("  ╚══════════════════════════════════════════╝");
-    println!();
+fn handle_setup(silent: bool) {
+    if !silent {
+        println!();
+        println!("  ╔══════════════════════════════════════════╗");
+        println!("  ║   Raypher — Zero-Touch Setup             ║");
+        println!("  ║   Phase 3: The Invisible Hand            ║");
+        println!("  ╚══════════════════════════════════════════╝");
+        println!();
+    }
 
     let db = match Database::init() {
         Ok(db) => db,
@@ -570,17 +602,27 @@ fn handle_setup() {
 
     let result = installer::run_setup(&db);
 
-    println!();
-    if result.errors.is_empty() {
-        println!("  ✅ Setup complete! All AI SDKs will now route through Raypher.");
-        println!("  ℹ️  Restart your terminal for env var changes to take effect.");
-    } else {
-        println!("  ⚠️  Setup completed with {} error(s).", result.errors.len());
-        for err in &result.errors {
-            println!("     • {}", err);
+    // Install CA for SSL intercept
+    let tls_mgr = tls::TlsManager::new(&db, "setup-run");
+    if let Err(e) = tls_mgr.install_ca() {
+        if !silent {
+            eprintln!("  ⚠️  TLS CA installation warning: {}", e);
         }
     }
-    println!();
+
+    if !silent {
+        println!();
+        if result.errors.is_empty() {
+            println!("  ✅ Setup complete! All AI SDKs will now route through Raypher.");
+            println!("  ℹ️  Restart your terminal for env var changes to take effect.");
+        } else {
+            println!("  ⚠️  Setup completed with {} error(s).", result.errors.len());
+            for err in &result.errors {
+                println!("     • {}", err);
+            }
+        }
+        println!();
+    }
 }
 
 fn handle_uninstall() {
@@ -616,3 +658,158 @@ fn handle_uninstall() {
     println!("  ℹ️  Restart your terminal for env var changes to take effect.");
     println!();
 }
+
+/// Handle the `dashboard` subcommand.
+/// Launches the Command Center UI in a standalone browser window.
+fn handle_dashboard_command() {
+    println!();
+    println!("  ╔══════════════════════════════════════╗");
+    println!("  ║   RAYPHER — Command Center           ║");
+    println!("  ╚══════════════════════════════════════╝");
+    println!();
+
+    // URL of the local dashboard
+    let url = "http://127.0.0.1:8888/dashboard";
+
+    // ── Check if proxy is already running ──
+    let client = reqwest::blocking::Client::builder()
+        .timeout(Duration::from_millis(500))
+        .build()
+        .unwrap_or_else(|_| reqwest::blocking::Client::new());
+    
+    let proxy_running = client.get("http://127.0.0.1:8888/health").send().is_ok();
+
+    if !proxy_running {
+        println!("  🚀 Launching Raypher Proxy in background...");
+        // Spawn the proxy in a detached process
+        let current_exe = std::env::current_exe().unwrap_or_else(|_| PathBuf::from("raypher-core.exe"));
+        let _ = process::Command::new(current_exe)
+            .arg("proxy")
+            .spawn();
+        
+        // Give it a moment to bind
+        std::thread::sleep(Duration::from_millis(500));
+    }
+
+    println!("  🚀 Launching Dashboard UI...");
+
+    // Attempt to launch using Edge in "App Mode" for a native feel
+    #[cfg(target_os = "windows")]
+    {
+        let edge_launched = process::Command::new("msedge.exe")
+            .arg(format!("--app={}", url))
+            .arg("--window-size=1280,800")
+            .spawn();
+
+        if edge_launched.is_ok() {
+            println!("  ✅ Dashboard opened in standalone window.");
+            return;
+        }
+    }
+
+    // Fallback to default browser if Edge is not available or not on Windows
+    if let Err(e) = webbrowser::open(url) {
+        eprintln!("  ❌ Failed to launch browser: {}", e);
+        println!("  🔗 You can manually access the dashboard at: {}", url);
+    } else {
+        println!("  ✅ Dashboard opened in default browser.");
+    }
+    println!();
+}
+
+// ── Phase 4 Handlers ───────────────────────────────────────────
+
+fn handle_shadow_scan() {
+    println!("\n🔍 Running Shadow AI Discovery Scan...");
+    let assets = raypher_core::discovery::run_full_scan();
+    
+    if assets.is_empty() {
+        println!("✅ No unmanaged AI services detected.\n");
+    } else {
+        println!("⚠️  DISCOVERED {} UNMANAGED AI ASSETS:", assets.len());
+        println!("--------------------------------------------------");
+        for asset in assets {
+            let risk_emoji = match asset.risk_level {
+                8..=10 => "🔴",
+                5..=7 => "🟡",
+                _ => "🟢",
+            };
+            println!("  {} [{:?}] {:<15} | {}", 
+                risk_emoji,
+                asset.asset_type,
+                asset.name, 
+                asset.description
+            );
+            if let Some(pid) = asset.pid {
+                println!("     PID: {} | Detection: {:?}", pid, asset.detection_method);
+            }
+            if let Some(port) = asset.port {
+                println!("     Port: {} | IP: {}", port, asset.ip);
+            }
+        }
+        println!("--------------------------------------------------");
+        println!("Review these services to ensure they are routed through Raypher.\n");
+    }
+}
+
+fn handle_merkle_verify() {
+    println!("\n🔐 Verifying Merkle-Chained Audit Ledger...");
+    
+    let policy = raypher_core::policy::PolicyConfig::default();
+    let ledger_path = &policy.phase4.merkle_ledger_path;
+    
+    if !std::path::Path::new(ledger_path).exists() {
+        println!("❌ Ledger file not found at: {}", ledger_path);
+        return;
+    }
+
+    let content = std::fs::read_to_string(ledger_path).unwrap_or_default();
+    let entries: Vec<raypher_core::merkle::MerkleEntry> = content
+        .lines()
+        .filter_map(raypher_core::merkle::entry_from_ndjson)
+        .collect();
+
+    if entries.is_empty() {
+        println!("ℹ️  Ledger is empty.\n");
+        return;
+    }
+
+    match raypher_core::merkle::verify_chain(&entries) {
+        Ok(_) => println!("✅ Audit ledger integrity VERIFIED ({} entries).\n", entries.len()),
+        Err(e) => {
+            println!("❌ LEDGER CORRUPTION DETECTED!");
+            println!("Error: {}", e);
+            std::process::exit(1);
+        }
+    }
+}
+
+fn handle_intercept(remove: bool) {
+    if remove {
+        println!("🧹 Removing transparent redirect rules...");
+        match raypher_core::intercept::remove_redirect() {
+            Ok(_) => println!("✅ Redirect rules removed successfully."),
+            Err(e) => println!("❌ Failed to remove rules: {}", e),
+        }
+    } else {
+        println!("🚀 Installing transparent redirect rules (requires admin/root)...");
+        match raypher_core::intercept::install_redirect() {
+            Ok(_) => {
+                println!("✅ Redirect rules installed successfully.");
+                println!("Current rules:");
+                println!("{}", raypher_core::intercept::list_redirect_rules());
+            }
+            Err(e) => println!("❌ Failed to install rules: {}", e),
+        }
+    }
+}
+
+fn handle_tray() {
+    println!("📥 Launching Raypher System Tray...");
+    raypher_core::tray::start_tray(|| {
+        println!("🚨 Tray Panic: Killing all AI agents...");
+        // Invoke killer logic (stub for now, would kill all tracked PIDs)
+        std::process::exit(1);
+    });
+}
+

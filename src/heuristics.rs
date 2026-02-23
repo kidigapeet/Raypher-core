@@ -153,14 +153,28 @@ pub fn analyze_level2_arguments(proc: &ProcessData) -> Option<HeuristicResult> {
     None
 }
 
-/// LEVEL 3: Environment variable analysis.
-/// Checks for API keys, credentials, and configuration in environment.
-///
-/// NOTE: sysinfo does not expose environment variables on all platforms.
-/// This is a future enhancement point.
-pub fn analyze_level3_environment(_proc: &ProcessData) -> Option<HeuristicResult> {
-    // Placeholder for Week 1 — full implementation in later refinement
-    // Environment variable access requires additional OS-specific APIs
+pub fn analyze_level3_environment(proc: &ProcessData) -> Option<HeuristicResult> {
+    let env_vars: &[(&str, &str)] = &[
+        ("OPENAI_API_KEY", "Found OpenAI credentials in environment"),
+        ("ANTHROPIC_API_KEY", "Found Anthropic credentials in environment"),
+        ("GOOGLE_API_KEY", "Found Google AI credentials in environment"),
+        ("LANGCHAIN_", "LangChain configuration in environment"),
+        ("HF_TOKEN", "HuggingFace token in environment"),
+        ("MISTRAL_API_KEY", "Mistral credentials in environment"),
+        ("GROQ_API_KEY", "Groq credentials in environment"),
+    ];
+
+    for (var, reason) in env_vars {
+        if proc.environ.iter().any(|e| e.starts_with(var)) {
+            return Some(HeuristicResult {
+                level: RiskLevel::High,
+                reason: reason.to_string(),
+                matched_rule: format!("L3_ENV_{}", var.replace("_", "")),
+                analysis_layer: 3,
+            });
+        }
+    }
+
     None
 }
 

@@ -1,6 +1,6 @@
 [package]
 name = "raypher-core"
-version = "0.3.0"
+version = "0.4.0"
 edition = "2021"
 description = "Silicon-native sovereign security for AI agents"
 authors = ["Raypher Labs"]
@@ -24,13 +24,15 @@ rusqlite = { version = "0.31", features = ["bundled"] }
 toml = "0.8"
 tokio = { version = "1", features = ["full"] }
 axum = "0.7"
-reqwest = { version = "0.12", default-features = false, features = ["rustls-tls", "json"] }
+reqwest = { version = "0.12", default-features = false, features = ["rustls-tls", "json", "blocking"] }
+
 hyper-util = { version = "0.1", features = ["tokio", "server-auto", "http1", "http2"] }
 hyper = { version = "1", features = ["server", "http1"] }
 tower = { version = "0.5", features = ["util"] }
 rpassword = "7.3"
 self_update = { version = "0.41", default-features = false, features = ["rustls"] }
 dirs-next = "2.0"
+webbrowser = "1.0"
 
 # ── Phase 3 additions ──
 serde_yaml = "0.9"                      # YAML policy file parsing
@@ -42,10 +44,27 @@ rustls-pemfile = "2.1"                   # PEM certificate parsing
 regex = "1.10"                           # DLP regex pattern matching
 rand = "0.8"                             # Random generation utilities
 url = "2.5"                              # URL parsing for provider detection
+dirs = "5.0"                             # Phase 4: home dir for merkle path
+uuid = { version = "1", features = ["v4"] } # Phase 4: unique IDs for Merkle entries
+pnet = "0.35"                             # Phase 4: packet parsing for DNS snooping
+socket2 = "0.5"                           # Phase 4: low-level socket control
+dns-parser = "0.8"                        # Phase 4: DNS response parsing
 
+# ── Phase 4 desktop feature (system tray) ──
 [features]
 default = ["tpm"]
 tpm = ["dep:windows"]
+desktop = ["dep:tray-icon", "dep:image"]
+
+[dependencies.tray-icon]
+version = "0.11"
+optional = true
+
+[dependencies.image]
+version = "0.24"
+optional = true
+default-features = false
+features = ["png"]
 
 [profile.release]
 opt-level = 3
@@ -61,3 +80,9 @@ windows = { version = "0.57.0", features = [
     "Win32_Foundation"
 ], optional = true }
 windows-service = "0.7"
+
+[dev-dependencies]
+tempfile = "3.10"                     # Temp dirs for integration tests
+assert_cmd = "2.0"                    # CLI integration testing
+predicates = "3.1"                    # Assertion matchers for CLI output
+tokio-test = "0.4"                    # Async test utilities

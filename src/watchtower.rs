@@ -1,7 +1,7 @@
 use std::collections::HashSet;
 use std::time::{Duration, Instant};
 use sysinfo::System;
-use tracing::{info, warn, debug};
+use tracing::{info, warn};
 use crate::scanner;
 use crate::heuristics;
 use std::sync::Arc;

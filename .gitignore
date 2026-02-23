@@ -4,3 +4,27 @@
 *.exe
 *.pdb
 scan_results.json
+*.msi
+*.wixpdb
+*.log
+*.tmp
+__pycache__/
+*.pyc
+
+# Sensitive data
+*_policy.json
+policy_temp.json
+.openclaw/
+.raypher/
+raypher.db*
+*.bat
+!launch_dashboard.bat
+
+# Noise
+Raypher.logo.png
+build_output.txt
+inspect_policy.py
+update_policy.py
+query
+wix/main_backup.wxs
+.temp_install_log.txt

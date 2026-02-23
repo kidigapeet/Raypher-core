@@ -1,0 +1,32 @@
+pub mod database;
+pub mod killer;
+pub mod monitor;
+pub mod scanner;
+pub mod heuristics;
+pub mod identity;
+pub mod terminator;
+pub mod safety;
+pub mod panic;
+pub mod proxy;
+pub mod secrets;
+pub mod service;
+pub mod updater;
+pub mod watchdog;
+pub mod watchtower;
+pub mod config;
+pub mod policy;
+pub mod dashboard;
+pub mod installer;
+pub mod dlp;
+pub mod tls;
+// ── Phase 4 Modules ───────────────────────────────────────────
+pub mod ssrf;
+pub mod jailbreak;
+pub mod discovery;
+pub mod merkle;
+pub mod intercept;
+pub mod tray;
+// ── Phase 5 Modules ───────────────────────────────────────────
+pub mod agent_registry;
+pub mod trust_score;
+pub mod event_descriptions;

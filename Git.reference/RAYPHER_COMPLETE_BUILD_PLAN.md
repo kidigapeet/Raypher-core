@@ -46,6 +46,62 @@ This document is the **single source of truth** for every phase of Raypher's dev
 
 ---
 
+# 🏛️ The Platform Architecture: The 4 Pillars
+
+> **The Core Shift: From a "Pass" to a "Platform"**
+>
+> **The Old Way:** The Intent-Bound Ephemeral Visa (IBEV). A brilliant, highly technical mechanism that acted as a strict, one-time execution pass. If the math of the agent's payload didn't match the visa's signature, the packet was dropped.
+>
+> **The Pivot:** We shifted from selling a "single cryptographic mechanism" to selling a **Complete Governance Platform**. Investors and developers don't just want a visa; they want the entire **issuing authority**, the **rulebook**, and the **enforcement agency**.
+
+## The 4-Part Infrastructure
+
+The original IBEV concept was essentially **the Police and the Laws combined**. By expanding the product to include **the DMV (Identity)** and **the Vault (Secrets)**, Raypher evolved from building a cool security feature into building a **foundational security company**.
+
+| Pillar | Codename | Old (IBEV Era) | New (Platform Era) | Why It Changed |
+|---|---|---|---|---|
+| **🪪 The DMV** | Non-Human Identity | The "Visa" (Execution Pass) | A distinct, cryptographic identity per agent | You can't issue a visa without a passport. AI agents need persistent, auditable identities so developers can track exactly which agent did what. |
+| **🔐 The Vault** | Secrets Management | Basic Access Control | The secure API key keychain | The biggest vulnerability is hardcoding API keys into an LLM's prompt. The Vault ensures the agent **never sees the raw keys** — it only uses secure, temporary tokens. |
+| **📜 The Laws** | Policy-as-Code | Cryptographic "Intent" | User-friendly governance dashboard | Developers want to write rules in plain English or simple code (e.g., "Block PII Exfiltration" or "Require Human Approval for >$500"), not raw JSON payloads and hardware signatures. |
+| **🚔 The Police** | Enforcement Gateway | Packet Dropping (Network Layer) | Active API Gateway / Middleware | When an agent is hijacked via prompt injection ("Drop the database"), the Raypher Gateway intercepts the request, flags the policy violation, and **kills the transaction** before it hits the database. |
+
+## How The Pillars Map To The 10 Phases
+
+```
+┌──────────────────────────────────────────────────────────────────────┐
+│                        THE RAYPHER PLATFORM                          │
+├──────────────────────────────────────────────────────────────────────┤
+│                                                                      │
+│  🪪 THE DMV (Non-Human Identity)                                     │
+│  ├── Phase 1: Silicon-Bound Identity (TPM / EK / Machine Fingerprint)│
+│  ├── Phase 2: Service Identity (LocalSystem / Root)                  │
+│  └── Phase 8: Trust Score (FICO Score = Agent Reputation)            │
+│                                                                      │
+│  🔐 THE VAULT (Secrets Management)                                   │
+│  ├── Phase 1: Seal / Unseal (TPM-encrypted secrets)                  │
+│  ├── Phase 2: Proxy Key Injection (agent never sees the real key)    │
+│  └── Phase 9: Audit Ledger (who accessed what secret, when)          │
+│                                                                      │
+│  📜 THE LAWS (Policy-as-Code)                                        │
+│  ├── Phase 4: Domain Whitelisting + Budget Enforcement               │
+│  ├── Phase 5: Dynamic Policy Engine (YAML rules, hot-reload)         │
+│  ├── Phase 7: DLP Rules (regex patterns, redaction rules)            │
+│  └── Phase 10: Dashboard Policy Editor (visual rule creation)        │
+│                                                                      │
+│  🚔 THE POLICE (Enforcement Gateway)                                 │
+│  ├── Phase 2: Localhost Proxy (intercept + forward)                  │
+│  ├── Phase 3: Kernel-Level Interception (eBPF / WFP)                │
+│  ├── Phase 4: TLS MITM (transparent, zero-code-change enforcement)  │
+│  ├── Phase 6: Shadow AI Discovery (find rogue agents)               │
+│  └── Phase 7: DLP Scanner (block/redact sensitive data in-flight)   │
+│                                                                      │
+└──────────────────────────────────────────────────────────────────────┘
+```
+
+> **The Strategic Takeaway:** Every phase Raypher builds strengthens at least one of the 4 pillars. When all 4 pillars are complete, Raypher isn't just a tool developers install — it's a **platform CISOs deploy**.
+
+---
+
 # Phase 1: The Foundation (Silicon Sentinel)
 
 **Goal:** Build the Rust engine that sees, identifies, judges, and kills rogue AI processes. Bind the binary to physical silicon so it cannot be cloned.
@@ -623,11 +679,25 @@ jobs:
 
 ---
 
-# Phase 3: The Local Guard (Kernel-Level Enforcement)
+---
 
-**Goal:** Build the "Reflex System" — kernel-level interception that blocks dangerous actions *before* they execute. This is the most technically complex feature and the primary reason an Enterprise CISO will pay $100k+.
+## Week 9: The Commercial Transition (Desktop Application)
 
-**Philosophy:** "Actions do not lie." We do not care what the prompt was. We do not care if the agent "meant well." We only care that a `syscall` was made to delete a protected file. We block the Physics, not the Semantics.
+**Goal:** Transform Raypher from a "Developer Tool" into a fully standalone "Desktop Application" (v0.3.0).
+
+**The Experience:**
+
+- **Zero Terminal:** The user never opens `cmd.exe`.
+- **Desktop Shortcut:** A branded Raypher icon on the desktop launches the Command Center.
+- **Standalone Window:** The Dashboard opens as a dedicated window (using Edge App Mode).
+- **Background Persistence:** Raypher runs as a silent system service, protecting the machine from boot-up.
+
+**The MSI Upgrade:**
+The installer (`RaypherSetup.msi`) now handles:
+
+1. **Service Registration:** Silently installs and starts the background engine.
+2. **Desktop Shortcut:** Creates the "Raypher" shortcut.
+3. **UI Bundling:** Everything needed to run the dashboard is inside the binary.
 
 ---
 
@@ -1594,3 +1664,441 @@ lazy_static! {
 *Document generated from Git.reference sources only. No external resources used.*
 *Date: 2026-02-14*
 *Gap Analysis added: 2026-02-14 — Based on Phase 1 & 2 completion review*
+*Platform Era Update: 2026-02-21 — DMV/Vault/Laws/Police pillar mapping + Codebase Status Report*
+
+---
+
+# 🔬 Codebase Status Report — What's Built vs What's Missing
+
+> **Purpose:** This section is a file-by-file inventory of every module in `src/`. For each file, it tells you exactly what works, what's partially built, and what's still needed. A junior coder should be able to read this section and know exactly where to start writing code.
+
+---
+
+## Master Status Table
+
+| File | LOC | Pillar | Phase | Status | What It Does |
+|---|---|---|---|---|---|
+| `scanner.rs` | 310 | 🚔 Police | 1 | ✅ **DONE** | Enumerates all OS processes, captures PID, name, cmd, memory, CPU |
+| `heuristics.rs` | 250 | 🚔 Police | 1 | ✅ **DONE** | 3-level risk scoring (binary name → arguments → env vars) |
+| `identity.rs` | 204 | 🪪 DMV | 1 | ✅ **DONE** | TPM-backed Silicon ID on Windows, mock fallback on Linux/Mac |
+| `terminator.rs` | 110 | 🚔 Police | 1 | ✅ **DONE** | Recursive process tree kill (children first, then parent) |
+| `killer.rs` | 160 | 🚔 Police | 1 | ✅ **DONE** | Graceful + force kill with OS-specific implementations |
+| `safety.rs` | 42 | 🚔 Police | 1 | ✅ **DONE** | Whitelist to prevent killing system-critical processes |
+| `panic.rs` | 42 | 🚔 Police | 1 | ✅ **DONE** | Dead Man's Switch — snapshot + kill + audit log |
+| `watchtower.rs` | 155 | 🚔 Police | 1 | ✅ **DONE** | Efficient monitoring loop (<1% CPU) with graceful Ctrl+C |
+| `monitor.rs` | 150 | 🚔 Police | 1 | ✅ **DONE** | Passive guard loop — scans every second, alerts on anomalies |
+| `service.rs` | 415 | 🪪 DMV | 2 | ✅ **DONE** | Windows Service (SCM) + Linux systemd integration |
+| `proxy.rs` | 868 | 🔐 Vault / 🚔 Police | 2 | ✅ **DONE** | Localhost MITM proxy on :8888/:8889. Full Vault Flow: intercept → PID lookup → hash verify → key injection → forward |
+| `secrets.rs` | 149 | 🔐 Vault | 2 | ✅ **DONE** | Seal/unseal API keys with TPM-derived encryption. Allow-list management |
+| `database.rs` | 555 | 🔐 Vault / 📜 Laws | 2 | ✅ **DONE** | SQLite: events table, secrets table, allow_list, policies, budget tracking |
+| `tls.rs` | 308 | 🚔 Police | 2 | ✅ **DONE** | Local CA generation, per-domain cert caching, OS Trust Store install/uninstall |
+| `watchdog.rs` | 140 | 🚔 Police | 2 | ✅ **DONE** | Service recovery on crash (OS-level restart) |
+| `updater.rs` | 330 | 🚔 Police | 2 | ✅ **DONE** | Auto-update from GitHub Releases with binary hot-swap |
+| `installer.rs` | 490 | 🚔 Police | 2 | ✅ **DONE** | WiX MSI installer with service registration + desktop shortcut |
+| `config.rs` | 265 | 📜 Laws | 2 | ✅ **DONE** | App configuration (proxy port, scan interval, log level, etc.) |
+| `policy.rs` | 591 | 📜 Laws | 3+ | ⚠️ **PARTIAL** | Has: Capability kanban, DLP actions, budget config, model routes, YAML load/save. Missing: time-based rules, cascading hierarchy, trust-score integration |
+| `dlp.rs` | 485 | 📜 Laws / 🚔 Police | 3+ | ⚠️ **PARTIAL** | Has: 15+ regex patterns, entropy scanner, Luhn check, SSN validator, custom patterns, unit tests. Missing: NER/Presidio integration, bi-directional scanning |
+| `dashboard.rs` | 609 | 📜 Laws | 2.5 | ✅ **DONE** | Full SPA with 20+ API endpoints (status, events, secrets, agents, policy, DLP, budget, threats) |
+| `dashboard_spa.html` | 2800+ | 📜 Laws | 2.5 | ✅ **DONE** | Single-page HTML dashboard with tabs for Identity, Vault, Agents, Policy, DLP, Budget |
+| `main.rs` | 694 | All | All | ✅ **DONE** | CLI entry point with 14 subcommands (scan, monitor, panic, seal, unseal, proxy, status, setup, dashboard, etc.) |
+
+---
+
+## 🪪 THE DMV (Non-Human Identity) — What's Missing
+
+### What's Built ✅
+
+- **Machine Identity:** `identity.rs` generates a persistent TPM-backed SHA-256 fingerprint (Windows real, Linux mock)
+- **Service Identity:** `service.rs` runs as `LocalSystem` (Windows) / `root` (Linux)
+- **Identity Display:** Dashboard shows the Silicon ID in the status panel
+
+### What's Missing ❌ — Junior Coder Action Items
+
+#### 1. Per-Agent Identity (Phase 8 — Trust Score)
+
+**What:** Right now, Raypher identifies the *machine* but not individual *agents*. When 5 different Python scripts call the proxy, they all share the same machine identity. We need a unique `Agent_ID` per process.
+
+**Where to build:** Create a new file `src/agent_registry.rs`
+
+**Step-by-step:**
+
+1. **Define the `AgentProfile` struct:**
+
+   ```rust
+   pub struct AgentProfile {
+       pub agent_id: String,        // SHA-256 of (exe_path + machine_fingerprint)
+       pub exe_path: String,        // Full path to the agent binary
+       pub exe_hash: String,        // SHA-256 hash of the actual binary file
+       pub first_seen: String,      // ISO 8601 timestamp
+       pub last_seen: String,       // Updated on every proxy request
+       pub total_requests: u64,     // Counter
+       pub total_cost_cents: u64,   // Accumulated spend in cents
+       pub trust_score: u16,        // 0-1000, starts at 500
+       pub violations: u32,         // Count of policy violations
+   }
+   ```
+
+2. **Add an `agents` table in `database.rs`:**
+
+   ```sql
+   CREATE TABLE IF NOT EXISTS agents (
+       agent_id TEXT PRIMARY KEY,
+       exe_path TEXT NOT NULL,
+       exe_hash TEXT NOT NULL,
+       first_seen TEXT NOT NULL,
+       last_seen TEXT NOT NULL,
+       total_requests INTEGER DEFAULT 0,
+       total_cost_cents INTEGER DEFAULT 0,
+       trust_score INTEGER DEFAULT 500,
+       violations INTEGER DEFAULT 0
+   );
+   ```
+
+3. **Wire into `proxy.rs`:** In the `handle_proxy` function (around line 305), after the PID lookup and exe hash check, call `agent_registry::register_or_update(agent_id)` to track each agent.
+
+4. **Trust Score Algorithm (Simple V1):**
+   - Start at 500
+   - +1 per successful request (max 1000)
+   - -50 per policy violation
+   - -10 per DLP finding
+   - Decay: -1 per day of inactivity
+   - **Where:** Add a `fn calculate_trust_score(profile: &AgentProfile) -> u16` function
+
+5. **Add a dashboard panel:** Add a `GET /api/agents/profiles` endpoint in `dashboard.rs` that returns the agent registry.
+
+**Why this matters (tell this to the junior):** Without per-agent identity, a CISO can't answer "which of my 50 agents is the problem?" They can only say "something on this machine is bad." That's not good enough for enterprise.
+
+#### 2. Linux Real TPM (Enhancement)
+
+**What:** `identity.rs` currently returns a `MOCK_` fingerprint on Linux. For production servers, we need real TPM integration.
+
+**Where to build:** Add a `#[cfg(target_os = "linux")]` block in `identity.rs` that uses the `tss-esapi` crate.
+
+**Step-by-step:**
+
+1. Add to `Cargo.toml`: `tss-esapi = { version = "7", optional = true }` with a feature flag `linux-tpm`
+2. Implement `get_tpm_fingerprint()` for Linux using `tss-esapi::Context::new()`
+3. Read the EK (Endorsement Key) at handle `0x81010001`
+4. SHA-256 hash the public part → return as Silicon ID
+5. **Prerequisite on the build machine:** `sudo apt install libtss2-dev`
+
+**Priority:** MEDIUM — The mock ID works for development, but any production Linux deployment will need this.
+
+---
+
+## 🔐 THE VAULT (Secrets Management) — What's Missing
+
+### What's Built ✅
+
+- **Seal/Unseal:** `secrets.rs` encrypts API keys using TPM-derived key (XOR cipher with SHA-256 key derivation)
+- **Storage:** `database.rs` has a `secrets` table with provider, type, label, encrypted blob
+- **Allow List:** `secrets.rs` manages which executables are authorized to use the proxy
+- **Proxy Key Injection:** `proxy.rs` reads sealed keys and injects them into outbound requests
+- **Dashboard:** Full CRUD for secrets (seal, delete, list) via the SPA dashboard
+
+### What's Missing ❌ — Junior Coder Action Items
+
+#### 1. Upgrade Encryption from XOR to AES-256-GCM (Security Hardening)
+
+**What:** The current encryption in `secrets.rs` uses a simple XOR cipher. This is fine for a demo but not production-grade. We need AES-256-GCM (authenticated encryption).
+
+**Where to build:** Modify `secrets.rs` functions `encrypt_with_identity()` and `decrypt_with_identity()`
+
+**Step-by-step:**
+
+1. Add `aes-gcm` crate to `Cargo.toml`: `aes-gcm = "0.10"`
+2. Replace `xor_cipher()` with:
+
+   ```rust
+   use aes_gcm::{Aes256Gcm, KeyInit, aead::{Aead, OsRng}};
+   use aes_gcm::aead::generic_array::GenericArray;
+
+   fn encrypt_aes(plaintext: &[u8], key: &[u8]) -> Vec<u8> {
+       let cipher = Aes256Gcm::new(GenericArray::from_slice(key));
+       let nonce = Aes256Gcm::generate_nonce(&mut OsRng);
+       let ciphertext = cipher.encrypt(&nonce, plaintext).expect("encryption failed");
+       // Prepend nonce to ciphertext for storage
+       [nonce.as_slice(), &ciphertext].concat()
+   }
+   ```
+
+3. **Migration:** Add a one-time migration that re-encrypts all existing XOR-encrypted secrets with AES-256-GCM. Flag this in the `secrets` table with a `version` column.
+4. **Key derivation** stays the same — the 32-byte key from `derive_encryption_key()` (SHA-256 of Silicon ID) maps directly to AES-256.
+
+**Priority:** HIGH — This is a security vulnerability. XOR encryption is trivially reversible if the key is guessed.
+
+#### 2. Secret Rotation & Expiry (Phase 5 Feature)
+
+**What:** Secrets currently live forever. Enterprises need automatic rotation reminders and expiry dates.
+
+**Where to build:** Add columns to the `secrets` table in `database.rs`
+
+**Step-by-step:**
+
+1. Add columns: `expires_at TEXT`, `last_rotated TEXT`, `rotation_days INTEGER DEFAULT 90`
+2. Add a function `check_expired_secrets(db: &Database) -> Vec<String>` that returns providers with expired keys
+3. Wire into the `watchtower.rs` monitoring loop — if any secret is expired, log a `WARNING` event
+4. Add a dashboard alert in `dashboard_spa.html` showing "⚠️ 2 secrets expiring soon"
+
+**Priority:** MEDIUM — Nice to have for enterprise but not blocking.
+
+---
+
+## 📜 THE LAWS (Policy-as-Code) — What's Missing
+
+### What's Built ✅
+
+- **Policy Config:** `policy.rs` has `PolicyConfig` struct with capabilities (kanban board), DLP policies, model routes, and budget config
+- **YAML Support:** `load_policy_from_yaml()` and `save_policy_to_yaml()` handle `~/.raypher/policy.yaml`
+- **DLP Actions:** Support for `Redact`, `Block`, `Alert`, `Allow` per category
+- **Model Routing:** Auto-downgrade expensive models (e.g., gpt-4 → gpt-3.5-turbo when budget exceeded)
+- **Budget Tracking:** Per-request cost tracking, daily limits, per-request limits, configurable actions
+- **Dashboard:** Policy editor tab with capability kanban board, DLP controls, budget settings
+
+### What's Missing ❌ — Junior Coder Action Items
+
+#### 1. Time-Based / Temporal Policies (Phase 5)
+
+**What:** The policy engine can't currently block requests based on time of day or day of week.
+
+**Where to build:** Modify `policy.rs`
+
+**Step-by-step:**
+
+1. Add a `TemporalPolicy` struct to `policy.rs`:
+
+   ```rust
+   #[derive(Debug, Clone, Serialize, Deserialize)]
+   pub struct TemporalPolicy {
+       pub enabled: bool,
+       pub allowed_days: Vec<String>,  // ["Monday", "Tuesday", ..., "Friday"]
+       pub start_hour: u8,             // 9 = 09:00
+       pub end_hour: u8,               // 18 = 18:00
+       pub timezone: String,           // "UTC" or "Africa/Nairobi"
+   }
+   ```
+
+2. Add `temporal: Option<TemporalPolicy>` field to `PolicyConfig`
+
+3. Add an evaluation function:
+
+   ```rust
+   pub fn is_within_allowed_time(policy: &TemporalPolicy) -> bool {
+       let now = chrono::Local::now();
+       let day = now.format("%A").to_string(); // "Monday", "Tuesday", etc.
+       let hour = now.hour();
+       policy.allowed_days.contains(&day)
+           && hour >= policy.start_hour as u32
+           && hour < policy.end_hour as u32
+   }
+   ```
+
+4. Wire into `proxy.rs` `handle_proxy()` — before forwarding the request, check `is_within_allowed_time()`. If outside hours, return `403 Forbidden` with message "AI agents blocked outside business hours."
+
+5. Add a "Schedule" section to the dashboard — a simple grid showing allowed hours.
+
+**Priority:** HIGH — This is listed in the Gap Analysis as part of the Dynamic Policy Engine (severity: 🔴 CRITICAL).
+
+#### 2. Policy Cascading Hierarchy (Phase 5 Enterprise)
+
+**What:** Currently there's only one policy file. Enterprises need Global → Team → User hierarchy.
+
+**Where to build:** Modify `policy.rs` and add a new `policy_hierarchy.rs`
+
+**Step-by-step:**
+
+1. Define three policy levels:
+
+   ```rust
+   pub enum PolicyLevel {
+       Global,    // Set by CISO, cannot be overridden
+       Team,      // Set by Engineering Manager
+       Local,     // Set by the developer
+   }
+   ```
+
+2. Add a `level: PolicyLevel` field to each policy rule
+
+3. Implement the merge function — **Most Restrictive Wins**:
+
+   ```rust
+   fn merge_policies(global: &PolicyConfig, team: &PolicyConfig, local: &PolicyConfig) -> PolicyConfig {
+       // For each capability:
+       //   If Global says "Blocked" → Blocked (no override)
+       //   If Team says "AskMe" and Local says "Allowed" → "AskMe" (more restrictive wins)
+   }
+   ```
+
+4. Store team policies in `~/.raypher/policy-team.yaml` and global policies in `/etc/raypher/policy-global.yaml`
+
+**Priority:** LOW — This is an enterprise feature. Skip for now unless targeting enterprise customers.
+
+#### 3. Hot-Reload Policy Without Restart (Phase 5)
+
+**What:** Currently, policy changes require restarting the Raypher service.
+
+**Where to build:** Modify `proxy.rs` to watch the policy file for changes.
+
+**Step-by-step:**
+
+1. Add `notify = "6"` crate to `Cargo.toml` for filesystem watching
+2. In `start_proxy()`, spawn a background task that watches `~/.raypher/policy.yaml`:
+
+   ```rust
+   let (tx, rx) = std::sync::mpsc::channel();
+   let mut watcher = notify::recommended_watcher(tx)?;
+   watcher.watch(policy_path, RecursiveMode::NonRecursive)?;
+   // On change: reload the PolicyConfig into the shared Arc<Mutex<PolicyConfig>>
+   ```
+
+3. Store the active policy in `Arc<RwLock<PolicyConfig>>` shared across all handlers
+4. On file change, call `load_policy_from_yaml()` and swap the inner value
+
+**Priority:** HIGH — Listed in the Gap Analysis as a success criterion for the Dynamic Policy Engine.
+
+---
+
+## 🚔 THE POLICE (Enforcement Gateway) — What's Missing
+
+### What's Built ✅
+
+- **Proxy:** `proxy.rs` is a full localhost MITM on :8888 (HTTP) and :8889 (HTTPS)
+- **PID Identification:** Platform-specific PID lookup from TCP socket (Windows + Linux)
+- **Hash Verification:** Computes SHA-256 of caller's exe, checks the allow-list
+- **Key Injection:** Swaps `X-Raypher-Token` header with real API key
+- **TLS:** `tls.rs` generates machine-local CA, caches domain certs, manages OS Trust Store
+- **DLP Scanning:** `dlp.rs` has 15+ regex patterns, entropy analysis, custom patterns, Luhn/SSN validators
+- **Budget Enforcement:** Proxy tracks per-request cost, enforces daily/per-request limits
+- **Domain Whitelisting:** Policy config has `allowed_domains` list
+
+### What's Missing ❌ — Junior Coder Action Items
+
+#### 1. Kernel-Level Transparent Interception (Phase 3 — 🔴 CRITICAL)
+
+**What:** Currently, the agent must *choose* to route through `localhost:8888`. If a rogue agent calls `api.openai.com` directly, Raypher is bypassed. We need **transparent** interception at the OS level.
+
+**Where to build:** This is THE hardest remaining feature. It requires two separate implementations.
+
+**For Linux — `iptables` redirect (Simpler, do this first):**
+
+1. Create `src/interceptor_linux.rs`
+2. On `raypher setup`, execute:
+
+   ```bash
+   iptables -t nat -A OUTPUT -m owner --uid-owner $AGENT_UID \
+     -p tcp --dport 443 \
+     -j REDIRECT --to-port 8889
+   ```
+
+3. This forces all HTTPS traffic from the agent's user to go through Raypher's TLS proxy
+4. On `raypher uninstall`, remove the iptables rule
+5. **Prerequisite:** Raypher must run as root
+
+**For Windows — Windows Filtering Platform (WFP):**
+
+1. Create `src/interceptor_windows.rs`
+2. Use the `windows` crate to register a WFP callout:
+
+   ```
+   Register FWPM_LAYER_ALE_AUTH_CONNECT_V4 filter
+   Match by PID / application path
+   Redirect to localhost:8889
+   ```
+
+3. This is significantly harder than the Linux version. Consider using an existing WFP library.
+
+**Priority:** 🔴 CRITICAL — This is Gap #1 in the Gap Analysis. **Everything else depends on this** because without transparent interception, Raypher is "voluntary security."
+
+#### 2. SSRF Protection (Phase 4)
+
+**What:** Block agents from accessing private/internal IP ranges.
+
+**Where to build:** Add to `proxy.rs` in the `handle_proxy()` function.
+
+**Step-by-step:**
+
+1. Before forwarding any request, resolve the destination hostname to an IP address
+2. Check the IP against blocked ranges:
+
+   ```rust
+   fn is_private_ip(ip: &std::net::IpAddr) -> bool {
+       match ip {
+           IpAddr::V4(v4) => {
+               v4.is_private()           // 10.x, 172.16-31.x, 192.168.x
+               || v4.is_loopback()        // 127.x
+               || v4.is_link_local()      // 169.254.x (AWS metadata!)
+           }
+           IpAddr::V6(v6) => v6.is_loopback(),
+       }
+   }
+   ```
+
+3. If private → return `403 Forbidden` with message "SSRF Protection: Access to internal IPs blocked"
+4. **Critical:** This blocks the AWS metadata attack (`169.254.169.254/latest/meta-data/`) which can steal cloud credentials
+
+**Priority:** HIGH — Simple to implement, huge security value.
+
+#### 3. Bi-Directional DLP Scanning (Phase 7)
+
+**What:** `dlp.rs` currently only scans outbound requests. We also need to scan *responses* from the API provider (e.g., if OpenAI's response contains leaked PII).
+
+**Where to build:** Modify `proxy.rs` in the `handle_proxy()` function.
+
+**Step-by-step:**
+
+1. After receiving the response from OpenAI (around line 700+ in `proxy.rs`), read the response body
+2. Call `dlp::scan()` on the response body
+3. If findings → log audit event "DLP_RESPONSE_FINDING" and optionally redact
+4. **Careful:** This adds latency. Only scan if `policy.dlp.scan_responses == true`
+
+**Priority:** MEDIUM — Important for compliance (GDPR, HIPAA) but not needed for MVP.
+
+#### 4. Shadow AI Discovery — Port Scanning (Phase 6)
+
+**What:** Detect unauthorized AI services running on localhost by checking known AI ports.
+
+**Where to build:** Add to `scanner.rs` or create a new `src/discovery.rs`
+
+**Step-by-step:**
+
+1. Periodically (every 60 seconds), check these local ports:
+
+   ```rust
+   const AI_PORTS: &[(u16, &str)] = &[
+       (11434, "Ollama (Local LLM)"),
+       (8000,  "ChromaDB / FastAPI"),
+       (6333,  "Qdrant (Vector DB)"),
+       (5000,  "Flask (AI App)"),
+       (8080,  "LangServe / Generic AI"),
+       (3000,  "AI Dashboard / UI"),
+   ];
+   ```
+
+2. Use `std::net::TcpStream::connect_timeout()` with a 100ms timeout
+3. If a port is open, log a `WARNING` event: "Unmanaged AI service detected on port {port}"
+4. Show discovered services in the dashboard
+
+**Priority:** MEDIUM — Useful for enterprise discovery but not blocking for core functionality.
+
+---
+
+## 📋 Summary: What A Junior Coder Should Build (In Order)
+
+| # | Task | Files To Touch | Pillar | Est. Time | Priority |
+|---|---|---|---|---|---|
+| 1 | SSRF Protection | `proxy.rs` | 🚔 Police | 2-4 hours | HIGH |
+| 2 | Time-Based Policies | `policy.rs`, `proxy.rs` | 📜 Laws | 1-2 days | HIGH |
+| 3 | Policy Hot-Reload | `proxy.rs`, `Cargo.toml` | 📜 Laws | 1-2 days | HIGH |
+| 4 | AES-256-GCM Encryption | `secrets.rs`, `Cargo.toml` | 🔐 Vault | 1 day | HIGH |
+| 5 | Per-Agent Identity | `agent_registry.rs` (NEW), `database.rs`, `proxy.rs` | 🪪 DMV | 2-3 days | HIGH |
+| 6 | Shadow AI Discovery | `discovery.rs` (NEW) | 🚔 Police | 1-2 days | MEDIUM |
+| 7 | Bi-Directional DLP | `proxy.rs` | 🚔 Police | 1 day | MEDIUM |
+| 8 | Secret Rotation | `database.rs`, `watchtower.rs` | 🔐 Vault | 1 day | MEDIUM |
+| 9 | Linux Real TPM | `identity.rs`, `Cargo.toml` | 🪪 DMV | 2-3 days | MEDIUM |
+| 10 | Linux iptables Interception | `interceptor_linux.rs` (NEW) | 🚔 Police | 3-5 days | CRITICAL |
+| 11 | Windows WFP Interception | `interceptor_windows.rs` (NEW) | 🚔 Police | 1-2 weeks | CRITICAL |
+| 12 | Policy Cascading | `policy_hierarchy.rs` (NEW) | 📜 Laws | 3-5 days | LOW |
+
+> **The Rule:** Do items 1-5 first. They're the highest ROI — fast to build, massive impact. Items 10-11 (kernel interception) are the **hardest and most important** long-term, but a junior should build confidence with the easier items first.
+
+---

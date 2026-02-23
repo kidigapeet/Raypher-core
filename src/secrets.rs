@@ -5,7 +5,7 @@
 // ──────────────────────────────────────────────────────────────
 
 use sha2::{Sha256, Digest};
-use tracing::{info, warn};
+use tracing::{info};
 
 use crate::database::Database;
 

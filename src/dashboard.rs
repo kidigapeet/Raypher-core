@@ -10,10 +10,9 @@ use axum::{
     http::StatusCode,
     Json,
 };
-use serde::{Deserialize, Serialize};
-use std::sync::{Arc, Mutex};
+use serde::{Deserialize};
+use std::sync::{Arc};
 
-use crate::database::Database;
 use crate::proxy::ProxyState;
 use crate::policy;
 use crate::secrets;
@@ -116,10 +115,17 @@ pub async fn handle_api_events(
     let events_json: Vec<serde_json::Value> = events
         .iter()
         .map(|(id, ts, etype, details, severity)| {
+            // Parse details JSON for description generation
+            let details_val: serde_json::Value = serde_json::from_str(details)
+                .unwrap_or_else(|_| serde_json::json!({}));
+            let description = crate::event_descriptions::describe_event(etype, &details_val);
+            let formatted_time = crate::event_descriptions::format_iso_timestamp(ts);
             serde_json::json!({
                 "id": id,
                 "timestamp": ts,
+                "formatted_time": formatted_time,
                 "event_type": etype,
+                "description": description,
                 "details": details,
                 "severity": severity,
             })
@@ -283,16 +289,31 @@ pub async fn handle_remove_allowlist(
 
 /// GET /api/agents — Scan for AI-related processes
 pub async fn handle_api_agents(
-    State(_state): State<Arc<ProxyState>>,
+    State(state): State<Arc<ProxyState>>,
 ) -> impl IntoResponse {
     let results = scanner::scan_for_ai();
 
     let agents_json: Vec<serde_json::Value> = results
         .iter()
         .map(|p| {
+            // Look up trust score from agent registry
+            let trust_score = if let Some(ref db_mutex) = state.db {
+                if let Ok(db) = db_mutex.lock() {
+                    // Use the exe binary name as a crude hash for lookup
+                    let hash = format!("name-{}", p.friendly_name.to_lowercase().replace(' ', "-"));
+                    crate::agent_registry::get_trust_score(&db, &hash)
+                } else {
+                    crate::trust_score::INITIAL_TRUST
+                }
+            } else {
+                crate::trust_score::INITIAL_TRUST
+            };
+            let trust_label = crate::trust_score::score_label(trust_score);
+
             serde_json::json!({
                 "pid": p.pid,
                 "name": p.name,
+                "friendly_name": p.friendly_name,
                 "exe_path": "",
                 "risk_level": p.risk_level,
                 "risk_reason": p.risk_reason,
@@ -300,11 +321,22 @@ pub async fn handle_api_agents(
                 "cmd": p.cmd.join(" "),
                 "process_count": p.process_count,
                 "child_pids": p.child_pids,
+                "trust_score": trust_score,
+                "trust_label": trust_label.as_str(),
+                "trust_color": trust_label.color(),
             })
         })
         .collect();
 
     (StatusCode::OK, Json(serde_json::json!({ "agents": agents_json })))
+}
+
+/// GET /api/discovery — Full Shadow AI Discovery scan
+pub async fn handle_api_discovery(
+    State(_state): State<Arc<ProxyState>>,
+) -> impl IntoResponse {
+    let assets = crate::discovery::run_full_scan();
+    (StatusCode::OK, Json(serde_json::json!({ "assets": assets })))
 }
 
 /// POST /api/panic — Emergency kill processes
@@ -588,15 +620,169 @@ pub async fn handle_dlp_config(
     };
 
     let db = db_lock.lock().unwrap();
-    let _policy = policy::load_policy(&db);
+    let policy = policy::load_policy(&db);
 
-    // Return DLP config — action and enabled categories
+    // Return DLP config including custom patterns
     (StatusCode::OK, Json(serde_json::json!({
         "dlp_action": "redact",
         "enabled_categories": ["api_keys", "financial", "pii", "crypto_material"],
         "built_in_patterns": 11,
         "entropy_detection": true,
         "entropy_threshold": 4.5,
+        "custom_patterns": policy.phase4.custom_dlp_patterns,
+    })))
+}
+
+/// GET /api/dlp/patterns — List all custom DLP patterns
+pub async fn handle_get_dlp_patterns(
+    State(state): State<Arc<ProxyState>>,
+) -> impl IntoResponse {
+    let db_lock = match &state.db {
+        Some(db) => db,
+        None => return (StatusCode::SERVICE_UNAVAILABLE, Json(serde_json::json!({"error": "Database unavailable"}))),
+    };
+    let db = db_lock.lock().unwrap();
+    let policy = policy::load_policy(&db);
+    (StatusCode::OK, Json(serde_json::json!({
+        "patterns": policy.phase4.custom_dlp_patterns
+    })))
+}
+
+/// POST /api/dlp/patterns — Add a custom DLP pattern
+pub async fn handle_add_dlp_pattern(
+    State(state): State<Arc<ProxyState>>,
+    Json(body): Json<serde_json::Value>,
+) -> impl IntoResponse {
+    let db_lock = match &state.db {
+        Some(db) => db,
+        None => return (StatusCode::SERVICE_UNAVAILABLE, Json(serde_json::json!({"error": "Database unavailable"}))),
+    };
+
+    let name = match body.get("name").and_then(|v| v.as_str()) {
+        Some(n) if !n.is_empty() => n.to_string(),
+        _ => return (StatusCode::BAD_REQUEST, Json(serde_json::json!({"error": "name is required"}))),
+    };
+    let pattern_str = match body.get("pattern").and_then(|v| v.as_str()) {
+        Some(p) if !p.is_empty() => p.to_string(),
+        _ => return (StatusCode::BAD_REQUEST, Json(serde_json::json!({"error": "pattern is required"}))),
+    };
+    let severity_str = body.get("severity").and_then(|v| v.as_str()).unwrap_or("Medium");
+    let severity = match severity_str.to_lowercase().as_str() {
+        "critical" => crate::dlp::DlpSeverity::Critical,
+        "high"     => crate::dlp::DlpSeverity::High,
+        "low"      => crate::dlp::DlpSeverity::Low,
+        _          => crate::dlp::DlpSeverity::Medium,
+    };
+    let redact_to = body.get("redact_to").and_then(|v| v.as_str()).map(|s| s.to_string());
+
+    // Validate regex compiles
+    if let Err(e) = regex::Regex::new(&pattern_str) {
+        return (StatusCode::BAD_REQUEST, Json(serde_json::json!({
+            "error": format!("Invalid regex: {}", e)
+        })));
+    }
+
+    let new_pattern = crate::dlp::CustomPattern {
+        name: name.clone(),
+        pattern: pattern_str,
+        severity,
+        redact_to,
+    };
+
+    let db = db_lock.lock().unwrap();
+    let mut policy_config = policy::load_policy(&db);
+
+    // Remove existing pattern with same name if present
+    policy_config.phase4.custom_dlp_patterns.retain(|p| p.name != name);
+    policy_config.phase4.custom_dlp_patterns.push(new_pattern);
+
+    match policy::save_policy(&db, &policy_config) {
+        Ok(()) => (StatusCode::OK, Json(serde_json::json!({"status": "added", "name": name}))),
+        Err(e) => (StatusCode::INTERNAL_SERVER_ERROR, Json(serde_json::json!({"error": e}))),
+    }
+}
+
+/// DELETE /api/dlp/patterns/:name — Remove a custom DLP pattern by name
+pub async fn handle_delete_dlp_pattern(
+    State(state): State<Arc<ProxyState>>,
+    Path(pattern_name): Path<String>,
+) -> impl IntoResponse {
+    let db_lock = match &state.db {
+        Some(db) => db,
+        None => return (StatusCode::SERVICE_UNAVAILABLE, Json(serde_json::json!({"error": "Database unavailable"}))),
+    };
+    let db = db_lock.lock().unwrap();
+    let mut policy_config = policy::load_policy(&db);
+    let before = policy_config.phase4.custom_dlp_patterns.len();
+    policy_config.phase4.custom_dlp_patterns.retain(|p| p.name != pattern_name);
+    let removed = before - policy_config.phase4.custom_dlp_patterns.len();
+    match policy::save_policy(&db, &policy_config) {
+        Ok(()) => (StatusCode::OK, Json(serde_json::json!({"status": "ok", "removed": removed}))),
+        Err(e) => (StatusCode::INTERNAL_SERVER_ERROR, Json(serde_json::json!({"error": e}))),
+    }
+}
+
+/// GET /api/merkle/status — Merkle-chained ledger integrity status
+pub async fn handle_api_merkle_status(
+    State(state): State<Arc<ProxyState>>,
+) -> impl IntoResponse {
+    use crate::merkle;
+
+    let policy = state.policy.get();
+    let ledger_path = policy.phase4.merkle_ledger_path.clone();
+
+    if !std::path::Path::new(&ledger_path).exists() {
+        return (StatusCode::OK, Json(serde_json::json!({
+            "status": "empty",
+            "entry_count": 0,
+            "valid": true,
+            "message": "Ledger file not yet created. Events will be recorded when the proxy handles requests.",
+            "last_entries": [],
+        })));
+    }
+
+    let content = match std::fs::read_to_string(&ledger_path) {
+        Ok(c) => c,
+        Err(e) => return (StatusCode::INTERNAL_SERVER_ERROR, Json(serde_json::json!({
+            "error": format!("Failed to read ledger: {}", e)
+        }))),
+    };
+
+    let entries: Vec<merkle::MerkleEntry> = content
+        .lines()
+        .filter_map(merkle::entry_from_ndjson)
+        .collect();
+
+    let entry_count = entries.len();
+    let (valid, error_msg) = match merkle::verify_chain(&entries) {
+        Ok(_) => (true, None),
+        Err(e) => (false, Some(e.to_string())),
+    };
+
+    // Return the last 10 entries for display
+    let last_entries: Vec<serde_json::Value> = entries.iter().rev().take(10).map(|e| {
+        let details_val: serde_json::Value = serde_json::from_str(&e.details)
+            .unwrap_or_else(|_| serde_json::json!({}));
+        let description = crate::event_descriptions::describe_event(&e.event, &details_val);
+        let formatted_time = crate::event_descriptions::format_unix_timestamp(e.timestamp);
+        serde_json::json!({
+            "seq": e.seq,
+            "event": e.event,
+            "description": description,
+            "details": e.details,
+            "timestamp": e.timestamp,
+            "formatted_time": formatted_time,
+            "hash_short": &e.own_hash[..8],
+        })
+    }).collect();
+
+    (StatusCode::OK, Json(serde_json::json!({
+        "status": if valid { "verified" } else { "corrupt" },
+        "entry_count": entry_count,
+        "valid": valid,
+        "ledger_path": ledger_path,
+        "error": error_msg,
+        "last_entries": last_entries,
     })))
 }
 
