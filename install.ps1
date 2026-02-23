@@ -26,16 +26,21 @@ if (-not (Test-Path $RaypherDir)) {
     New-Item -Path $RaypherDir -ItemType Directory -Force | Out-Null
 }
 
-Write-Host "Checking for existing service..."
+Write-Host "Releasing file locks for raypher-core.exe..."
+# 1. Stop service using both SCM and net
 if (Get-Service -Name "RaypherService" -ErrorAction SilentlyContinue) {
-    Write-Host "Stopping existing RaypherService to release file locks..."
+    Write-Host "  Stopping RaypherService..."
     Stop-Service -Name "RaypherService" -Force -ErrorAction SilentlyContinue
-    # Give it a moment to release the handle
-    Start-Sleep -Seconds 2
+    & net stop RaypherService 2>$null
 }
 
-# Kill any stray processes just in case
+# 2. Kill all instances of the process tree
+Write-Host "  Killing any active raypher-core processes..."
+& taskkill /F /IM "raypher-core.exe" /T 2>$null
 Get-Process -Name "raypher-core" -ErrorAction SilentlyContinue | Stop-Process -Force -ErrorAction SilentlyContinue
+
+# Give Windows a moment to release handles
+Start-Sleep -Seconds 2
 
 # 3. Download Latest Binary
 Write-Host "Fetching latest release metadata..."
@@ -49,14 +54,33 @@ try {
 
     Write-Host "[DEBUG] Asset URL: $($Asset.browser_download_url)"
     
-    # Priority 0: Development Fallback (If we are running in the repo, just use the local build)
-    $LocalBuild = ".\target\release\raypher-core.exe"
-    if (Test-Path $LocalBuild) {
-        Write-Host "[INFO] Fresh local build detected at $LocalBuild. Using it instead of downloading."
-        Copy-Item $LocalBuild $BinaryPath -Force
+    # Priority 0: Development Fallback (Search for the fresh binary I just built)
+    $LocalBuildPaths = @(
+        ".\target\release\raypher-core.exe",
+        "$HOME\OneDrive\Desktop\Empire\Ideas\Raypher .exe\raypher-phase1-complete-master\target\release\raypher-core.exe",
+        "$HOME\Desktop\Empire\Ideas\Raypher .exe\raypher-phase1-complete-master\target\release\raypher-core.exe"
+    )
+    
+    $FoundLocal = $false
+    foreach ($LB in $LocalBuildPaths) {
+        if (Test-Path $LB) {
+            Write-Host "[INFO] Fresh local build detected at $LB. Applying..."
+            # Strategy: Move old file to .old if it's still locked, then copy
+            if (Test-Path $BinaryPath) {
+                Move-Item $BinaryPath "$BinaryPath.old" -Force -ErrorAction SilentlyContinue
+            }
+            Copy-Item $LB $BinaryPath -Force
+            $FoundLocal = $true
+            break
+        }
     }
-    else {
+
+    if (-not $FoundLocal) {
         Write-Host "Downloading $($Asset.name)..."
+        # Strategy: Clear path for download
+        if (Test-Path $BinaryPath) {
+            Move-Item $BinaryPath "$BinaryPath.old" -Force -ErrorAction SilentlyContinue
+        }
         try {
             Invoke-WebRequest -Uri $Asset.browser_download_url -OutFile $BinaryPath -UseBasicParsing -UserAgent $UserAgent
         }
