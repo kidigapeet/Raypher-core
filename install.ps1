@@ -20,21 +20,22 @@ if (-not $currentPrincipal.IsInRole([Security.Principal.WindowsBuiltInRole]::Adm
     Write-Error "Please run this script as Administrator."
 }
 
-# 2. Create and Verify Directory
+# 2. Setup Directory & Stop Existing Service
 if (-not (Test-Path $RaypherDir)) {
     Write-Host "Creating installation directory: $RaypherDir"
-    New-Item -ItemType Directory -Force -Path $RaypherDir | Out-Null
+    New-Item -Path $RaypherDir -ItemType Directory -Force | Out-Null
 }
 
-# Verify we can write to the directory
-try {
-    $testFile = Join-Path $RaypherDir "peretest.tmp"
-    "test" | Out-File $testFile
-    Remove-Item $testFile
+Write-Host "Checking for existing service..."
+if (Get-Service -Name "RaypherService" -ErrorAction SilentlyContinue) {
+    Write-Host "Stopping existing RaypherService to release file locks..."
+    Stop-Service -Name "RaypherService" -Force -ErrorAction SilentlyContinue
+    # Give it a moment to release the handle
+    Start-Sleep -Seconds 2
 }
-catch {
-    throw "Cannot write to $RaypherDir. Please ensure you are running as Administrator and no security software is blocking access."
-}
+
+# Kill any stray processes just in case
+Get-Process -Name "raypher-core" -ErrorAction SilentlyContinue | Stop-Process -Force -ErrorAction SilentlyContinue
 
 # 3. Download Latest Binary
 Write-Host "Fetching latest release metadata..."
@@ -47,29 +48,39 @@ try {
     }
 
     Write-Host "[DEBUG] Asset URL: $($Asset.browser_download_url)"
-    Write-Host "Downloading $($Asset.name)..."
-    try {
-        Invoke-WebRequest -Uri $Asset.browser_download_url -OutFile $BinaryPath -UseBasicParsing -UserAgent $UserAgent
+    
+    # Priority 0: Development Fallback (If we are running in the repo, just use the local build)
+    $LocalBuild = ".\target\release\raypher-core.exe"
+    if (Test-Path $LocalBuild) {
+        Write-Host "[INFO] Fresh local build detected at $LocalBuild. Using it instead of downloading."
+        Copy-Item $LocalBuild $BinaryPath -Force
     }
-    catch {
-        Write-Host "[WARNING] Method 1 (WebRequest) failed. Retrying with Method 2 (WebClient)..."
+    else {
+        Write-Host "Downloading $($Asset.name)..."
         try {
-            $WebClient = New-Object System.Net.WebClient
-            $WebClient.Headers.Add("User-Agent", $UserAgent)
-            $WebClient.DownloadFile($Asset.browser_download_url, $BinaryPath)
+            Invoke-WebRequest -Uri $Asset.browser_download_url -OutFile $BinaryPath -UseBasicParsing -UserAgent $UserAgent
         }
         catch {
-            Write-Host "[WARNING] Method 2 (WebClient) failed. Retrying with Method 3 (BITS)..."
+            Write-Host "[WARNING] Method 1 (WebRequest) failed. Retrying with Method 2 (WebClient)..."
             try {
-                Start-BitsTransfer -Source $Asset.browser_download_url -Destination $BinaryPath -UserAgent $UserAgent -ErrorAction Stop
+                $WebClient = New-Object System.Net.WebClient
+                $WebClient.Headers.Add("User-Agent", $UserAgent)
+                $WebClient.DownloadFile($Asset.browser_download_url, $BinaryPath)
             }
             catch {
-                Write-Host "[WARNING] Method 3 (BITS) failed. Retrying with Method 4 (Native Curl)..."
-                if (Get-Command "curl.exe" -ErrorAction SilentlyContinue) {
-                    & curl.exe -L -H "User-Agent: $UserAgent" -o $BinaryPath $Asset.browser_download_url
+                Write-Host "[WARNING] Method 2 (WebClient) failed. Retrying with Method 3 (BITS)..."
+                try {
+                    Start-BitsTransfer -Source $Asset.browser_download_url -Destination $BinaryPath -UserAgent $UserAgent -ErrorAction Stop
                 }
-                else {
-                    throw "All download methods failed. Curl not found."
+                catch {
+                    Write-Host "[WARNING] Method 3 (BITS) failed. Retrying with Method 4 (Native Curl)..."
+                    if (Get-Command "curl.exe" -ErrorAction SilentlyContinue) {
+                        & curl.exe -L -H "User-Agent: $UserAgent" -o $BinaryPath $Asset.browser_download_url
+                        if ($LASTEXITCODE -ne 0) { throw "Curl failed with exit code $LASTEXITCODE" }
+                    }
+                    else {
+                        throw "All download methods failed. Curl not found."
+                    }
                 }
             }
         }
@@ -80,13 +91,19 @@ catch {
     if ($_.Exception.InnerException) {
         Write-Host "![DETAIL] $($_.Exception.InnerException.Message)"
     }
-    Write-Host "[STATUS] Attempting local fallback..."
-    # Fallback for development/testing if the file is in the current directory
-    if (Test-Path ".\target\release\raypher-core.exe") {
-        Copy-Item ".\target\release\raypher-core.exe" $BinaryPath -Force
-        Write-Host "[INFO] Local fallback successful."
+    Write-Host "[STATUS] Attempting final local fallback scan..."
+    # Deep fallback search
+    $FallbackPaths = @(".\target\release\raypher-core.exe", ".\raypher-core.exe", "..\target\release\raypher-core.exe")
+    $Found = $false
+    foreach ($Path in $FallbackPaths) {
+        if (Test-Path $Path) {
+            Copy-Item $Path $BinaryPath -Force
+            Write-Host "[INFO] Local fallback from $Path successful."
+            $Found = $true
+            break
+        }
     }
-    else {
+    if (-not $Found) {
         throw "Binary download failed and no local fallback found. Please check your internet connection or GitHub availability."
     }
 }
