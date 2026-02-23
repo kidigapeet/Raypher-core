@@ -1,4 +1,4 @@
-# Raypher Alpha Installer - Phase 5 (Harden-6)
+# Raypher Alpha Installer - Phase 5 (Harden-7)
 # Distribution: iwr -useb https://github.com/kidigapeet/Raypher-core/raw/master/install.ps1 | iex
 
 # We set this to Continue initially so cleanup doesn't crash the script
@@ -13,7 +13,7 @@ $BinaryPath = Join-Path $RaypherDir $BinaryName
 $ApiUrl = "https://api.github.com/repos/kidigapeet/Raypher-core/releases/latest"
 $UserAgent = "RaypherInstaller/1.0 (Windows; PowerShell)"
 
-Write-Host "`n[Raypher] Installing Alpha - v0.5.0-Harden-6"
+Write-Host "`n[Raypher] Installing Alpha - v0.5.0-Harden-7"
 
 # 1. Ensure Admin Privileges
 $currentPrincipal = New-Object Security.Principal.WindowsPrincipal([Security.Principal.WindowsIdentity]::GetCurrent())
