@@ -3,8 +3,8 @@
 
 $ErrorActionPreference = "Stop"
 
-# Force TLS 1.2 for secure downloads
-[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
+# Force secure protocols (TLS 1.1, 1.2, 1.3 if available)
+[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12 -bor 3072 -bor 12288
 
 $RaypherDir = "C:\Program Files\Raypher"
 $BinaryName = "raypher-core.exe"
@@ -12,7 +12,7 @@ $BinaryPath = Join-Path $RaypherDir $BinaryName
 $ApiUrl = "https://api.github.com/repos/kidigapeet/Raypher-core/releases/latest"
 $UserAgent = "RaypherInstaller/1.0 (Windows; PowerShell)"
 
-Write-Host "[Raypher] Installing Alpha - v0.5.0-Harden-2"
+Write-Host "[Raypher] Installing Alpha - v0.5.0-Harden-3"
 
 # 1. Ensure Admin Privileges
 $currentPrincipal = New-Object Security.Principal.WindowsPrincipal([Security.Principal.WindowsIdentity]::GetCurrent())
@@ -52,10 +52,27 @@ try {
         Invoke-WebRequest -Uri $Asset.browser_download_url -OutFile $BinaryPath -UseBasicParsing -UserAgent $UserAgent
     }
     catch {
-        Write-Host "[WARNING] Primary download failed. Retrying with WebClient..."
-        $WebClient = New-Object System.Net.WebClient
-        $WebClient.Headers.Add("User-Agent", $UserAgent)
-        $WebClient.DownloadFile($Asset.browser_download_url, $BinaryPath)
+        Write-Host "[WARNING] Method 1 (WebRequest) failed. Retrying with Method 2 (WebClient)..."
+        try {
+            $WebClient = New-Object System.Net.WebClient
+            $WebClient.Headers.Add("User-Agent", $UserAgent)
+            $WebClient.DownloadFile($Asset.browser_download_url, $BinaryPath)
+        }
+        catch {
+            Write-Host "[WARNING] Method 2 (WebClient) failed. Retrying with Method 3 (BITS)..."
+            try {
+                Start-BitsTransfer -Source $Asset.browser_download_url -Destination $BinaryPath -UserAgent $UserAgent -ErrorAction Stop
+            }
+            catch {
+                Write-Host "[WARNING] Method 3 (BITS) failed. Retrying with Method 4 (Native Curl)..."
+                if (Get-Command "curl.exe" -ErrorAction SilentlyContinue) {
+                    & curl.exe -L -H "User-Agent: $UserAgent" -o $BinaryPath $Asset.browser_download_url
+                }
+                else {
+                    throw "All download methods failed. Curl not found."
+                }
+            }
+        }
     }
 }
 catch {
