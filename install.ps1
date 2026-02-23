@@ -3,6 +3,9 @@
 
 $ErrorActionPreference = "Stop"
 
+# Force TLS 1.2 for secure downloads
+[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
+
 $RaypherDir = "C:\Program Files\Raypher"
 $BinaryName = "raypher-core.exe"
 $BinaryPath = Join-Path $RaypherDir $BinaryName
@@ -37,7 +40,8 @@ try {
     Invoke-WebRequest -Uri $Asset.browser_download_url -OutFile $BinaryPath -UseBasicParsing
 }
 catch {
-    Write-Host "Failed to download from GitHub. Looking for local binary as fallback..." -ForegroundColor Yellow
+    Write-Host "Failed to download from GitHub. Error: $($_.Exception.Message)" -ForegroundColor Red
+    Write-Host "Looking for local binary as fallback..." -ForegroundColor Yellow
     # Fallback for development/testing if the file is in the current directory
     if (Test-Path ".\target\release\raypher-core.exe") {
         Copy-Item ".\target\release\raypher-core.exe" $BinaryPath -Force
