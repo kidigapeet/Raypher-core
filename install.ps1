@@ -1,5 +1,5 @@
-# Raypher Alpha Installer
-# Distibution: iwr -useb https://raypher.ai/install.ps1 | iex
+# Raypher Alpha Installer - Phase 5 (Harden-1)
+# Distribution: iwr -useb https://github.com/kidigapeet/Raypher-core/raw/master/install.ps1 | iex
 
 $ErrorActionPreference = "Stop"
 
@@ -12,7 +12,7 @@ $BinaryPath = Join-Path $RaypherDir $BinaryName
 $RepoUrl = "https://github.com/kidigapeet/Raypher-core"
 $ApiUrl = "https://api.github.com/repos/kidigapeet/Raypher-core/releases/latest"
 
-Write-Host "`n🛡️  Installing Raypher Alpha..." -ForegroundColor Cyan
+Write-Host "`n[Raypher] Installing Alpha - v0.5.0-Harden-1"
 
 # 1. Ensure Admin Privileges
 $currentPrincipal = New-Object Security.Principal.WindowsPrincipal([Security.Principal.WindowsIdentity]::GetCurrent())
@@ -46,25 +46,27 @@ try {
         throw "Could not find a valid Windows binary in the latest release."
     }
 
+    Write-Host "[DEBUG] Asset URL: $($Asset.browser_download_url)"
     Write-Host "Downloading $($Asset.name)..."
     try {
         Invoke-WebRequest -Uri $Asset.browser_download_url -OutFile $BinaryPath -UseBasicParsing
     }
     catch {
-        Write-Host "Primary download method failed. Retrying with WebClient..." -ForegroundColor Yellow
+        Write-Host "[WARNING] Primary download failed. Retrying with WebClient..."
         $WebClient = New-Object System.Net.WebClient
         $WebClient.DownloadFile($Asset.browser_download_url, $BinaryPath)
     }
 }
 catch {
-    Write-Host "Failed to download from GitHub. Error: $($_.Exception.Message)" -ForegroundColor Red
-    Write-Host "Looking for local binary as fallback..." -ForegroundColor Yellow
+    Write-Host "![ERROR] GitHub Download Failed: $($_.Exception.Message)"
+    Write-Host "[STATUS] Attempting local fallback..."
     # Fallback for development/testing if the file is in the current directory
     if (Test-Path ".\target\release\raypher-core.exe") {
         Copy-Item ".\target\release\raypher-core.exe" $BinaryPath -Force
+        Write-Host "[INFO] Local fallback successful."
     }
     else {
-        throw "Binary download failed and no local fallback found."
+        throw "Binary download failed and no local fallback found. Please check your internet connection or GitHub availability."
     }
 }
 
@@ -74,7 +76,7 @@ $CurrentPath = [Environment]::GetEnvironmentVariable("Path", [EnvironmentVariabl
 if ($CurrentPath -notlike "*$RaypherDir*") {
     [Environment]::SetEnvironmentVariable("Path", "$CurrentPath;$RaypherDir", [EnvironmentVariableTarget]::Machine)
     $env:Path += ";$RaypherDir"
-    Write-Host "✓ PATH updated." -ForegroundColor Green
+    Write-Host "✓ PATH updated."
 }
 
 # 5. Register & Start Windows Service
@@ -84,17 +86,17 @@ Write-Host "Registering Raypher System Service..."
 # We ensure it's started.
 if (Get-Service -Name "RaypherService" -ErrorAction SilentlyContinue) {
     Start-Service -Name "RaypherService" -ErrorAction SilentlyContinue
-    Write-Host "✓ Service started." -ForegroundColor Green
+    Write-Host "✓ Service started."
 }
 
 # 6. Run Zero-Touch Setup & Hard Intercept
 Write-Host "Running Zero-Touch Setup (The Invisible Hand)..."
 & $BinaryPath setup --silent
-Write-Host "✓ System environment configured." -ForegroundColor Green
+Write-Host "✓ System environment configured."
 
 Write-Host "Installing OS-level Transparent Redirect (Hard Intercept)..."
 & $BinaryPath intercept
-Write-Host "✓ Hard Intercept enabled (netsh rules active)." -ForegroundColor Green
+Write-Host "✓ Hard Intercept enabled (netsh rules active)."
 
 # 7. Create Desktop Shortcut (Native App Mode)
 Write-Host "Creating Desktop shortcut for Command Center..."
@@ -127,9 +129,9 @@ exit
 $BatContent | Out-File -FilePath $ShortcutPath -Encoding ascii
 
 # 8. Launch Immediately
-Write-Host "`n🚀 Launching Raypher Command Center..." -ForegroundColor Green
+Write-Host "`n🚀 Launching Raypher Command Center..."
 Start-Sleep -Seconds 1
 & $ShortcutPath
 
-Write-Host "`n✨ Raypher is now protecting your AI agents." -ForegroundColor Cyan
+Write-Host "`n✨ Raypher is now protecting your AI agents."
 Write-Host "Desktop shortcut created: Raypher Dashboard.bat`n"
