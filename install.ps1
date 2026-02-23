@@ -1,7 +1,8 @@
-# Raypher Alpha Installer - Phase 5 (Harden-1)
+# Raypher Alpha Installer - Phase 5 (Harden-6)
 # Distribution: iwr -useb https://github.com/kidigapeet/Raypher-core/raw/master/install.ps1 | iex
 
-$ErrorActionPreference = "Stop"
+# We set this to Continue initially so cleanup doesn't crash the script
+$ErrorActionPreference = "Continue"
 
 # Force secure protocols (TLS 1.1, 1.2, 1.3 if available)
 [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12 -bor 3072 -bor 12288
@@ -12,12 +13,13 @@ $BinaryPath = Join-Path $RaypherDir $BinaryName
 $ApiUrl = "https://api.github.com/repos/kidigapeet/Raypher-core/releases/latest"
 $UserAgent = "RaypherInstaller/1.0 (Windows; PowerShell)"
 
-Write-Host "[Raypher] Installing Alpha - v0.5.0-Harden-5"
+Write-Host "`n[Raypher] Installing Alpha - v0.5.0-Harden-6"
 
 # 1. Ensure Admin Privileges
 $currentPrincipal = New-Object Security.Principal.WindowsPrincipal([Security.Principal.WindowsIdentity]::GetCurrent())
 if (-not $currentPrincipal.IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)) {
     Write-Error "Please run this script as Administrator."
+    exit
 }
 
 # 2. Setup Directory & Stop Existing Service
@@ -46,6 +48,9 @@ Get-Process -Name "raypher-core" -ErrorAction SilentlyContinue | Stop-Process -F
 
 # Give Windows a moment to release handles
 Start-Sleep -Seconds 2
+
+# From here on, critical failures should STOP the script
+$ErrorActionPreference = "Stop"
 
 # 3. Download Latest Binary
 Write-Host "Fetching latest release metadata..."
