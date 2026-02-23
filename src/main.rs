@@ -563,7 +563,7 @@ fn handle_proxy() {
     });
 
     rt.block_on(async {
-        if let Err(e) = proxy::start_proxy().await {
+        if let Err(e) = proxy::start_proxy(true).await {
             let err_str = e.to_string();
             if err_str.contains("os error 10048") || err_str.contains("Address already in use") {
                 eprintln!("  ⚠️  PROXY ALREADY RUNNING: Port 8888 is already in use.");

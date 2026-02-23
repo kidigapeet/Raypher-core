@@ -64,14 +64,14 @@ const PROXY_TLS_ADDR: &str = "127.0.0.1:8889";
 // ── Public Interface ───────────────────────────────────────────
 
 /// Start the proxy server using default configuration.
-pub async fn start_proxy() -> Result<(), Box<dyn std::error::Error>> {
+pub async fn start_proxy(with_tray: bool) -> Result<(), Box<dyn std::error::Error>> {
     let db = match Database::init() {
         Ok(db) => Some(Arc::new(Mutex::new(db))),
         Err(_) => None,
     };
     let http_addr: SocketAddr = PROXY_ADDR.parse()?;
     let tls_addr: SocketAddr = PROXY_TLS_ADDR.parse()?;
-    start_proxy_engine(db, http_addr, tls_addr).await
+    start_proxy_engine(db, http_addr, tls_addr, with_tray).await
 }
 
 /// Start the proxy engine with specific database and addresses.
@@ -79,6 +79,7 @@ pub async fn start_proxy_engine(
     db: Option<Arc<Mutex<Database>>>,
     http_addr: SocketAddr,
     tls_addr: SocketAddr,
+    with_tray: bool,
 ) -> Result<(), Box<dyn std::error::Error>> {
     // Install rustls CryptoProvider before any TLS operations
     let _ = rustls::crypto::ring::default_provider().install_default();
@@ -196,12 +197,16 @@ pub async fn start_proxy_engine(
 
     // 2. System Tray (auto-launch with proxy)
     // Runs in a standard thread because tray-icon needs a run loop on some platforms
-    let tray_handle = std::thread::spawn(|| {
-        crate::tray::start_tray(|| {
-            warn!("PANIC: Kill-All requested from tray - SHUTTING DOWN PROXY");
-            std::process::exit(1);
-        });
-    });
+    let tray_handle = if with_tray {
+        Some(std::thread::spawn(|| {
+            crate::tray::start_tray(|| {
+                warn!("PANIC: Kill-All requested from tray - SHUTTING DOWN PROXY");
+                std::process::exit(1);
+            });
+        }))
+    } else {
+        None
+    };
 
     // Run both concurrently — HTTP is primary, TLS is best-effort
     tokio::select! {
@@ -216,7 +221,9 @@ pub async fn start_proxy_engine(
     }
     
     // Attempt to join tray thread if proxy stops (though we usually exit above)
-    let _ = tray_handle.join();
+    if let Some(handle) = tray_handle {
+        let _ = handle.join();
+    }
     Ok(())
 }
 // ── TLS Listener ──────────────────────────────────────────────

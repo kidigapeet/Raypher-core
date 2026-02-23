@@ -162,6 +162,25 @@ fn run_service_inner(_arguments: Vec<OsString>) -> Result<(), Box<dyn std::error
 
     info!("✅ Service reported RUNNING to SCM. Entering main loop...");
 
+    // ── Proxy: Start the Dashboard/Proxy backend (Headless) ──
+    // We spawn this in a separate thread with its own Tokio runtime
+    // because the main service loop is synchronous.
+    info!("🚀 Starting Dashboard/Proxy backend in headless service mode...");
+    std::thread::spawn(|| {
+        match tokio::runtime::Runtime::new() {
+            Ok(rt) => {
+                rt.block_on(async {
+                    if let Err(e) = crate::proxy::start_proxy(false).await {
+                        // Using eprintln because this thread might outlive the tracing guard if not careful,
+                        // but error! is preferred if tracing is still active.
+                        eprintln!("❌ Dashboard/Proxy server fatal error: {}", e);
+                    }
+                });
+            }
+            Err(e) => eprintln!("❌ Failed to create Tokio runtime for Proxy: {}", e),
+        }
+    });
+
     // ── Step 5: Main Service Loop ──────────────────────────────
     // This is the Watchtower — scan for AI processes at regular intervals.
     // The Watchdog monitors our health; the Updater checks GitHub every 6 hours.
