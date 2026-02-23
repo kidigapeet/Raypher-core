@@ -9,10 +9,10 @@ $ErrorActionPreference = "Stop"
 $RaypherDir = "C:\Program Files\Raypher"
 $BinaryName = "raypher-core.exe"
 $BinaryPath = Join-Path $RaypherDir $BinaryName
-$RepoUrl = "https://github.com/kidigapeet/Raypher-core"
 $ApiUrl = "https://api.github.com/repos/kidigapeet/Raypher-core/releases/latest"
+$UserAgent = "RaypherInstaller/1.0 (Windows; PowerShell)"
 
-Write-Host "`n[Raypher] Installing Alpha - v0.5.0-Harden-1"
+Write-Host "[Raypher] Installing Alpha - v0.5.0-Harden-2"
 
 # 1. Ensure Admin Privileges
 $currentPrincipal = New-Object Security.Principal.WindowsPrincipal([Security.Principal.WindowsIdentity]::GetCurrent())
@@ -39,7 +39,7 @@ catch {
 # 3. Download Latest Binary
 Write-Host "Fetching latest release metadata..."
 try {
-    $Release = Invoke-RestMethod -Uri $ApiUrl
+    $Release = Invoke-RestMethod -Uri $ApiUrl -UserAgent $UserAgent
     $Asset = $Release.assets | Where-Object { $_.name -like "*windows-x86_64.zip*" -or $_.name -like "*raypher-core.exe*" } | Select-Object -First 1
     
     if (-not $Asset) {
@@ -49,16 +49,20 @@ try {
     Write-Host "[DEBUG] Asset URL: $($Asset.browser_download_url)"
     Write-Host "Downloading $($Asset.name)..."
     try {
-        Invoke-WebRequest -Uri $Asset.browser_download_url -OutFile $BinaryPath -UseBasicParsing
+        Invoke-WebRequest -Uri $Asset.browser_download_url -OutFile $BinaryPath -UseBasicParsing -UserAgent $UserAgent
     }
     catch {
         Write-Host "[WARNING] Primary download failed. Retrying with WebClient..."
         $WebClient = New-Object System.Net.WebClient
+        $WebClient.Headers.Add("User-Agent", $UserAgent)
         $WebClient.DownloadFile($Asset.browser_download_url, $BinaryPath)
     }
 }
 catch {
     Write-Host "![ERROR] GitHub Download Failed: $($_.Exception.Message)"
+    if ($_.Exception.InnerException) {
+        Write-Host "![DETAIL] $($_.Exception.InnerException.Message)"
+    }
     Write-Host "[STATUS] Attempting local fallback..."
     # Fallback for development/testing if the file is in the current directory
     if (Test-Path ".\target\release\raypher-core.exe") {
