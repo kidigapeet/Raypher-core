@@ -102,12 +102,15 @@ if ($CurrentPath -notlike "*$RaypherDir*") {
 
 # 5. Register & Start Windows Service
 Write-Host "Registering Raypher System Service..."
-# & $BinaryPath install | Out-Null # Subcommand 'install' is not yet implemented in raypher-core
-# The install command usually handles service registration. 
-# We ensure it's started.
-if (Get-Service -Name "RaypherService" -ErrorAction SilentlyContinue) {
-    Start-Service -Name "RaypherService" -ErrorAction SilentlyContinue
-    Write-Host "✓ Service started."
+try {
+    & $BinaryPath install-service
+}
+catch {
+    Write-Host "[WARNING] Failed to register service via CLI. Trying manual fallback..."
+    $BinPathWithArgs = "`"$BinaryPath`" --service"
+    sc.exe create RaypherService binPath= $BinPathWithArgs start= auto DisplayName= "Raypher AI Security Service"
+    sc.exe description RaypherService "Raypher Shadow AI Discovery & Proxy Service"
+    net start RaypherService
 }
 
 # 6. Run Zero-Touch Setup & Hard Intercept

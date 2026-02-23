@@ -121,6 +121,12 @@ enum Commands {
 
     /// Launch the Raypher system tray icon
     Tray,
+
+    /// [Internal] Install the Windows Service (Admin only)
+    InstallService,
+
+    /// [Internal] Remove the Windows Service (Admin only)
+    UninstallService,
 }
 
 fn main() {
@@ -161,6 +167,8 @@ fn main() {
         Some(Commands::MerkleVerify) => handle_merkle_verify(),
         Some(Commands::Intercept { remove }) => handle_intercept(remove),
         Some(Commands::Tray) => handle_tray(),
+        Some(Commands::InstallService) => handle_install_service(),
+        Some(Commands::UninstallService) => handle_uninstall_service(),
         None => {
             // Default to help if no command and not service mode
             println!("Use --help for usage information.");
@@ -799,8 +807,76 @@ fn handle_intercept(remove: bool) {
                 println!("Current rules:");
                 println!("{}", raypher_core::intercept::list_redirect_rules());
             }
-            Err(e) => println!("❌ Failed to install rules: {}", e),
+            Err(e) => eprintln!("❌ Failed to install rules: {}", e),
         }
+    }
+}
+
+fn handle_install_service() {
+    #[cfg(target_os = "windows")]
+    {
+        println!("🚀 Registering Raypher System Service...");
+        let current_exe = std::env::current_exe().unwrap_or_else(|_| PathBuf::from("raypher-core.exe"));
+        let bin_path_with_args = format!("\"{}\" --service", current_exe.to_string_lossy());
+
+        let output = std::process::Command::new("sc")
+            .args([
+                "create",
+                "RaypherService",
+                &format!("binPath={}", bin_path_with_args),
+                "start=auto",
+                "DisplayName=Raypher AI Security Service",
+            ])
+            .output();
+
+        match output {
+            Ok(out) if out.status.success() => {
+                println!("✅ Service 'RaypherService' created successfully.");
+                let _ = std::process::Command::new("sc").args(["description", "RaypherService", "Raypher Shadow AI Discovery & Proxy Service"]).output();
+                let _ = std::process::Command::new("net").args(["start", "RaypherService"]).output();
+                println!("✅ Service started.");
+            }
+            Ok(out) => {
+                let err = String::from_utf8_lossy(&out.stderr);
+                if err.contains("already exists") {
+                    println!("ℹ️  Service already exists. Attempting to start...");
+                    let _ = std::process::Command::new("net").args(["start", "RaypherService"]).output();
+                } else {
+                    eprintln!("❌ Failed to create service: {}", err);
+                }
+            }
+            Err(e) => eprintln!("❌ Error running sc.exe: {}", e),
+        }
+    }
+    #[cfg(not(target_os = "windows"))]
+    {
+        println!("ℹ️  Service installation is only supported on Windows.");
+    }
+}
+
+fn handle_uninstall_service() {
+    #[cfg(target_os = "windows")]
+    {
+        println!("🧹 Removing Raypher System Service...");
+        let _ = std::process::Command::new("net").args(["stop", "RaypherService"]).output();
+        let output = std::process::Command::new("sc").args(["delete", "RaypherService"]).output();
+
+        match output {
+            Ok(out) if out.status.success() => println!("✅ Service 'RaypherService' deleted."),
+            Ok(out) => {
+                let err = String::from_utf8_lossy(&out.stderr);
+                if err.contains("does not exist") {
+                    println!("ℹ️  Service does not exist.");
+                } else {
+                    eprintln!("❌ Failed to delete service: {}", err);
+                }
+            }
+            Err(e) => eprintln!("❌ Error running sc.exe: {}", e),
+        }
+    }
+    #[cfg(not(target_os = "windows"))]
+    {
+        println!("ℹ️  Service removal is only supported on Windows.");
     }
 }
 
