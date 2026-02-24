@@ -1,7 +1,6 @@
-# Raypher Alpha Installer - Phase 5 (Harden-10)
+# Raypher Alpha Installer - Phase 5 (Harden-11)
 # Distribution: iwr -useb https://github.com/kidigapeet/Raypher-core/raw/master/install.ps1 | iex
 
-# We set this to Continue initially so cleanup doesn't crash the script
 $ErrorActionPreference = "Continue"
 
 # Force secure protocols (TLS 1.1, 1.2, 1.3 if available)
@@ -10,12 +9,11 @@ $ErrorActionPreference = "Continue"
 $RaypherDir = "C:\Program Files\Raypher"
 $BinaryName = "raypher-core.exe"
 $BinaryPath = Join-Path $RaypherDir $BinaryName
-# Use the full releases endpoint to support pre-releases/alphas
 $ApiUrl = "https://api.github.com/repos/kidigapeet/Raypher-core/releases"
 $BinaryRepoUrl = "https://github.com/kidigapeet/Raypher-core/raw/master/bin/raypher-core.exe"
-$UserAgent = "RaypherInstaller/1.0 (Windows; PowerShell)"
+$UserAgent = "RaypherInstaller/1.1 (Windows; PowerShell)"
 
-Write-Host "Installer Version: Harden-10"
+Write-Host "Installer Version: Harden-11"
 
 # 1. Ensure Admin Privileges
 $currentPrincipal = New-Object Security.Principal.WindowsPrincipal([Security.Principal.WindowsIdentity]::GetCurrent())
@@ -32,32 +30,25 @@ if (-not (Test-Path $RaypherDir)) {
 
 Write-Host "Releasing file locks for raypher-core.exe..."
 $svc = Get-Service -Name "RaypherService" -ErrorAction SilentlyContinue
-if ($svc) {
-    if ($svc.Status -ne 'Stopped') {
-        Write-Host "  Stopping RaypherService..."
-        Stop-Service -Name "RaypherService" -Force -ErrorAction SilentlyContinue
-    }
+if ($svc -and $svc.Status -ne 'Stopped') {
+    Write-Host "  Stopping RaypherService..."
+    Stop-Service -Name "RaypherService" -Force -ErrorAction SilentlyContinue
 }
+
 Write-Host "  Ensuring no raypher-core processes are active..."
 Get-Process -Name "raypher-core" -ErrorAction SilentlyContinue | Stop-Process -Force -ErrorAction SilentlyContinue
 Start-Sleep -Seconds 2
 
-# From here on, critical failures should STOP the script
 $ErrorActionPreference = "Stop"
 
 # 3. Download Latest Binary
-$LocalBuildPaths = @(
-    "$PSScriptRoot\target\release\raypher-core.exe",
-    ".\target\release\raypher-core.exe"
-)
-
+$LocalBuildPaths = @("$PSScriptRoot\target\release\raypher-core.exe", ".\target\release\raypher-core.exe")
 $FoundLocal = $false
+
 foreach ($LB in $LocalBuildPaths) {
     if (Test-Path $LB) {
         Write-Host "[INFO] Fresh local build detected. Applying..."
-        if (Test-Path $BinaryPath) {
-            Move-Item $BinaryPath "$BinaryPath.old" -Force -ErrorAction SilentlyContinue
-        }
+        if (Test-Path $BinaryPath) { Move-Item $BinaryPath "$BinaryPath.old" -Force -ErrorAction SilentlyContinue }
         Copy-Item $LB $BinaryPath -Force
         $FoundLocal = $true
         break
@@ -71,25 +62,21 @@ if (-not $FoundLocal) {
         $Release = $Releases[0]
         $Asset = $Release.assets | Where-Object { $_.name -like "*raypher-core.exe*" } | Select-Object -First 1
         
-        if (Test-Path $BinaryPath) {
-            Move-Item $BinaryPath "$BinaryPath.old" -Force -ErrorAction SilentlyContinue
-        }
+        if (Test-Path $BinaryPath) { Move-Item $BinaryPath "$BinaryPath.old" -Force -ErrorAction SilentlyContinue }
 
         if ($Asset) {
             Write-Host "Downloading release binary..."
             Invoke-WebRequest -Uri $Asset.browser_download_url -OutFile $BinaryPath -UseBasicParsing -UserAgent $UserAgent
         }
         else {
-            Write-Host "[INFO] Falling back to repository binary..."
+            Write-Host "[INFO] No executable found in release. Falling back to repository binary..."
             Invoke-WebRequest -Uri $BinaryRepoUrl -OutFile $BinaryPath -UseBasicParsing -UserAgent $UserAgent
         }
     }
     catch {
-        Write-Host "[WARNING] Release fetch failed. Trying repo download..."
+        Write-Host "[WARNING] Release fetch failed (likely API rate limit). Trying repo download..."
         try {
-            if (Test-Path $BinaryPath) {
-                Move-Item $BinaryPath "$BinaryPath.old" -Force -ErrorAction SilentlyContinue
-            }
+            if (Test-Path $BinaryPath) { Move-Item $BinaryPath "$BinaryPath.old" -Force -ErrorAction SilentlyContinue }
             Invoke-WebRequest -Uri $BinaryRepoUrl -OutFile $BinaryPath -UseBasicParsing -UserAgent $UserAgent
         }
         catch {
@@ -108,19 +95,23 @@ if (-not $FoundLocal) {
                         break
                     }
                 }
-                if (-not $Found) {
-                    throw "Download failed."
-                }
+                if (-not $Found) { throw "Download failed." }
             }
         }
     }
+}
+
+# -> FIX 1: UNBLOCK THE EXECUTABLE TO BYPASS SMARTSCREEN <-
+if (Test-Path $BinaryPath) {
+    Unblock-File -Path $BinaryPath -ErrorAction SilentlyContinue
 }
 
 # 4. Add to System PATH
 Write-Host "Updating System PATH..."
 $CurrentPath = [Environment]::GetEnvironmentVariable("Path", [EnvironmentVariableTarget]::Machine)
 if ($CurrentPath -notlike "*$RaypherDir*") {
-    [Environment]::SetEnvironmentVariable("Path", "$CurrentPath;$RaypherDir", [EnvironmentVariableTarget]::Machine)
+    $NewPath = if ($CurrentPath.EndsWith(";")) { "$CurrentPath$RaypherDir" } else { "$CurrentPath;$RaypherDir" }
+    [Environment]::SetEnvironmentVariable("Path", $NewPath, [EnvironmentVariableTarget]::Machine)
     $env:Path += ";$RaypherDir"
 }
 Write-Host "PATH updated."
@@ -182,7 +173,11 @@ $ShortcutPath = Join-Path $DesktopPath "Raypher Command Center.lnk"
 try {
     $WshShell = New-Object -ComObject WScript.Shell
     $Shortcut = $WshShell.CreateShortcut($ShortcutPath)
-    $Shortcut.TargetPath = "http://127.0.0.1:8888/dashboard"
+    
+    # -> FIX 2: PROPER URL TARGETING FOR SHORTCUTS <-
+    $Shortcut.TargetPath = "explorer.exe"
+    $Shortcut.Arguments = '"http://127.0.0.1:8888/dashboard"'
+    
     $Shortcut.Description = "Raypher AI Security Command Center"
     $Shortcut.IconLocation = "$BinaryPath, 0"
     $Shortcut.Save()
