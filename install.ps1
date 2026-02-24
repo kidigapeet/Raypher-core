@@ -1,4 +1,4 @@
-# Raypher Alpha Installer - Phase 5 (Harden-7)
+# Raypher Alpha Installer - Phase 5 (Harden-8)
 # Distribution: iwr -useb https://github.com/kidigapeet/Raypher-core/raw/master/install.ps1 | iex
 
 # We set this to Continue initially so cleanup doesn't crash the script
@@ -13,7 +13,7 @@ $BinaryPath = Join-Path $RaypherDir $BinaryName
 $ApiUrl = "https://api.github.com/repos/kidigapeet/Raypher-core/releases/latest"
 $UserAgent = "RaypherInstaller/1.0 (Windows; PowerShell)"
 
-Write-Host "`n[Raypher] Installing Alpha - v0.5.0-Harden-7"
+Write-Host "`n[Raypher] Installing Alpha - v0.5.0-Harden-8"
 
 # 1. Ensure Admin Privileges
 $currentPrincipal = New-Object Security.Principal.WindowsPrincipal([Security.Principal.WindowsIdentity]::GetCurrent())
@@ -66,9 +66,8 @@ try {
     
     # Priority 0: Development Fallback (Search for the fresh binary I just built)
     $LocalBuildPaths = @(
-        ".\target\release\raypher-core.exe",
-        "$HOME\OneDrive\Desktop\Empire\Ideas\Raypher .exe\raypher-phase1-complete-master\target\release\raypher-core.exe",
-        "$HOME\Desktop\Empire\Ideas\Raypher .exe\raypher-phase1-complete-master\target\release\raypher-core.exe"
+        "$PSScriptRoot\target\release\raypher-core.exe",
+        ".\target\release\raypher-core.exe"
     )
     
     $FoundLocal = $false
@@ -170,8 +169,37 @@ Write-Host "Running Zero-Touch Setup (The Invisible Hand)..."
 Write-Host "✓ System environment configured."
 
 Write-Host "Installing OS-level Transparent Redirect (Hard Intercept)..."
-& $BinaryPath intercept
-Write-Host "✓ Hard Intercept enabled (netsh rules active)."
+# 1. Health Check - Ensure the Proxy is actually responding before we trap the network
+Write-Host "  Running Pre-Flight Health Check..."
+$HealthCheckPassed = $false
+for ($i = 0; $i -lt 5; $i++) {
+    try {
+        $Response = Invoke-WebRequest -Uri "http://127.0.0.1:8888/health" -Method Get -TimeoutSec 2 -UseBasicParsing -ErrorAction Stop
+        if ($Response.StatusCode -eq 200) {
+            $HealthCheckPassed = $true
+            break
+        }
+    }
+    catch {
+        Write-Host "    [.] Waiting for Raypher Proxy to wake up... ($($i+1)/5)"
+        Start-Sleep -Seconds 2
+    }
+}
+
+if ($HealthCheckPassed) {
+    Write-Host "  ✓ Proxy Health OK. Enabling Intercept..."
+    try {
+        & $BinaryPath intercept
+        Write-Host "✓ Hard Intercept enabled (netsh rules active)."
+    }
+    catch {
+        Write-Host "![WARNING] Failed to enable intercept: $($_.Exception.Message)"
+    }
+}
+else {
+    Write-Host "![CAUTION] Proxy health check FAILED. Skipping Intercept to preserve internet connectivity."
+    Write-Host "  (You can enable it later via 'raypher-core intercept' once the service is healthy)."
+}
 
 # 7. Create Desktop Shortcut (Native App Mode)
 Write-Host "Creating Desktop shortcut for Command Center..."
