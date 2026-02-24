@@ -189,7 +189,9 @@ try {
     Write-Host "Shortcut created."
 }
 catch {
-    "http://127.0.0.1:8888/dashboard" | Out-File -FilePath "$DesktopPath\Launch Raypher.url"
+    Write-Host "[WARNING] COM object failed. Creating standard web shortcut..."
+    $UrlContent = "[InternetShortcut]`nURL=http://127.0.0.1:8888/dashboard"
+    $UrlContent | Out-File -FilePath "$DesktopPath\Launch Raypher.url" -Encoding ascii
 }
 
 # 8. Launch Immediately
