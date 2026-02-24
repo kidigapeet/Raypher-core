@@ -1,4 +1,4 @@
-# Raypher Alpha Installer - Phase 5 (Harden-11)
+# Raypher Alpha Installer - Phase 5 (Harden-12)
 # Distribution: iwr -useb https://github.com/kidigapeet/Raypher-core/raw/master/install.ps1 | iex
 
 $ErrorActionPreference = "Continue"
@@ -11,9 +11,9 @@ $BinaryName = "raypher-core.exe"
 $BinaryPath = Join-Path $RaypherDir $BinaryName
 $ApiUrl = "https://api.github.com/repos/kidigapeet/Raypher-core/releases"
 $BinaryRepoUrl = "https://github.com/kidigapeet/Raypher-core/raw/master/bin/raypher-core.exe"
-$UserAgent = "RaypherInstaller/1.1 (Windows; PowerShell)"
+$UserAgent = "RaypherInstaller/1.2 (Windows; PowerShell)"
 
-Write-Host "Installer Version: Harden-11"
+Write-Host "Installer Version: Harden-12"
 
 # 1. Ensure Admin Privileges
 $currentPrincipal = New-Object Security.Principal.WindowsPrincipal([Security.Principal.WindowsIdentity]::GetCurrent())
@@ -30,7 +30,7 @@ if (-not (Test-Path $RaypherDir)) {
 
 Write-Host "Releasing file locks for raypher-core.exe..."
 $svc = Get-Service -Name "RaypherService" -ErrorAction SilentlyContinue
-if ($svc -and $svc.Status -ne 'Stopped') {
+if ($svc -and $svc.Status -ne "Stopped") {
     Write-Host "  Stopping RaypherService..."
     Stop-Service -Name "RaypherService" -Force -ErrorAction SilentlyContinue
 }
@@ -48,7 +48,9 @@ $FoundLocal = $false
 foreach ($LB in $LocalBuildPaths) {
     if (Test-Path $LB) {
         Write-Host "[INFO] Fresh local build detected. Applying..."
-        if (Test-Path $BinaryPath) { Move-Item $BinaryPath "$BinaryPath.old" -Force -ErrorAction SilentlyContinue }
+        if (Test-Path $BinaryPath) { 
+            Move-Item $BinaryPath "$BinaryPath.old" -Force -ErrorAction SilentlyContinue 
+        }
         Copy-Item $LB $BinaryPath -Force
         $FoundLocal = $true
         break
@@ -62,7 +64,9 @@ if (-not $FoundLocal) {
         $Release = $Releases[0]
         $Asset = $Release.assets | Where-Object { $_.name -like "*raypher-core.exe*" } | Select-Object -First 1
         
-        if (Test-Path $BinaryPath) { Move-Item $BinaryPath "$BinaryPath.old" -Force -ErrorAction SilentlyContinue }
+        if (Test-Path $BinaryPath) { 
+            Move-Item $BinaryPath "$BinaryPath.old" -Force -ErrorAction SilentlyContinue 
+        }
 
         if ($Asset) {
             Write-Host "Downloading release binary..."
@@ -74,9 +78,11 @@ if (-not $FoundLocal) {
         }
     }
     catch {
-        Write-Host "[WARNING] Release fetch failed (likely API rate limit). Trying repo download..."
+        Write-Host "[WARNING] Release fetch failed. Trying repo download..."
         try {
-            if (Test-Path $BinaryPath) { Move-Item $BinaryPath "$BinaryPath.old" -Force -ErrorAction SilentlyContinue }
+            if (Test-Path $BinaryPath) { 
+                Move-Item $BinaryPath "$BinaryPath.old" -Force -ErrorAction SilentlyContinue 
+            }
             Invoke-WebRequest -Uri $BinaryRepoUrl -OutFile $BinaryPath -UseBasicParsing -UserAgent $UserAgent
         }
         catch {
@@ -101,9 +107,9 @@ if (-not $FoundLocal) {
     }
 }
 
-# -> FIX 1: UNBLOCK THE EXECUTABLE TO BYPASS SMARTSCREEN <-
-if (Test-Path $BinaryPath) {
-    Unblock-File -Path $BinaryPath -ErrorAction SilentlyContinue
+# Unblock Executable (SmartScreen Bypass)
+if (Test-Path $BinaryPath) { 
+    Unblock-File -Path $BinaryPath -ErrorAction SilentlyContinue 
 }
 
 # 4. Add to System PATH
@@ -116,7 +122,29 @@ if ($CurrentPath -notlike "*$RaypherDir*") {
 }
 Write-Host "PATH updated."
 
-# 5. Register & Start Windows Service
+# FIX 1: RUN SETUP BEFORE STARTING THE SERVICE
+Write-Host "Running Zero-Touch Setup (Initializing Databases and Certs)..."
+try {
+    & $BinaryPath setup --silent
+    Write-Host "System environment configured."
+}
+catch {
+    Write-Host "[ERROR] Setup failed. The service may lack required configurations."
+}
+
+# FIX 2: THE LOCALSYSTEM PROFILE TRAP
+Write-Host "Mirroring configurations for LocalSystem Service..."
+$UserConfigDir = Join-Path $env:USERPROFILE ".raypher"
+$SystemProfileDir = "C:\Windows\System32\config\systemprofile\.raypher"
+if (Test-Path $UserConfigDir) {
+    if (-not (Test-Path $SystemProfileDir)) { 
+        New-Item -Path $SystemProfileDir -ItemType Directory -Force | Out-Null 
+    }
+    Copy-Item -Path "$UserConfigDir\*" -Destination $SystemProfileDir -Recurse -Force -ErrorAction SilentlyContinue
+    Write-Host "Configs mirrored to System context."
+}
+
+# 5. Register Windows Service
 Write-Host "Registering Raypher Service..."
 try {
     & $BinaryPath install-service
@@ -126,18 +154,23 @@ catch {
     $BinPathWithArgs = "`"$BinaryPath`" --service"
     sc.exe create RaypherService binPath= $BinPathWithArgs start= auto DisplayName= "Raypher AI Security Service"
     sc.exe description RaypherService "Raypher AI Discovery and Proxy Service"
-    net start RaypherService 2>$null
 }
 
-# 6. Run Zero-Touch Setup & Hard Intercept
-Write-Host "Running Zero-Touch Setup..."
-& $BinaryPath setup --silent
-Write-Host "System environment configured."
+# FIX 3: EXPLICITLY BOOT THE ENGINE
+Write-Host "Booting the Raypher Engine..."
+try {
+    Start-Service -Name "RaypherService" -ErrorAction Stop
+}
+catch {
+    net start RaypherService 2>$null
+}
+Start-Sleep -Seconds 3
 
+# 6. Health Check & Intercept
 Write-Host "Configuring Transparent Redirect..."
-Write-Host "  Health Check..."
+Write-Host "  Waiting for Raypher Proxy to bind to port 8888..."
 $HealthCheckPassed = $false
-for ($i = 0; $i -lt 5; $i++) {
+for ($i = 0; $i -lt 10; $i++) {
     try {
         $Response = Invoke-WebRequest -Uri "http://127.0.0.1:8888/health" -Method Get -TimeoutSec 2 -UseBasicParsing -ErrorAction Stop
         if ($Response.StatusCode -eq 200) {
@@ -146,13 +179,13 @@ for ($i = 0; $i -lt 5; $i++) {
         }
     }
     catch {
-        Write-Host "  Waiting for service... ($($i+1)/5)"
+        Write-Host "  [.] Waiting... ($($i+1)/10)"
         Start-Sleep -Seconds 2
     }
 }
 
 if ($HealthCheckPassed) {
-    Write-Host "  Service OK. Enabling Intercept..."
+    Write-Host "  Service is ONLINE. Enabling Intercept..."
     try {
         & $BinaryPath intercept
         Write-Host "Intercept enabled."
@@ -160,39 +193,41 @@ if ($HealthCheckPassed) {
     catch {
         Write-Host "[WARNING] Intercept failed."
     }
+    
+    # 7. Create Native Desktop Shortcut (.lnk)
+    Write-Host "Creating Desktop shortcut..."
+    $DesktopPath = [Environment]::GetFolderPath("Desktop")
+    $ShortcutPath = Join-Path $DesktopPath "Raypher Command Center.lnk"
+    try {
+        $WshShell = New-Object -ComObject WScript.Shell
+        $Shortcut = $WshShell.CreateShortcut($ShortcutPath)
+        $Shortcut.TargetPath = "explorer.exe"
+        $Shortcut.Arguments = '"http://127.0.0.1:8888/dashboard"'
+        $Shortcut.Description = "Raypher AI Security Command Center"
+        $Shortcut.IconLocation = "$BinaryPath, 0"
+        $Shortcut.Save()
+        Write-Host "Native shortcut created."
+    }
+    catch {
+        Write-Host "[WARNING] COM object failed. Creating standard web shortcut..."
+        $UrlContent = "[InternetShortcut]
+URL=http://127.0.0.1:8888/dashboard"
+        $UrlContent | Out-File -FilePath "$DesktopPath\Launch Raypher.url" -Encoding ascii
+    }
+
+    # 8. Launch Immediately
+    Write-Host "Launching dashboard..."
+    Start-Sleep -Seconds 1
+    Start-Process "http://127.0.0.1:8888/dashboard"
+    Write-Host "Raypher is now protecting your AI agents."
 }
 else {
-    Write-Host "[CAUTION] Health check failed."
+    # FIX 4: PREVENT THE BLIND LAUNCH
+    Write-Host "![CRITICAL ERROR] The Raypher Engine crashed or failed to bind to port 8888."
+    Write-Host "The dashboard cannot be launched because the local server is offline."
+    Write-Host "TROUBLESHOOTING STEP:"
+    Write-Host "To see exactly why it crashed, open a new PowerShell as Admin and run:"
+    Write-Host "    raypher-core proxy"
 }
 
-# 7. Create Native Desktop Shortcut (.lnk)
-Write-Host "Creating Desktop shortcut..."
-$DesktopPath = [Environment]::GetFolderPath("Desktop")
-$ShortcutPath = Join-Path $DesktopPath "Raypher Command Center.lnk"
-
-try {
-    $WshShell = New-Object -ComObject WScript.Shell
-    $Shortcut = $WshShell.CreateShortcut($ShortcutPath)
-    
-    # -> FIX 2: PROPER URL TARGETING FOR SHORTCUTS <-
-    $Shortcut.TargetPath = "explorer.exe"
-    $Shortcut.Arguments = '"http://127.0.0.1:8888/dashboard"'
-    
-    $Shortcut.Description = "Raypher AI Security Command Center"
-    $Shortcut.IconLocation = "$BinaryPath, 0"
-    $Shortcut.Save()
-    Write-Host "Shortcut created."
-}
-catch {
-    Write-Host "[WARNING] COM object failed. Creating standard web shortcut..."
-    $UrlContent = "[InternetShortcut]`nURL=http://127.0.0.1:8888/dashboard"
-    $UrlContent | Out-File -FilePath "$DesktopPath\Launch Raypher.url" -Encoding ascii
-}
-
-# 8. Launch Immediately
-Write-Host "Launching dashboard..."
-Start-Sleep -Seconds 1
-Start-Process "http://127.0.0.1:8888/dashboard"
-
-Write-Host "Raypher is now active."
 Write-Host "Installation Complete."
