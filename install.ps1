@@ -15,7 +15,7 @@ $ApiUrl = "https://api.github.com/repos/kidigapeet/Raypher-core/releases"
 $BinaryRepoUrl = "https://github.com/kidigapeet/Raypher-core/raw/master/bin/raypher-core.exe"
 $UserAgent = "RaypherInstaller/1.0 (Windows; PowerShell)"
 
-Write-Host "`n[Raypher] Installing Alpha - v0.5.0-Harden-10"
+Write-Host "Installer Version: Harden-10"
 
 # 1. Ensure Admin Privileges
 $currentPrincipal = New-Object Security.Principal.WindowsPrincipal([Security.Principal.WindowsIdentity]::GetCurrent())
@@ -31,31 +31,21 @@ if (-not (Test-Path $RaypherDir)) {
 }
 
 Write-Host "Releasing file locks for raypher-core.exe..."
-# 1. Stop service gracefully
 $svc = Get-Service -Name "RaypherService" -ErrorAction SilentlyContinue
 if ($svc) {
     if ($svc.Status -ne 'Stopped') {
         Write-Host "  Stopping RaypherService..."
         Stop-Service -Name "RaypherService" -Force -ErrorAction SilentlyContinue
     }
-    else {
-        Write-Host "  RaypherService is already stopped."
-    }
 }
-
-# 2. Kill all instances of the process (Force release locks)
 Write-Host "  Ensuring no raypher-core processes are active..."
-# Use PowerShell native Stop-Process which handles missing processes gracefully with ErrorAction
 Get-Process -Name "raypher-core" -ErrorAction SilentlyContinue | Stop-Process -Force -ErrorAction SilentlyContinue
-
-# Give Windows a moment to release handles
 Start-Sleep -Seconds 2
 
 # From here on, critical failures should STOP the script
 $ErrorActionPreference = "Stop"
 
 # 3. Download Latest Binary
-# Priority 0: Development Fallback (Search for local build)
 $LocalBuildPaths = @(
     "$PSScriptRoot\target\release\raypher-core.exe",
     ".\target\release\raypher-core.exe"
@@ -64,7 +54,7 @@ $LocalBuildPaths = @(
 $FoundLocal = $false
 foreach ($LB in $LocalBuildPaths) {
     if (Test-Path $LB) {
-        Write-Host "[INFO] Fresh local build detected at $LB. Applying..."
+        Write-Host "[INFO] Fresh local build detected. Applying..."
         if (Test-Path $BinaryPath) {
             Move-Item $BinaryPath "$BinaryPath.old" -Force -ErrorAction SilentlyContinue
         }
@@ -75,13 +65,10 @@ foreach ($LB in $LocalBuildPaths) {
 }
 
 if (-not $FoundLocal) {
-    Write-Host "Fetching latest release metadata (including pre-releases)..."
+    Write-Host "Fetching latest release metadata..."
     try {
-        # Grab the newest release (including pre-releases)
         $Releases = Invoke-RestMethod -Uri $ApiUrl -UserAgent $UserAgent
         $Release = $Releases[0]
-        
-        # STRICT FILTER: Look only for .exe files to avoid ZIP archive corruption
         $Asset = $Release.assets | Where-Object { $_.name -like "*raypher-core.exe*" } | Select-Object -First 1
         
         if (Test-Path $BinaryPath) {
@@ -89,16 +76,16 @@ if (-not $FoundLocal) {
         }
 
         if ($Asset) {
-            Write-Host "Downloading $($Asset.name) from releases..."
+            Write-Host "Downloading release binary..."
             Invoke-WebRequest -Uri $Asset.browser_download_url -OutFile $BinaryPath -UseBasicParsing -UserAgent $UserAgent
         }
         else {
-            Write-Host "[INFO] No release EXE found. Falling back to repository binary..."
+            Write-Host "[INFO] Falling back to repository binary..."
             Invoke-WebRequest -Uri $BinaryRepoUrl -OutFile $BinaryPath -UseBasicParsing -UserAgent $UserAgent
         }
     }
     catch {
-        Write-Host "[WARNING] Release fetch failed: $($_.Exception.Message). Trying repository direct download..."
+        Write-Host "[WARNING] Release fetch failed. Trying repo download..."
         try {
             if (Test-Path $BinaryPath) {
                 Move-Item $BinaryPath "$BinaryPath.old" -Force -ErrorAction SilentlyContinue
@@ -106,25 +93,23 @@ if (-not $FoundLocal) {
             Invoke-WebRequest -Uri $BinaryRepoUrl -OutFile $BinaryPath -UseBasicParsing -UserAgent $UserAgent
         }
         catch {
-            Write-Host "[WARNING] Method 1 (WebRequest) failed. Retrying with Method 2 (BITS)..."
+            Write-Host "[WARNING] Retrying with BITS..."
             try {
                 Start-BitsTransfer -Source $BinaryRepoUrl -Destination $BinaryPath -UserAgent $UserAgent -ErrorAction Stop
             }
             catch {
-                # Final local fallback scan (last resort)
-                Write-Host "[STATUS] Attempting final local fallback scan..."
+                Write-Host "[STATUS] Local fallback..."
                 $FallbackPaths = @(".\target\release\raypher-core.exe", ".\raypher-core.exe", "..\target\release\raypher-core.exe")
                 $Found = $false
                 foreach ($Path in $FallbackPaths) {
                     if (Test-Path $Path) {
                         Copy-Item $Path $BinaryPath -Force
-                        Write-Host "[INFO] Local fallback from $Path successful."
                         $Found = $true
                         break
                     }
                 }
                 if (-not $Found) {
-                    throw "Binary download failed and no local fallback found. Please check your internet connection."
+                    throw "Download failed."
                 }
             }
         }
@@ -137,30 +122,29 @@ $CurrentPath = [Environment]::GetEnvironmentVariable("Path", [EnvironmentVariabl
 if ($CurrentPath -notlike "*$RaypherDir*") {
     [Environment]::SetEnvironmentVariable("Path", "$CurrentPath;$RaypherDir", [EnvironmentVariableTarget]::Machine)
     $env:Path += ";$RaypherDir"
-    Write-Host "✓ PATH updated."
 }
+Write-Host "PATH updated."
 
 # 5. Register & Start Windows Service
-Write-Host "Registering Raypher System Service..."
+Write-Host "Registering Raypher Service..."
 try {
     & $BinaryPath install-service
 }
 catch {
-    Write-Host "[WARNING] Failed to register service via CLI. Trying manual fallback..."
+    Write-Host "[WARNING] Manual registration fallback..."
     $BinPathWithArgs = "`"$BinaryPath`" --service"
     sc.exe create RaypherService binPath= $BinPathWithArgs start= auto DisplayName= "Raypher AI Security Service"
-    sc.exe description RaypherService "Raypher Shadow AI Discovery & Proxy Service"
-    net start RaypherService
+    sc.exe description RaypherService "Raypher AI Discovery and Proxy Service"
+    net start RaypherService 2>$null
 }
 
 # 6. Run Zero-Touch Setup & Hard Intercept
-Write-Host "Running Zero-Touch Setup (The Invisible Hand)..."
+Write-Host "Running Zero-Touch Setup..."
 & $BinaryPath setup --silent
-Write-Host "✓ System environment configured."
+Write-Host "System environment configured."
 
-Write-Host "Installing OS-level Transparent Redirect (Hard Intercept)..."
-# 1. Health Check - Ensure the Proxy is actually responding before we trap the network
-Write-Host "  Running Pre-Flight Health Check..."
+Write-Host "Configuring Transparent Redirect..."
+Write-Host "  Health Check..."
 $HealthCheckPassed = $false
 for ($i = 0; $i -lt 5; $i++) {
     try {
@@ -171,54 +155,47 @@ for ($i = 0; $i -lt 5; $i++) {
         }
     }
     catch {
-        Write-Host "    [.] Waiting for Raypher Proxy to wake up... ($($i+1)/5)"
+        Write-Host "  Waiting for service... ($($i+1)/5)"
         Start-Sleep -Seconds 2
     }
 }
 
 if ($HealthCheckPassed) {
-    Write-Host "  ✓ Proxy Health OK. Enabling Intercept..."
+    Write-Host "  Service OK. Enabling Intercept..."
     try {
         & $BinaryPath intercept
-        Write-Host "✓ Hard Intercept enabled (netsh rules active)."
+        Write-Host "Intercept enabled."
     }
     catch {
-        Write-Host "![WARNING] Failed to enable intercept: $($_.Exception.Message)"
+        Write-Host "[WARNING] Intercept failed."
     }
 }
 else {
-    Write-Host "![CAUTION] Proxy health check FAILED. Skipping Intercept to preserve internet connectivity."
-    Write-Host "  (You can enable it later via 'raypher-core intercept' once the service is healthy)."
+    Write-Host "[CAUTION] Health check failed."
 }
 
 # 7. Create Native Desktop Shortcut (.lnk)
-Write-Host "Creating Desktop shortcut for Command Center..."
+Write-Host "Creating Desktop shortcut..."
 $DesktopPath = [Environment]::GetFolderPath("Desktop")
 $ShortcutPath = Join-Path $DesktopPath "Raypher Command Center.lnk"
 
 try {
     $WshShell = New-Object -ComObject WScript.Shell
     $Shortcut = $WshShell.CreateShortcut($ShortcutPath)
-    
-    # Target the local dashboard URL
     $Shortcut.TargetPath = "http://127.0.0.1:8888/dashboard"
     $Shortcut.Description = "Raypher AI Security Command Center"
-    
-    # Branded Icon: Use our binary's icon
     $Shortcut.IconLocation = "$BinaryPath, 0"
     $Shortcut.Save()
-    Write-Host "✓ Native shortcut created."
+    Write-Host "Shortcut created."
 }
 catch {
-    Write-Host "[WARNING] Failed to create native shortcut. Falling back to basic launch file."
     "http://127.0.0.1:8888/dashboard" | Out-File -FilePath "$DesktopPath\Launch Raypher.url"
 }
 
 # 8. Launch Immediately
-Write-Host "`n🚀 Launching Raypher Command Center in your default browser..."
+Write-Host "Launching dashboard..."
 Start-Sleep -Seconds 1
-# Open the URL via the shell to respect the user's default browser settings
 Start-Process "http://127.0.0.1:8888/dashboard"
 
-Write-Host "`n✨ Raypher is now protecting your AI agents."
-Write-Host "Desktop shortcut created: Raypher Command Center.lnk`n"
+Write-Host "Raypher is now active."
+Write-Host "Installation Complete."
