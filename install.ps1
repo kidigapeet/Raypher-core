@@ -1,4 +1,4 @@
-# Raypher Alpha Installer - Phase 5 (Harden-8)
+# Raypher Alpha Installer - Phase 5 (Harden-10)
 # Distribution: iwr -useb https://github.com/kidigapeet/Raypher-core/raw/master/install.ps1 | iex
 
 # We set this to Continue initially so cleanup doesn't crash the script
@@ -10,10 +10,12 @@ $ErrorActionPreference = "Continue"
 $RaypherDir = "C:\Program Files\Raypher"
 $BinaryName = "raypher-core.exe"
 $BinaryPath = Join-Path $RaypherDir $BinaryName
-$ApiUrl = "https://api.github.com/repos/kidigapeet/Raypher-core/releases/latest"
+# Use the full releases endpoint to support pre-releases/alphas
+$ApiUrl = "https://api.github.com/repos/kidigapeet/Raypher-core/releases"
+$BinaryRepoUrl = "https://github.com/kidigapeet/Raypher-core/raw/master/bin/raypher-core.exe"
 $UserAgent = "RaypherInstaller/1.0 (Windows; PowerShell)"
 
-Write-Host "`n[Raypher] Installing Alpha - v0.5.0-Harden-8"
+Write-Host "`n[Raypher] Installing Alpha - v0.5.0-Harden-10"
 
 # 1. Ensure Admin Privileges
 $currentPrincipal = New-Object Security.Principal.WindowsPrincipal([Security.Principal.WindowsIdentity]::GetCurrent())
@@ -53,91 +55,79 @@ Start-Sleep -Seconds 2
 $ErrorActionPreference = "Stop"
 
 # 3. Download Latest Binary
-Write-Host "Fetching latest release metadata..."
-try {
-    $Release = Invoke-RestMethod -Uri $ApiUrl -UserAgent $UserAgent
-    $Asset = $Release.assets | Where-Object { $_.name -like "*windows-x86_64.zip*" -or $_.name -like "*raypher-core.exe*" } | Select-Object -First 1
-    
-    if (-not $Asset) {
-        throw "Could not find a valid Windows binary in the latest release."
-    }
+# Priority 0: Development Fallback (Search for local build)
+$LocalBuildPaths = @(
+    "$PSScriptRoot\target\release\raypher-core.exe",
+    ".\target\release\raypher-core.exe"
+)
 
-    Write-Host "[DEBUG] Asset URL: $($Asset.browser_download_url)"
-    
-    # Priority 0: Development Fallback (Search for the fresh binary I just built)
-    $LocalBuildPaths = @(
-        "$PSScriptRoot\target\release\raypher-core.exe",
-        ".\target\release\raypher-core.exe"
-    )
-    
-    $FoundLocal = $false
-    foreach ($LB in $LocalBuildPaths) {
-        if (Test-Path $LB) {
-            Write-Host "[INFO] Fresh local build detected at $LB. Applying..."
-            # Strategy: Move old file to .old if it's still locked, then copy
-            if (Test-Path $BinaryPath) {
-                Move-Item $BinaryPath "$BinaryPath.old" -Force -ErrorAction SilentlyContinue
-            }
-            Copy-Item $LB $BinaryPath -Force
-            $FoundLocal = $true
-            break
-        }
-    }
-
-    if (-not $FoundLocal) {
-        Write-Host "Downloading $($Asset.name)..."
-        # Strategy: Clear path for download
+$FoundLocal = $false
+foreach ($LB in $LocalBuildPaths) {
+    if (Test-Path $LB) {
+        Write-Host "[INFO] Fresh local build detected at $LB. Applying..."
         if (Test-Path $BinaryPath) {
             Move-Item $BinaryPath "$BinaryPath.old" -Force -ErrorAction SilentlyContinue
         }
-        try {
-            Invoke-WebRequest -Uri $Asset.browser_download_url -OutFile $BinaryPath -UseBasicParsing -UserAgent $UserAgent
-        }
-        catch {
-            Write-Host "[WARNING] Method 1 (WebRequest) failed. Retrying with Method 2 (WebClient)..."
-            try {
-                $WebClient = New-Object System.Net.WebClient
-                $WebClient.Headers.Add("User-Agent", $UserAgent)
-                $WebClient.DownloadFile($Asset.browser_download_url, $BinaryPath)
-            }
-            catch {
-                Write-Host "[WARNING] Method 2 (WebClient) failed. Retrying with Method 3 (BITS)..."
-                try {
-                    Start-BitsTransfer -Source $Asset.browser_download_url -Destination $BinaryPath -UserAgent $UserAgent -ErrorAction Stop
-                }
-                catch {
-                    Write-Host "[WARNING] Method 3 (BITS) failed. Retrying with Method 4 (Native Curl)..."
-                    if (Get-Command "curl.exe" -ErrorAction SilentlyContinue) {
-                        & curl.exe -L -H "User-Agent: $UserAgent" -o $BinaryPath $Asset.browser_download_url
-                        if ($LASTEXITCODE -ne 0) { throw "Curl failed with exit code $LASTEXITCODE" }
-                    }
-                    else {
-                        throw "All download methods failed. Curl not found."
-                    }
-                }
-            }
-        }
+        Copy-Item $LB $BinaryPath -Force
+        $FoundLocal = $true
+        break
     }
 }
-catch {
-    Write-Host "![ERROR] GitHub Download Failed: $($_.Exception.Message)"
-    if ($_.Exception.InnerException) {
-        Write-Host "![DETAIL] $($_.Exception.InnerException.Message)"
-    }
-    Write-Host "[STATUS] Attempting final local fallback scan..."
-    # Deep fallback search
-    $FallbackPaths = @(".\target\release\raypher-core.exe", ".\raypher-core.exe", "..\target\release\raypher-core.exe")
-    $Found = $false
-    foreach ($Path in $FallbackPaths) {
-        if (Test-Path $Path) {
-            Copy-Item $Path $BinaryPath -Force
-            Write-Host "[INFO] Local fallback from $Path successful."
-            $Found = $true
-            break
+
+if (-not $FoundLocal) {
+    Write-Host "Fetching latest release metadata (including pre-releases)..."
+    try {
+        # Grab the newest release (including pre-releases)
+        $Releases = Invoke-RestMethod -Uri $ApiUrl -UserAgent $UserAgent
+        $Release = $Releases[0]
+        
+        # STRICT FILTER: Look only for .exe files to avoid ZIP archive corruption
+        $Asset = $Release.assets | Where-Object { $_.name -like "*raypher-core.exe*" } | Select-Object -First 1
+        
+        if (Test-Path $BinaryPath) {
+            Move-Item $BinaryPath "$BinaryPath.old" -Force -ErrorAction SilentlyContinue
+        }
+
+        if ($Asset) {
+            Write-Host "Downloading $($Asset.name) from releases..."
+            Invoke-WebRequest -Uri $Asset.browser_download_url -OutFile $BinaryPath -UseBasicParsing -UserAgent $UserAgent
+        }
+        else {
+            Write-Host "[INFO] No release EXE found. Falling back to repository binary..."
+            Invoke-WebRequest -Uri $BinaryRepoUrl -OutFile $BinaryPath -UseBasicParsing -UserAgent $UserAgent
         }
     }
-    if (-not $Found) {
-        throw "Binary download failed and no local fallback found. Please check your internet connection or GitHub availability."
+    catch {
+        Write-Host "[WARNING] Release fetch failed: $($_.Exception.Message). Trying repository direct download..."
+        try {
+            if (Test-Path $BinaryPath) {
+                Move-Item $BinaryPath "$BinaryPath.old" -Force -ErrorAction SilentlyContinue
+            }
+            Invoke-WebRequest -Uri $BinaryRepoUrl -OutFile $BinaryPath -UseBasicParsing -UserAgent $UserAgent
+        }
+        catch {
+            Write-Host "[WARNING] Method 1 (WebRequest) failed. Retrying with Method 2 (BITS)..."
+            try {
+                Start-BitsTransfer -Source $BinaryRepoUrl -Destination $BinaryPath -UserAgent $UserAgent -ErrorAction Stop
+            }
+            catch {
+                # Final local fallback scan (last resort)
+                Write-Host "[STATUS] Attempting final local fallback scan..."
+                $FallbackPaths = @(".\target\release\raypher-core.exe", ".\raypher-core.exe", "..\target\release\raypher-core.exe")
+                $Found = $false
+                foreach ($Path in $FallbackPaths) {
+                    if (Test-Path $Path) {
+                        Copy-Item $Path $BinaryPath -Force
+                        Write-Host "[INFO] Local fallback from $Path successful."
+                        $Found = $true
+                        break
+                    }
+                }
+                if (-not $Found) {
+                    throw "Binary download failed and no local fallback found. Please check your internet connection."
+                }
+            }
+        }
     }
 }
 
@@ -201,40 +191,34 @@ else {
     Write-Host "  (You can enable it later via 'raypher-core intercept' once the service is healthy)."
 }
 
-# 7. Create Desktop Shortcut (Native App Mode)
+# 7. Create Native Desktop Shortcut (.lnk)
 Write-Host "Creating Desktop shortcut for Command Center..."
 $DesktopPath = [Environment]::GetFolderPath("Desktop")
-$ShortcutPath = Join-Path $DesktopPath "Raypher Dashboard.bat"
+$ShortcutPath = Join-Path $DesktopPath "Raypher Command Center.lnk"
 
-$BatContent = @"
-@echo off
-title Raypher Command Center
-echo.
-echo   🛡️  Raypher — Starting Command Center...
-echo.
-
-:: Check if the service is running
-sc query "RaypherService" | find "RUNNING" >nul
-if %errorlevel% neq 0 (
-    echo   🚀 Starting Raypher Service...
-    net start "RaypherService" >nul
-)
-
-echo   🚀 Launching Dashboard UI (App Mode)...
-start "" "msedge.exe" --app="http://127.0.0.1:8888/dashboard" --window-size=1280,800
-
-echo.
-echo   ✅ Dashboard launched!
-timeout /t 3 >nul
-exit
-"@
-
-$BatContent | Out-File -FilePath $ShortcutPath -Encoding ascii
+try {
+    $WshShell = New-Object -ComObject WScript.Shell
+    $Shortcut = $WshShell.CreateShortcut($ShortcutPath)
+    
+    # Target the local dashboard URL
+    $Shortcut.TargetPath = "http://127.0.0.1:8888/dashboard"
+    $Shortcut.Description = "Raypher AI Security Command Center"
+    
+    # Branded Icon: Use our binary's icon
+    $Shortcut.IconLocation = "$BinaryPath, 0"
+    $Shortcut.Save()
+    Write-Host "✓ Native shortcut created."
+}
+catch {
+    Write-Host "[WARNING] Failed to create native shortcut. Falling back to basic launch file."
+    "http://127.0.0.1:8888/dashboard" | Out-File -FilePath "$DesktopPath\Launch Raypher.url"
+}
 
 # 8. Launch Immediately
-Write-Host "`n🚀 Launching Raypher Command Center..."
+Write-Host "`n🚀 Launching Raypher Command Center in your default browser..."
 Start-Sleep -Seconds 1
-& $ShortcutPath
+# Open the URL via the shell to respect the user's default browser settings
+Start-Process "http://127.0.0.1:8888/dashboard"
 
 Write-Host "`n✨ Raypher is now protecting your AI agents."
-Write-Host "Desktop shortcut created: Raypher Dashboard.bat`n"
+Write-Host "Desktop shortcut created: Raypher Command Center.lnk`n"
